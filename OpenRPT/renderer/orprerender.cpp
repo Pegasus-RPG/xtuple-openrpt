@@ -1110,8 +1110,11 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
         if (qstrValue.length())
         {
           QRectF rect = trf;
-#ifdef Q_WS_MAC // bug 13284
-          rect.setRight(rect.right() + CLIPMARGIN / 100.0);
+#ifdef Q_WS_MAC // bug 13284, 15118
+          if(t->align & Qt::AlignRight)
+            rect.setLeft(rect.left() - CLIPMARGIN / 100.0);
+          else
+            rect.setRight(rect.right() + CLIPMARGIN / 100.0);
 #endif
 
           int pos = 0;
@@ -1175,7 +1178,7 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
                 tb->setFont(t->font);
                 tb->setText(line);
                 tb->setFlags(t->align);
-			    tb->setRotation(t->rotation());
+                tb->setRotation(t->rotation());
                 _page->addPrimitive(tb);
 
 
