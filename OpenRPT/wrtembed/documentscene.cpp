@@ -1732,13 +1732,15 @@ void DocumentScene::repositionSections()
     for(i = 0; i < gsc; i++)
     {
       group = getSection(dc)->getSection(i);
-      y += _repositionSection(group->getGroupHead(), this, x, y, w);
+      if(group->isGroupHeadShowing())
+        y += _repositionSection(group->getGroupHead(), this, x, y, w);
     }
     y += _repositionSection(getSection(dc)->getDetail(), this, x, y, w);
     for(i = 0; i < gsc; i++)
     {
       group = getSection(dc)->getSection(i);
-      y += _repositionSection(group->getGroupFoot(), this, x, y, w);
+      if(group->isGroupFootShowing())
+        y += _repositionSection(group->getGroupFoot(), this, x, y, w);
     }
   }
 
