@@ -585,6 +585,37 @@ MetaSQLQueryPrivate::~MetaSQLQueryPrivate() {
     }
 }
 
+void __fixCommentedQuote(QString & sql, const QString & cmntStartStr, const QString & cmntEndStr, bool nested) {
+    QRegExp cmntStart(cmntStartStr);
+    QRegExp cmntEnd(cmntEndStr);
+    int s = 0, e = 0;
+    while(s != -1)
+    {
+        s = sql.indexOf(cmntStart, s);
+        if(s != -1)
+        {
+            e = sql.indexOf(cmntEnd, s);
+            if(nested)
+            {
+              int s2 = s;
+              do {
+                s2 = sql.indexOf(cmntStart, s2+1);
+                if(s2 > s && s2 < e)
+                  e = sql.indexOf(cmntEnd, e+1);
+              } while(s2 > s && s2 < e);
+            }
+            int p = sql.indexOf('\'', s);
+            while((p < e || e == -1) && p != -1)
+            {
+                sql.replace(p, 1, "''");
+                if(e != -1) e++;
+                p = sql.indexOf('\'', p+2);
+            }
+            s = e;
+        }
+    }
+}
+
 bool MetaSQLQueryPrivate::populate(XSqlQuery & qry, const ParameterList & params) {
     bool res = false;
     //qDebug("MetaSQLQueryPrivate::toString()");
@@ -592,26 +623,10 @@ bool MetaSQLQueryPrivate::populate(XSqlQuery & qry, const ParameterList & params
         MetaSQLInfo mif;
         QString sql = _top->toString(&mif, params);
         sql = sql.trimmed();
-        // we need to escape any single quotes that are in comments
-        QRegExp cmntStart("--");
-        QRegExp cmntEnd("[\r\n]");
-        int s = 0, e = 0;
-        while(s != -1)
-        {
-            s = sql.indexOf(cmntStart, s);
-            if(s != -1)
-            {
-                e = sql.indexOf(cmntEnd, s);
-                int p = sql.indexOf('\'', s);
-                while((p < e || e == -1) && p != -1)
-                {
-                    sql.replace(p, 1, "''");
-                    if(e != -1) e++;
-                    p = sql.indexOf('\'', p+2);
-                }
-                s = e;
-            }
-        }
+        // we need to escape any single quotes that are in comments, sql style
+        __fixCommentedQuote(sql, "--", "[\r\n]", false);
+        // we need to escape any single quotes that are in comments, c style
+        __fixCommentedQuote(sql, "/\\*", "\\*/", true);
         res = qry.prepare(sql);
         for(int i = 0; i < mif._pList.count(); i++) {
             qry.bindValue(mif._pList.name(i), mif._pList.value(i));
