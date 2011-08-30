@@ -20,9 +20,7 @@
 
 #include <QString>
 #include <QRegExp>
-#include <QStringList>
 #include <QVariant>
-#include <QList>
 
 #include <parameter.h>
 
@@ -38,8 +36,45 @@
 
 static const QVariant _trueVariant = QVariant(true);
 static const QVariant _falseVariant = QVariant(false);
+static const char * __wordchars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
 
 class MetaSQLBlock;
+
+// convert a string to a number
+static inline double convertToDouble(const std::string & s)
+{
+    std::istringstream i(s);
+    double x;
+    if (!(i >> x))
+      return 0.0;
+    return x;
+} 
+
+// lower case a string
+static inline std::string strlower(const std::string &cs) {
+    std::string s = cs;
+    std::transform(s.begin(), s.end(), s.begin(), ::tolower);
+    return s;
+}
+
+// trim from start
+static inline std::string ltrim(const std::string &cs) {
+    std::string s = cs;
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
+}
+
+// trim from end
+static inline std::string rtrim(const std::string &cs) {
+    std::string s = cs;
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
+}
+
+// trim from both ends
+static inline std::string trim(const std::string &s) {
+    return ltrim(rtrim(s));
+}
 
 class MetaSQLQueryPrivate { 
     public:
@@ -59,6 +94,8 @@ class MetaSQLQueryPrivate {
         MetaSQLBlock * _top;
 
         std::stringstream _logger;
+
+
 };
 
 class MetaSQLInfo {
@@ -93,9 +130,21 @@ class MetaSQLString : public MetaSQLOutput {
         QString _string;
 };
 
+class MetaSQLComment : public MetaSQLOutput {
+    public:
+        MetaSQLComment(MetaSQLQueryPrivate * parent, const QString & str) : MetaSQLOutput(parent), _string(str) {}
+
+        // If we want to show comments we need to escape single quotes as they cause problems when passed to database server
+        // But we don't have to include comments at all since they are not required by the database to work.
+        virtual QString toString(MetaSQLInfo *, const ParameterList &, int * = 0, bool * = 0) { return " "; }
+
+    protected:
+        QString _string;
+};
+
 class MetaSQLFunction : public MetaSQLOutput {
     public:
-        MetaSQLFunction(MetaSQLQueryPrivate * parent, const std::string & func, const QStringList & params)
+        MetaSQLFunction(MetaSQLQueryPrivate * parent, const std::string & func, const std::vector<std::string> & params)
           : MetaSQLOutput(parent) {
             _valid = 0;
             _nBreaks = 0;
@@ -119,7 +168,7 @@ class MetaSQLFunction : public MetaSQLOutput {
                         _valid = 1;
                         _noOutput = 1;
                         if(params.size() >= 1)
-                            _nBreaks = params[0].toInt();
+                            _nBreaks = convertToDouble(params[0]);
                         if(_nBreaks < 1) _nBreaks = 1;
                         break;
                     default:
@@ -163,7 +212,7 @@ class MetaSQLFunction : public MetaSQLOutput {
                 switch(_func) {
                     case FunctionValue:
                     case FunctionLiteral:
-                        str = _params[0];
+                        str = QString::fromStdString(_params[0]);
                         val = params.value(str);
                         if(val.type() == QVariant::List || val.type() == QVariant::StringList) {
                             str += "__FOREACH_POS__";
@@ -178,11 +227,11 @@ class MetaSQLFunction : public MetaSQLOutput {
                         }
                         break;
                     case FunctionExists:
-                        params.value(_params[0], &found);
+                        params.value(QString::fromStdString(_params[0]), &found);
                         val = ( found ? _trueVariant : _falseVariant );
                         break;
                     case FunctionReExists:
-                        re.setPattern(_params[0]);
+                        re.setPattern(QString::fromStdString(_params[0]));
                         for(i = 0; i < params.count(); i++) {
                             if(re.indexIn(params.name(i)) != -1) {
                                 val = _trueVariant;
@@ -193,7 +242,7 @@ class MetaSQLFunction : public MetaSQLOutput {
                     case FunctionIsFirst:
                     case FunctionIsLast:
                         val = _falseVariant;
-                        str = _params[0];
+                        str = QString::fromStdString(_params[0]);
                         t = params.value(str, &found);
                         if(found) {
                             if(t.type() == QVariant::List || t.type() == QVariant::StringList) {
@@ -230,24 +279,25 @@ class MetaSQLFunction : public MetaSQLOutput {
 
     protected:
         Function identifyFunction(const std::string & func) {
-            if(func == "value")
+            std::string f = trim(func);
+            if(f == "value")
                 return FunctionValue;
-            else if(func == "literal")
+            else if(f == "literal")
                 return FunctionLiteral;
-            else if(func == "exists")
+            else if(f == "exists")
                 return FunctionExists;
-            else if(func == "reexists")
+            else if(f == "reexists")
                 return FunctionReExists;
-            else if(func == "isfirst")
+            else if(f == "isfirst")
                 return FunctionIsFirst;
-            else if(func == "islast")
+            else if(f == "islast")
                 return FunctionIsLast;
-            else if(func == "continue")
+            else if(f == "continue")
                 return FunctionContinue;
-            else if(func == "break")
+            else if(f == "break")
                 return FunctionBreak;
 
-            _parent->_logger << "Unable to identify function '" << func << "'!" << std::endl;
+            _parent->_logger << "Unable to identify function '" << f << "'!" << std::endl;
 
             return FunctionUnknown;
         }
@@ -256,13 +306,13 @@ class MetaSQLFunction : public MetaSQLOutput {
         bool _valid;
         bool _noOutput;
         Function _func;
-        QStringList _params;
+        std::vector<std::string> _params;
         int _nBreaks;
 };
 
 class MetaSQLBlock : public MetaSQLOutput {
     public:
-        MetaSQLBlock(MetaSQLQueryPrivate * parent, const std::string & pCmd, const QString & _options)
+        MetaSQLBlock(MetaSQLQueryPrivate * parent, const std::string & pCmd, const std::string & pOptions)
           : MetaSQLOutput(parent) {
             _valid = false;
 
@@ -271,131 +321,115 @@ class MetaSQLBlock : public MetaSQLOutput {
             _if_func = 0;
 
             _block = identifyBlock(pCmd);
-            if(_block != BlockUnknown) {
-                QRegExp nw("[^\\w]"); // will find the first non word character
-                int i, in_list;
-                QString cmd, options, wip, tmp;
-                QStringList plist;
-                QChar qc, string_starter;
-                bool enclosed, working, in_string;
-                int p = 0;
-                switch(_block) {
-                    case BlockGeneric:
-                        _valid = true;
-                        break;
-                    case BlockIf:
-                    case BlockElseIf:
-                        // hmmm the hard part ;)
-                        // short solution to just get it to work.
-                        // there is only one option and that is a single
-                        // function call that returns true or false.
-                        // with an optional NOT clause.
-                        wip = _options.trimmed();
-                        if(wip.left(4).toLower() == "not ") {
-                            _if_not = true;
-                            wip = wip.right(wip.length() - 4);
-                        }
+            if(BlockGeneric == _block || BlockElse == _block) {
+                _valid = true;
+            } else if(BlockIf == _block || BlockElseIf == _block) {
+                // hmmm the hard part ;)
+                // short solution to just get it to work.
+                // there is only one option and that is a single
+                // function call that returns true or false.
+                // with an optional NOT clause.
+                std::string wip = trim(pOptions);
+                if(strlower(wip.substr(0,4)) == "not ") {
+                    _if_not = true;
+                    wip = wip.substr(4);
+                }
 
-                        i = nw.indexIn(wip);
-                        if(i == -1) {
-                            cmd = wip;
-                            options = QString::null;
-                        } else {
-                            cmd = wip.left(i);
-                            options = wip.mid(i);
-                        }
-                        cmd = cmd.toLower();
-                        options = options.trimmed();
+                std::vector<std::string> plist;
+                std::string options;
+                std::string cmd;
+                std::size_t i = wip.find_first_not_of(__wordchars);
+                if(i == std::string::npos) {
+                    cmd = wip;
+                    options.clear();
+                } else {
+                    cmd = wip.substr(0,i);
+                    options = wip.substr(i);
+                }
+                cmd = strlower(cmd);
+                options = trim(options);
 
-                        if(!options.isEmpty()) {
-                            // first if we have a '(' then we will only parse out the information between it
-                            // and the following ')'
-                            qc = options[0];
-                            enclosed = false;
-                            working = !enclosed;
-                            in_string = false;
-                            string_starter = '"';
-                            wip = QString::null;
-                            if(qc == '(') enclosed = true;
-                            working = !enclosed;
-                            for(int p = 0; p < options.length(); p++) {
-                                qc = options.at(p);
-                                if(!working && enclosed && qc == '(') working = true;
-                                else {
-                                    if(in_string) {
-                                        if(qc == '\\') {
-                                            wip += options.at(++p);
-                                        } else if(qc == string_starter) {
-                                            in_string = false;
-                                        } else {
-                                            wip += qc;
-                                        }
-                                    } else {
-                                        if(qc == ',') {
-                                            plist.append(wip);
-                                            wip = QString::null;
-                                        } else if(qc.isSpace()) {
-                                            // eat white space
-                                        } else if(qc == '\'' || qc == '"') {
-                                            in_string = true;
-                                            string_starter = qc;
-                                        } else if(enclosed && qc == ')') {
-                                            working = false;
-                                            break;
-                                        } else {
-                                            wip += qc;
-                                        }
-                                    }
-                                }
-                            }
-                            if(wip != QString::null) plist.append(wip);
-                        }
-
-                        _if_func = new MetaSQLFunction(_parent, cmd.trimmed().toStdString(), plist);
-                        if(!_if_func->isValid()) {
-                            _parent->_logger << "Failed to create new " << cmd.toStdString() << " function in if/elseif." << std::endl;
-                            delete _if_func;
-                            _if_func = 0;
-                        } else {
-                            _valid = true;
-                        }
-
-                        break;
-                    case BlockElse:
-                        _valid = true;
-                        break;
-                    case BlockForEach:
-                        tmp = _options.trimmed();
-                        wip = QString::null;
-                        in_string = false;
-                        in_list = 0;
-                        string_starter = '"';
-                        for(p = 0; p < tmp.length(); p++) {
-                            QChar qc = tmp.at(p);
+                if(!options.empty()) {
+                    // first if we have a '(' then we will only parse out the information between it
+                    // and the following ')'
+                    char qc = options[0];
+                    bool enclosed = false;
+                    bool in_string = false;
+                    char string_starter = '"';
+                    wip.clear();
+                    if(qc == '(') enclosed = true;
+                    bool working = !enclosed;
+                    for(std::size_t p = 0; p < options.size(); p++) {
+                        qc = options.at(p);
+                        if(!working && enclosed && qc == '(') working = true;
+                        else {
                             if(in_string) {
-                                if(qc == '\\') wip += _options.at(++p);
-                                else if(qc == string_starter) in_string = false;
-                                else wip += qc;
+                                if(qc == '\\') {
+                                    wip += options.at(++p);
+                                } else if(qc == string_starter) {
+                                    in_string = false;
+                                } else {
+                                    wip += qc;
+                                }
                             } else {
-                                if(qc == '(') in_list++;
-                                else if(qc == ')') {
-                                    in_list--;
-                                    if(in_list < 1) break;
+                                if(qc == ',') {
+                                    plist.push_back(wip);
+                                    wip.clear();
+                                } else if(std::isspace(qc)) {
+                                    // eat white space
                                 } else if(qc == '\'' || qc == '"') {
                                     in_string = true;
                                     string_starter = qc;
-                                } else if(qc == ',') break;
-                                // everything else just... disapears?
+                                } else if(enclosed && qc == ')') {
+                                    working = false;
+                                    break;
+                                } else {
+                                    wip += qc;
+                                }
                             }
                         }
-                        if(!wip.isEmpty()) {
-                            _loopVar = wip;
-                            _valid = true;
-                        }
-                        break;
-                    default:
-                        _parent->_logger << "MetaSQLBlock::MetaSQLBlock() encountered unknown Block Type " << (int)_block << "!" << std::endl;
-                };
+                    }
+                    if(!wip.empty()) plist.push_back(wip);
+                }
+
+                _if_func = new MetaSQLFunction(_parent, cmd, plist);
+                if(!_if_func->isValid()) {
+                    _parent->_logger << "Failed to create new " << cmd << " function in if/elseif." << std::endl;
+                    delete _if_func;
+                    _if_func = 0;
+                } else {
+                    _valid = true;
+                }
+            } else if(BlockForEach == _block) {
+                std::string tmp = trim(pOptions);
+                std::string wip;
+                bool in_string = false;
+                int in_list = 0;
+                char string_starter = '"';
+                for(std::size_t p = 0; p < tmp.size(); p++) {
+                    char qc = tmp.at(p);
+                    if(in_string) {
+                        if(qc == '\\') wip += tmp.at(++p);
+                        else if(qc == string_starter) in_string = false;
+                        else wip += qc;
+                    } else {
+                        if(qc == '(') in_list++;
+                        else if(qc == ')') {
+                            in_list--;
+                            if(in_list < 1) break;
+                        } else if(qc == '\'' || qc == '"') {
+                            in_string = true;
+                            string_starter = qc;
+                        } else if(qc == ',') break;
+                        // everything else just... disapears?
+                    }
+                }
+                if(!wip.empty()) {
+                    _loopVar = wip;
+                    _valid = true;
+                }
+            } else {
+                _parent->_logger << "MetaSQLBlock::MetaSQLBlock() encountered unknown Block Type " << (int)_block << "!" << std::endl;
             }
         }
         virtual ~MetaSQLBlock() {
@@ -470,11 +504,11 @@ class MetaSQLBlock : public MetaSQLOutput {
                 case BlockForEach:
 
                     // HERE
-                    v = params.value(_loopVar, &found);
+                    v = params.value(QString::fromStdString(_loopVar), &found);
                     if(found) {
                         list = v.toList();
                         for(i = 0; i < list.count(); i++) {
-                            str = _loopVar + "__FOREACH_POS__";
+                            str = QString::fromStdString(_loopVar) + "__FOREACH_POS__";
 
                             // create a new params list with our special var added in 
                             pList.clear();
@@ -553,7 +587,7 @@ class MetaSQLBlock : public MetaSQLOutput {
         MetaSQLBlock * _alt;
         std::vector<MetaSQLOutput*> _items;
 
-        QString _loopVar;
+        std::string _loopVar;
 
         bool _if_not;
         MetaSQLFunction * _if_func;
@@ -616,16 +650,13 @@ bool MetaSQLQueryPrivate::populate(XSqlQuery & qry, const ParameterList & params
 }
 
 bool MetaSQLQueryPrivate::parse_query(const QString & query) {
-    _top = new MetaSQLBlock(this, "generic", QString::null);
-    QList<MetaSQLBlock*> _blocks;
-    _blocks.append(_top);
+    _top = new MetaSQLBlock(this, "generic", "");
+    std::vector<MetaSQLBlock*> _blocks;
+    _blocks.push_back(_top);
     MetaSQLBlock * _current = _top;
 
     QRegExp re("<\\?(.*)\\?>");
-    QRegExp nw("[^\\w]"); // will find the first non word character 
     re.setMinimal(TRUE);
-
-    QString s;
 
     int lastPos = 0;
     int currPos = 0;
@@ -635,18 +666,17 @@ bool MetaSQLQueryPrivate::parse_query(const QString & query) {
             _current->append(new MetaSQLString(this, query.mid(lastPos, (currPos==-1?query.length():currPos)-lastPos)));
         }
         if(currPos >= 0) {
-            s = re.cap(1);
-            s = s.trimmed();
-            int i = nw.indexIn(s);
-            QString cmd, options;
-            if(i == -1) {
+            std::string cmd, options;
+            std::string s = trim(re.cap(1).toStdString());
+            std::size_t i = s.find_first_not_of(__wordchars);
+            if(i == std::string::npos) {
                 cmd = s;
-                options = QString::null;
+                options.clear();
             } else {
-                cmd = s.left(i);
-                options = s.mid(i);
+                cmd = s.substr(0, i);
+                options = s.substr(i);
             }
-            cmd = cmd.toLower();
+            cmd = strlower(cmd);
 
             if(cmd == "endif" || cmd == "endforeach") {
                 MetaSQLBlock::Block _block = _current->type();
@@ -654,24 +684,24 @@ bool MetaSQLQueryPrivate::parse_query(const QString & query) {
                                         || _block == MetaSQLBlock::BlockElseIf
                                         || _block == MetaSQLBlock::BlockElse) )
                   || (cmd == "endforeach" && ( _block == MetaSQLBlock::BlockForEach ) ) ) {
-                    _blocks.removeLast();
-                    _current = _blocks.last();
+                    _blocks.pop_back();
+                    _current = _blocks.back();
                 } else {
                     // uh oh! We encountered an end block tag when we were either not in a
                     // block or were in a block of a different type.
-                    _logger << "Encountered an unexpected " << cmd.toStdString() << "." << std::endl;
+                    _logger << "Encountered an unexpected " << cmd << "." << std::endl;
                     _valid = false;
                     return false;
                 }
             } else if(cmd == "if" || cmd == "foreach") {
                 // we have a control statement here and need to create a new block
-                MetaSQLBlock * b = new MetaSQLBlock(this, cmd.toStdString(), options);
+                MetaSQLBlock * b = new MetaSQLBlock(this, cmd, options);
                 if(b->isValid()) {
                     _current->append(b);
-                    _blocks.append(b);
+                    _blocks.push_back(b);
                     _current = b;
                 } else {
-                    _logger << "Failed to create new " << cmd.toStdString() << " block." << std::endl;
+                    _logger << "Failed to create new " << cmd << " block." << std::endl;
                     delete b;
                     _valid = false;
                     return false;
@@ -679,22 +709,22 @@ bool MetaSQLQueryPrivate::parse_query(const QString & query) {
             } else if(cmd == "elseif" || cmd == "else") {
                 // we need to switch up are if block to include this new alternate
                 if(_current->type() == MetaSQLBlock::BlockElse) {
-                    _logger << "Encountered unexpected " << cmd.toStdString() << " statement within else block." << std::endl;
+                    _logger << "Encountered unexpected " << cmd << " statement within else block." << std::endl;
                     _valid = false;
                     return false;
                 } else if(_current->type() != MetaSQLBlock::BlockIf && _current->type() != MetaSQLBlock::BlockElseIf) {
-                    _logger << "Encountered unexpected " << cmd.toStdString() << " statement outside of if/elseif block." << std::endl;
+                    _logger << "Encountered unexpected " << cmd << " statement outside of if/elseif block." << std::endl;
                     _valid = false;
                     return false;
                 } else {
-                    MetaSQLBlock * b = new MetaSQLBlock(this, cmd.toStdString(), options);
+                    MetaSQLBlock * b = new MetaSQLBlock(this, cmd, options);
                     if(b->isValid()) {
                         _current->setAlternate(b);
-                        _blocks.removeLast();
-                        _blocks.append(b);
+                        _blocks.pop_back();
+                        _blocks.push_back(b);
                         _current = b;
                     } else {
-                        _logger << "Failed to create new " << cmd.toStdString() << " block." << std::endl;
+                        _logger << "Failed to create new " << cmd << " block." << std::endl;
                         delete b;
                         _valid = false;
                         return false;
@@ -703,20 +733,19 @@ bool MetaSQLQueryPrivate::parse_query(const QString & query) {
             } else {
                 // we must have a function... if not then i don't know what it could be.
                 // first we must parse the options into a list of parameters for the function
-                options = options.trimmed();
-                QStringList plist;
-                if(!options.isEmpty()) {
+                options = trim(options);
+                std::vector<std::string> plist;
+                if(!options.empty()) {
                     // first if we have a '(' then we will only parse out the information between it
                     // and the following ')'
-                    QChar qc = options[0];
+                    char qc = options[0];
                     bool enclosed = false;
-                    bool working = !enclosed;
                     bool in_string = false;
-                    QChar string_starter = '"';
-                    QString wip = QString::null;
+                    char string_starter = '"';
+                    std::string wip;
                     if(qc == '(') enclosed = true;
-                    working = !enclosed;
-                    for(int p = 0; p < options.length(); p++) {
+                    bool working = !enclosed;
+                    for(std::size_t p = 0; p < options.size(); p++) {
                         qc = options.at(p);
                         if(!working && enclosed && qc == '(') working = true;
                         else {
@@ -730,9 +759,9 @@ bool MetaSQLQueryPrivate::parse_query(const QString & query) {
                                 }
                             } else {
                                 if(qc == ',') {
-                                    plist.append(wip);
-                                    wip = QString::null;
-                                } else if(qc.isSpace()) {
+                                    plist.push_back(wip);
+                                    wip.clear();
+                                } else if(std::isspace(qc)) {
                                     // eat white space
                                 } else if(qc == '\'' || qc == '"') {
                                     in_string = true;
@@ -746,14 +775,14 @@ bool MetaSQLQueryPrivate::parse_query(const QString & query) {
                             }
                         }
                     }
-                    if(wip != QString::null) plist.append(wip);
+                    if(!wip.empty()) plist.push_back(wip);
                 }
 
-                MetaSQLFunction * f = new MetaSQLFunction(this, cmd.trimmed().toStdString(), plist);
+                MetaSQLFunction * f = new MetaSQLFunction(this, cmd, plist);
                 if(f->isValid()) {
                     _current->append(f);
                 } else {
-                    _logger << "Failed to create new " << cmd.toStdString() << " function." << std::endl;
+                    _logger << "Failed to create new " << cmd << " function." << std::endl;
                     delete f;
                     _valid = false;
                     return false;
