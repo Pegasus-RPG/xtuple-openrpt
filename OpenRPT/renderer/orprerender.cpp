@@ -1257,8 +1257,6 @@ QString ORPreRenderPrivate::evaluateField(ORFieldData* f)
             str = _reportData->title;
         else if(f->data.query == "Context Query" && f->data.column == "report_description")
             str = _reportData->description;
-        else if(f->data.query == "Context Query")
-            str = f->data.column;
         else
         {
             populateData(f->data, dataThis);
