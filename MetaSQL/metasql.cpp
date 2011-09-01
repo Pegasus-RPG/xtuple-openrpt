@@ -19,7 +19,6 @@
  */
 
 #include <QString>
-#include <QRegExp>
 #include <QVariant>
 
 #include <parameter.h>
@@ -27,6 +26,8 @@
 #include <QSqlDatabase>
 
 #include "metasql.h"
+
+#include "regex/regex.h"
 
 #include <algorithm>
 #include <ostream>
@@ -211,7 +212,7 @@ class MetaSQLFunction : public MetaSQLOutput {
             if(_valid) {
                 bool found;
                 std::string str;
-                QRegExp re;
+                regex_t re;
                 QVariant t;
                 int i = 0;
                 switch(_func) {
@@ -236,12 +237,14 @@ class MetaSQLFunction : public MetaSQLOutput {
                         val = ( found ? _trueVariant : _falseVariant );
                         break;
                     case FunctionReExists:
-                        re.setPattern(QString::fromStdString(_params[0]));
-                        for(i = 0; i < params.count(); i++) {
-                            if(re.indexIn(params.name(i)) != -1) {
-                                val = _trueVariant;
-                                break;
+                        if(regcomp(&re, _params[0].c_str(), REG_EXTENDED|REG_NOSUB) == 0) {
+                            for(i = 0; i < params.count(); i++) {
+                                if(regexec(&re, params.name(i).toStdString().c_str(), (std::size_t)0, NULL, 0) == 0) {
+                                    val = _trueVariant;
+                                    break;
+                                }
                             }
+                            regfree(&re);
                         }
                         break;
                     case FunctionIsFirst:

@@ -45,6 +45,7 @@ HEADERS += logoutput.h \
            metasqlsaveparameters.h \
            mqledit.h \
            mqlutil.h \
+           regex/regex.h \
            resultsoutput.h \
            selectmql.h \
 
@@ -54,6 +55,10 @@ SOURCES += logoutput.cpp \
            metasqlsaveparameters.cpp \
            mqledit.cpp \
            mqlutil.cpp \
+           regex/regcomp.c \
+           regex/regerror.c \
+           regex/regexec.c \
+           regex/regfree.c \
            resultsoutput.cpp \
            selectmql.cpp \
 
