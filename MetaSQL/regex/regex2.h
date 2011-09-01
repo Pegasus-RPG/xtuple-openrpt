@@ -1,3 +1,6 @@
+#ifndef __regex_regex2
+#define __regex_regex2
+
 /*
  * First, the stuff that ends up in the outside-world include file
  = typedef off_t regoff_t;
@@ -132,3 +135,5 @@ struct re_guts {
 /* misc utilities */
 #define	OUT	(CHAR_MAX+1)	/* a non-character value */
 #define	ISWORD(c)	(isalnum(c) || (c) == '_')
+
+#endif /* __regex_regex2 */

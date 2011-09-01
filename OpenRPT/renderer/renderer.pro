@@ -58,6 +58,7 @@ SOURCES = openreports.cpp \
           renderobjects.cpp \
           previewdialog.cpp \ 
           ../../MetaSQL/metasql.cpp \
+          ../../MetaSQL/regex/regex.c \
           ../common/builtinformatfunctions.cpp \
           ../common/builtinSqlFunctions.cpp \		# MANU
           ../common/labelsizeinfo.cpp \

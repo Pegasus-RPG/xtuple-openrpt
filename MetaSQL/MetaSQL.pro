@@ -55,10 +55,7 @@ SOURCES += logoutput.cpp \
            metasqlsaveparameters.cpp \
            mqledit.cpp \
            mqlutil.cpp \
-           regex/regcomp.c \
-           regex/regerror.c \
-           regex/regexec.c \
-           regex/regfree.c \
+           regex/regex.c \
            resultsoutput.cpp \
            selectmql.cpp \
 

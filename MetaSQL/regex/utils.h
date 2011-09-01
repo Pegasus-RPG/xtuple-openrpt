@@ -1,3 +1,6 @@
+#ifndef __regex_utils
+#define __regex_utils
+
 /* utility definitions */
 #ifdef _POSIX2_RE_DUP_MAX
 #define	DUPMAX	_POSIX2_RE_DUP_MAX
@@ -20,3 +23,5 @@ typedef unsigned char uch;
 #ifdef USEBCOPY
 #define	memmove(d, s, c)	bcopy(s, d, c)
 #endif
+
+#endif /* __regex_utils */
