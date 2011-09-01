@@ -28,6 +28,7 @@
 
 #include "metasql.h"
 
+#include <algorithm>
 #include <ostream>
 #include <string>
 #include <sstream>
