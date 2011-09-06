@@ -202,7 +202,7 @@ class MetaSQLFunction : public MetaSQLOutput {
                 return v.toString().toStdString();
             mif->_paramCount++;
             std::stringstream sstr;
-            sstr << "_" << mif->_paramCount << "_";
+            sstr << ":_" << mif->_paramCount << "_";
             std::string n = sstr.str();
             mif->_pList[n] = v;
             return n + " ";
