@@ -243,6 +243,7 @@ void MQLEdit::clear()
 {
   _text->clear();
   _text->document()->setModified(false);
+  setWindowModified(false);
   _fileName = QString::null;
   _mqlGrade   = -1;
   _mqlGroup = QString::null;
@@ -333,7 +334,6 @@ bool MQLEdit::save()
   {
     QTextStream stream(&file);
     stream << _text->toPlainText();
-    _text->document()->setModified(false);
   }
   else
   {
