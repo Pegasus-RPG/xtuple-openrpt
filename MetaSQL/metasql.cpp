@@ -36,8 +36,6 @@
 #include <vector>
 #include <map>
 
-static const QVariant _trueVariant = QVariant(true);
-static const QVariant _falseVariant = QVariant(false);
 static const char * __wordchars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
 
 class MetaSQLBlock;
@@ -80,28 +78,97 @@ static inline std::string trim(const std::string &s) {
 
 class MetaSQLInfo {
     public:
-        MetaSQLInfo() {
-            _paramCount = 0;
-        }
+        MetaSQLInfo() {}
         virtual ~MetaSQLInfo() {}
 
-        int _paramCount;
-        std::map<std::string,QVariant> _pList;
+        virtual std::string trueValue() { return "true"; }
+        virtual std::string falseValue() { return "false"; }
+
+        virtual void setValuePos(const std::string & name, int pos) {
+            _posList[name] = pos;
+        }
+
+        virtual int getValuePos(const std::string & name) {
+            int pos = 0;
+            if(_posList.count(name) > 0)
+              pos = _posList[name];
+            return pos;
+        }
+
+        virtual std::list<std::string> enumerateNames() = 0;
+        virtual bool isValueFirst(const std::string &) = 0;
+        virtual bool isValueLast(const std::string &) = 0;
+        virtual int getValueListCount(const std::string & name) = 0;
+	virtual std::string getValue(const std::string & name, bool param = false, int pos = -1) = 0;
+
+    protected:
+        std::map<std::string, int> _posList;
 };
 
-class MetaSQLQueryPrivate { 
+class MetaSQLInfoQt : public MetaSQLInfo {
     public:
-        MetaSQLQueryPrivate() {
+        MetaSQLInfoQt(const ParameterList & params) : MetaSQLInfo() {
+            _params = &params;
+        }
+
+        virtual std::list<std::string> enumerateNames() {
+            std::list<std::string> names;
+            for(int n = 0; n < _params->count(); n++) {                                                                
+                names.push_back(_params->name(n).toStdString());                                               
+            }
+            return names;
+        }
+        virtual bool isValueFirst(const std::string & name) {
+            return getValuePos(name) == 0;
+        }
+        virtual bool isValueLast(const std::string & name) {
+            return getValuePos(name) == (getValueListCount(name) - 1);
+        }
+        virtual int getValueListCount(const std::string & name) {
+            bool found = false;
+            QVariant v = _params->value(QString::fromStdString(name), &found);
+            int lc = 0;
+            if(found && (v.type() == QVariant::List || v.type() == QVariant::StringList)) {
+                lc = v.toList().count();
+            }
+            return lc;
+        }
+	virtual std::string getValue(const std::string & name, bool param = false, int pos = -1) {
+            bool found = false;
+            QVariant v = _params->value(QString::fromStdString(name), &found);
+            if(found && (v.type() == QVariant::List || v.type() == QVariant::StringList)) {
+                v = v.toList().at((pos == -1 ? getValuePos(name) : pos));
+            }
+            if(param) {
+                _paramCount++;
+                std::stringstream sstr;
+                sstr << ":_" << _paramCount << "_";
+                std::string n = sstr.str();
+                _pList[n] = v;
+                return n + " ";
+            } else {
+                return v.toString().toStdString();
+            }
+        }
+
+        std::map<std::string,QVariant> _pList;
+        int _paramCount;
+        const ParameterList * _params;
+};
+
+class MetaSQLQueryParser { 
+    public:
+        MetaSQLQueryParser() {
             _valid = false;
             _top = 0;
         }
-        virtual ~MetaSQLQueryPrivate();
+        virtual ~MetaSQLQueryParser();
 
         bool isValid() { return _valid; }
 
         bool parse_query(const std::string & query);
 
-        std::string populate(const ParameterList &, MetaSQLInfo *);
+        std::string populate(MetaSQLInfo *);
 
         bool _valid;
         MetaSQLBlock * _top;
@@ -113,20 +180,20 @@ class MetaSQLQueryPrivate {
 
 class MetaSQLOutput {
     public:
-        MetaSQLOutput(MetaSQLQueryPrivate * parent) { _parent = parent; }
+        MetaSQLOutput(MetaSQLQueryParser * parent) { _parent = parent; }
         virtual ~MetaSQLOutput() { _parent = 0; }
 
-        virtual std::string toString(MetaSQLInfo *, const ParameterList &, int * = 0, bool * = 0) = 0;
+        virtual std::string toString(MetaSQLInfo *, int * = 0, bool * = 0) = 0;
 
     protected:
-        MetaSQLQueryPrivate * _parent;
+        MetaSQLQueryParser * _parent;
 };
 
 class MetaSQLString : public MetaSQLOutput {
     public:
-        MetaSQLString(MetaSQLQueryPrivate * parent, const std::string & str) : MetaSQLOutput(parent), _string(str) {}
+        MetaSQLString(MetaSQLQueryParser * parent, const std::string & str) : MetaSQLOutput(parent), _string(str) {}
 
-        virtual std::string toString(MetaSQLInfo *, const ParameterList &, int * = 0, bool * = 0) { return _string; }
+        virtual std::string toString(MetaSQLInfo *, int * = 0, bool * = 0) { return _string; }
 
     protected:
         std::string _string;
@@ -134,11 +201,11 @@ class MetaSQLString : public MetaSQLOutput {
 
 class MetaSQLComment : public MetaSQLOutput {
     public:
-        MetaSQLComment(MetaSQLQueryPrivate * parent, const std::string & str) : MetaSQLOutput(parent), _string(str) {}
+        MetaSQLComment(MetaSQLQueryParser * parent, const std::string & str) : MetaSQLOutput(parent), _string(str) {}
 
         // If we want to show comments we need to escape single quotes as they cause problems when passed to database server
         // But we don't have to include comments at all since they are not required by the database to work.
-        virtual std::string toString(MetaSQLInfo *, const ParameterList &, int * = 0, bool * = 0) { return " "; }
+        virtual std::string toString(MetaSQLInfo *, int * = 0, bool * = 0) { return " "; }
 
     protected:
         std::string _string;
@@ -146,7 +213,7 @@ class MetaSQLComment : public MetaSQLOutput {
 
 class MetaSQLFunction : public MetaSQLOutput {
     public:
-        MetaSQLFunction(MetaSQLQueryPrivate * parent, const std::string & func, const std::vector<std::string> & params)
+        MetaSQLFunction(MetaSQLQueryParser * parent, const std::string & func, const std::vector<std::string> & params)
           : MetaSQLOutput(parent) {
             _valid = 0;
             _nBreaks = 0;
@@ -194,53 +261,36 @@ class MetaSQLFunction : public MetaSQLOutput {
         bool isValid() { return _valid; }
         Function type() { return _func; }
 
-        virtual std::string toString(MetaSQLInfo * mif, const ParameterList & params, int * nBreaks = 0, bool * isContinue = 0) {
+        virtual std::string toString(MetaSQLInfo * mif, int * nBreaks = 0, bool * isContinue = 0) {
             if(_noOutput)
                 return "";
-            QVariant v = toVariant(params, nBreaks, isContinue);
-            if(_func==FunctionLiteral)
-                return v.toString().toStdString();
-            mif->_paramCount++;
-            std::stringstream sstr;
-            sstr << ":_" << mif->_paramCount << "_";
-            std::string n = sstr.str();
-            mif->_pList[n] = v;
-            return n + " ";
+            std::string v = toVariant(mif, nBreaks, isContinue);
+            return v;
         }
-        virtual QVariant toVariant(const ParameterList & params, int * nBreaks = 0, bool * isContinue = 0) {
-            QVariant val;
+        virtual std::string toVariant(MetaSQLInfo * mif, int * nBreaks = 0, bool * isContinue = 0) {
+            std::string val;
             if(_valid) {
-                bool found;
                 std::string str;
+                std::list<std::string> list;
+                std::list<std::string>::iterator strlit;
                 regex_t re;
-                QVariant t;
-                int i = 0;
                 switch(_func) {
                     case FunctionValue:
                     case FunctionLiteral:
                         str = _params[0];
-                        val = params.value(QString::fromStdString(str));
-                        if(val.type() == QVariant::List || val.type() == QVariant::StringList) {
-                            str += "__FOREACH_POS__";
-                            t = params.value(QString::fromStdString(str), &found);
-                            if(found) {
-                                val = (val.toList())[t.toInt()];
-                            } else {
-                                // we are not in a loop or the loop we are in is not for
-                                // this list so just return the first value in the list
-                                val = val.toList().first();
-                            }
-                        }
+                        val = mif->getValue(str, (_func==FunctionValue));
                         break;
                     case FunctionExists:
-                        params.value(QString::fromStdString(_params[0]), &found);
-                        val = ( found ? _trueVariant : _falseVariant );
+                        list = mif->enumerateNames();
+                        strlit = find(list.begin(), list.end(), _params[0]);
+                        val = ( strlit != list.end() ? mif->trueValue() : mif->falseValue() );
                         break;
                     case FunctionReExists:
                         if(regcomp(&re, _params[0].c_str(), REG_EXTENDED|REG_NOSUB) == 0) {
-                            for(i = 0; i < params.count(); i++) {
-                                if(regexec(&re, params.name(i).toStdString().c_str(), (std::size_t)0, NULL, 0) == 0) {
-                                    val = _trueVariant;
+                            list = mif->enumerateNames();
+                            for(strlit = list.begin(); strlit != list.end(); strlit++) {
+                                if(regexec(&re, (*strlit).c_str(), (std::size_t)0, NULL, 0) == 0) {
+                                    val = mif->trueValue();
                                     break;
                                 }
                             }
@@ -248,27 +298,10 @@ class MetaSQLFunction : public MetaSQLOutput {
                         }
                         break;
                     case FunctionIsFirst:
+                        val = (mif->isValueFirst(_params[0]) ? mif->trueValue() : mif->falseValue());
+                        break;
                     case FunctionIsLast:
-                        val = _falseVariant;
-                        str = _params[0];
-                        t = params.value(QString::fromStdString(str), &found);
-                        if(found) {
-                            if(t.type() == QVariant::List || t.type() == QVariant::StringList) {
-                                str += "__FOREACH_POS__";
-                                QVariant t2 = params.value(QString::fromStdString(str), &found);
-                                int pos = 0;
-                                if(found)
-                                    pos = t2.toInt();
-
-                                QList<QVariant> l = t.toList();
-                                if(l.size() > 0) {
-                                    if((_func == FunctionIsFirst) && (pos == 0)) val = _trueVariant;
-                                    else if((_func == FunctionIsLast) && ((pos + 1) == l.size())) val = _trueVariant;
-                                }
-                            } else {
-                                val = _trueVariant;
-                            }
-                        }
+                        val = (mif->isValueLast(_params[0]) ? mif->trueValue() : mif->falseValue());
                         break;
                     case FunctionContinue:
                     case FunctionBreak:
@@ -320,7 +353,7 @@ class MetaSQLFunction : public MetaSQLOutput {
 
 class MetaSQLBlock : public MetaSQLOutput {
     public:
-        MetaSQLBlock(MetaSQLQueryPrivate * parent, const std::string & pCmd, const std::string & pOptions)
+        MetaSQLBlock(MetaSQLQueryParser * parent, const std::string & pCmd, const std::string & pOptions)
           : MetaSQLOutput(parent) {
             _valid = false;
 
@@ -480,49 +513,38 @@ class MetaSQLBlock : public MetaSQLOutput {
             _alt = alt;
         }
 
-        virtual std::string toString(MetaSQLInfo * mif, const ParameterList & params, int * nBreaks = 0, bool * isContinue = 0) {
+        virtual std::string toString(MetaSQLInfo * mif, int * nBreaks = 0, bool * isContinue = 0) {
             std::string results;
 
             MetaSQLOutput * output = 0;
-            bool b = false, myContinue = false, found;
+            bool b = false, myContinue = false;
             int myBreaks = 0;
-            int n = 0;
+            int oldPos = 0;
             unsigned int ui = 0, uii = 0;
             unsigned int lc = 0;
-            QVariant v;
-            ParameterList pList;
-            std::string str;
             switch(_block) {
                 case BlockIf:
                 case BlockElseIf:
-                    b = _if_func->toVariant(params, nBreaks, isContinue).toBool();
+                    b = _if_func->toVariant(mif, nBreaks, isContinue) == mif->trueValue();
                     if(_if_not) b = !b;
                     if(b) {
                         for(ui = 0; ui < _items.size(); ui++)
                         {
                             output = _items.at(ui);
-                            results += output->toString(mif, params, nBreaks, isContinue);
+                            results += output->toString(mif, nBreaks, isContinue);
                             if(nBreaks && *nBreaks) break;
                         }
                     } else if(_alt) {
-                        results = _alt->toString(mif, params, nBreaks, isContinue);
+                        results = _alt->toString(mif, nBreaks, isContinue);
                     }
                     break;
 
                 case BlockForEach:
-                    v = params.value(QString::fromStdString(_loopVar), &found);
-                    if(found) {
-                        str = _loopVar + "__FOREACH_POS__";
-                        lc = v.toList().count();
+                    lc = mif->getValueListCount(_loopVar);
+                    if(lc > 0) {
+                        oldPos = mif->getValuePos(_loopVar);
                         for(ui = 0; ui < lc; ui++) {
-                            // create a new params list with our special var added in 
-                            pList.clear();
-                            pList.append(QString::fromStdString(str), ui);
-                            for(n = 0; n < params.count(); n++) {
-                                if(params.name(n) != QString::fromStdString(str)) {
-                                    pList.append(params.name(n), params.value(n));
-                                }
-                            }
+                            mif->setValuePos(_loopVar, ui);
 
                             myBreaks = 0;
                             myContinue = false;
@@ -531,7 +553,7 @@ class MetaSQLBlock : public MetaSQLOutput {
                             for(uii = 0; uii < _items.size(); uii++)
                             {
                                 output = _items.at(uii);
-                                results += output->toString(mif, pList, &myBreaks, &myContinue);
+                                results += output->toString(mif, &myBreaks, &myContinue);
                                 if(myBreaks) break;
                             }
 
@@ -544,6 +566,7 @@ class MetaSQLBlock : public MetaSQLOutput {
                                 }
                             }
                         }
+                        mif->setValuePos(_loopVar, oldPos);
                     }
                     break;
 
@@ -552,7 +575,7 @@ class MetaSQLBlock : public MetaSQLOutput {
                     for(ui = 0; ui < _items.size(); ui++)
                     {
                         output = _items.at(ui);
-                        results += output->toString(mif, params, nBreaks, isContinue);
+                        results += output->toString(mif, nBreaks, isContinue);
                         if(nBreaks && *nBreaks) break;
                     }
                     break;
@@ -595,22 +618,22 @@ class MetaSQLBlock : public MetaSQLOutput {
         MetaSQLFunction * _if_func;
 };
 
-MetaSQLQueryPrivate::~MetaSQLQueryPrivate() {
+MetaSQLQueryParser::~MetaSQLQueryParser() {
     if(_top) {
         delete _top;
         _top = 0;
     }
 }
 
-std::string MetaSQLQueryPrivate::populate(const ParameterList & params, MetaSQLInfo * mif) {
+std::string MetaSQLQueryParser::populate(MetaSQLInfo * mif) {
     std::string sql;
     if(_top) {
-        sql = trim(_top->toString(mif, params));
+        sql = trim(_top->toString(mif));
     }
     return sql;
 }
 
-bool MetaSQLQueryPrivate::parse_query(const std::string & query) {
+bool MetaSQLQueryParser::parse_query(const std::string & query) {
     _top = new MetaSQLBlock(this, "generic", "");
     std::vector<MetaSQLBlock*> _blocks;
     _blocks.push_back(_top);
@@ -806,7 +829,7 @@ bool MetaSQLQueryPrivate::parse_query(const std::string & query) {
 }
 
 MetaSQLQuery::MetaSQLQuery(const QString & query) {
-    _data = new MetaSQLQueryPrivate();
+    _data = new MetaSQLQueryParser();
     _source = QString::null;
 
     if(!query.isEmpty()) {
@@ -841,8 +864,8 @@ bool MetaSQLQuery::isValid() { return (_data && _data->isValid()); }
 XSqlQuery MetaSQLQuery::toQuery(const ParameterList & params, QSqlDatabase pDb, bool pExec) {
     XSqlQuery qry(pDb);
     if(isValid()) {
-        MetaSQLInfo mif;
-        if(qry.prepare(QString::fromStdString(_data->populate(params, &mif)))) {
+        MetaSQLInfoQt mif(params);
+        if(qry.prepare(QString::fromStdString(_data->populate(&mif)))) {
             for ( std::map<std::string, QVariant>::iterator it=mif._pList.begin() ; it != mif._pList.end(); it++ ) {
                 qry.bindValue(QString::fromStdString((*it).first) ,(*it).second);
             }

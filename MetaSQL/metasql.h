@@ -28,7 +28,7 @@ class QSqlDatabase;
 #include <xsqlquery.h>
 #include <parameter.h>
 
-class MetaSQLQueryPrivate;
+class MetaSQLQueryParser;
 class MetaSQLQuery {
     public:
         MetaSQLQuery(const QString & = QString::null);
@@ -43,7 +43,7 @@ class MetaSQLQuery {
         QString parseLog();
 
     private:
-        MetaSQLQueryPrivate * _data;
+        MetaSQLQueryParser * _data;
 
         QString _source;
 };
