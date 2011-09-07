@@ -109,6 +109,7 @@ class MetaSQLInfoQt : public MetaSQLInfo {
     public:
         MetaSQLInfoQt(const ParameterList & params) : MetaSQLInfo() {
             _params = &params;
+            _paramCount = 0;
         }
 
         virtual std::list<std::string> enumerateNames() {
