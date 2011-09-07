@@ -21,8 +21,10 @@
 #ifndef __METASQLQUERYPARSER_H__
 #define __METASQLQUERYPARSER_H__
 
+#include <algorithm>
 #include <sstream>
 #include <string>
+#include <vector>
 #include <list>
 #include <map>
 
@@ -50,11 +52,79 @@ class MetaSQLInfo {
         virtual std::list<std::string> enumerateNames() = 0;
         virtual bool isValueFirst(const std::string &) = 0;
         virtual bool isValueLast(const std::string &) = 0;
-        virtual int getValueListCount(const std::string & name) = 0;
-	virtual std::string getValue(const std::string & name, bool param = false, int pos = -1) = 0;
+        virtual int getValueListCount(const std::string &) = 0;
+        virtual std::string getValue(const std::string &, bool = false, int = -1) = 0;
 
     protected:
         std::map<std::string, int> _posList;
+};
+
+class MetaSQLInfoDefault : public MetaSQLInfo {
+    public:
+        MetaSQLInfoDefault() : MetaSQLInfo() {}
+        virtual ~MetaSQLInfoDefault() {}
+
+        virtual std::list<std::string> enumerateNames() {
+            std::list<std::string> names;
+            std::map<std::string, std::vector<std::string> >::iterator it;
+            for ( it=_values.begin() ; it != _values.end(); it++ )
+                names.push_back((*it).first);
+            return names;
+        }
+
+        virtual bool isValueFirst(const std::string & name) {
+            return getValuePos(name) == 0;
+        }
+
+        virtual bool isValueLast(const std::string & name) {
+            return getValuePos(name) == (getValueListCount(name) - 1);
+        }
+
+        virtual int getValueListCount(const std::string & name) {
+            std::list<std::string> list = enumerateNames();
+            std::list<std::string>::iterator strlit = find(list.begin(), list.end(), name);
+            int lc = 0;
+            if(strlit != list.end()) {
+                lc = _values[name].size();
+            }
+            return lc;
+        }
+
+        virtual std::string getValue(const std::string & name, bool param = false, int pos = -1) {
+            std::list<std::string> list = enumerateNames();
+            std::list<std::string>::iterator strlit = find(list.begin(), list.end(), name);
+            std::string v;
+            if(strlit != list.end()) {
+                v = _values[name].at((pos != -1 ? getValuePos(name) : pos));
+            }
+            if(param) {
+                std::string n = "'";
+                std::string::iterator it;
+                for(it=v.begin() ; it < v.end(); it++ ) {
+                    if((*it) == '\'') n += '\'';
+                    if((*it) == '\\') n += '\\';
+                    n += (*it);
+                }
+                n += "'";
+                return n;
+            } else {
+                return v;
+            }
+        }
+
+        void setValue(const std::string & name, const std::string & value) {
+            std::vector<std::string> list;
+            list.push_back(value);
+            setList(name, list);
+        }
+
+        void setList(const std::string &name, const std::vector<std::string> & list) {
+            setValuePos(name, 0);
+            _values[name] = list;
+        }
+
+    protected:
+        std::map<std::string, std::vector<std::string> > _values;
 };
 
 class MetaSQLQueryParser { 
