@@ -41,6 +41,7 @@ FORMS   += logoutput.ui \
 
 HEADERS += logoutput.h \
            metasql.h \
+           metasqlqueryparser.h \
            metasqlhighlighter.h \
            metasqlsaveparameters.h \
            mqledit.h \
@@ -51,6 +52,7 @@ HEADERS += logoutput.h \
 
 SOURCES += logoutput.cpp \
            metasql.cpp \
+           metasqlqueryparser.cpp \
            metasqlhighlighter.cpp \
            metasqlsaveparameters.cpp \
            mqledit.cpp \

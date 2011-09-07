@@ -21,7 +21,7 @@
 #ifndef __METASQL_H__
 #define __METASQL_H__
 
-#include <qstring.h>
+#include <QString>
 
 class QSqlDatabase;
 

@@ -41,6 +41,7 @@ HEADERS = openreports.h \
           renderobjects.h \
           previewdialog.h \
           ../../MetaSQL/metasql.h \
+          ../../MetaSQL/metasqlqueryparser.h \
           ../common/builtinformatfunctions.h \
           ../common/builtinSqlFunctions.h \			# MANU
           ../common/labelsizeinfo.h \
@@ -58,6 +59,7 @@ SOURCES = openreports.cpp \
           renderobjects.cpp \
           previewdialog.cpp \ 
           ../../MetaSQL/metasql.cpp \
+          ../../MetaSQL/metasqlqueryparser.cpp \
           ../../MetaSQL/regex/regex.c \
           ../common/builtinformatfunctions.cpp \
           ../common/builtinSqlFunctions.cpp \		# MANU
