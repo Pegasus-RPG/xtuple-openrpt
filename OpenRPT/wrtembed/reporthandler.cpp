@@ -18,6 +18,8 @@
  * Please contact info@openmfg.com with any questions on this license.
  */
 
+// TODO: remove copyright() and version() methods
+
 #include "reporthandler.h"
 #include "reportgridoptions.h"
 #include "data.h"
@@ -1365,9 +1367,9 @@ void ReportHandler::dbConnect() {
         // connect
         ParameterList params;
         params.append("name", name());
-        params.append("copyright", copyright());
-        params.append("version", version());
-        params.append("build", QString("%1 %2").arg(__DATE__).arg(__TIME__));
+        params.append("copyright",   OpenRPT::copyright);
+        params.append("version",     OpenRPT::version);
+        params.append("build",       OpenRPT::build);
         params.append("databaseURL", OpenRPT::databaseURL);
 
         login newdlg(0, "", TRUE);
@@ -1723,12 +1725,12 @@ QString ReportHandler::name()
 
 QString ReportHandler::copyright()
 {
-  return QObject::tr("Copyright (c) 2002-2011, OpenMFG, LLC.");
+  return OpenRPT::copyright;
 }
 
 QString ReportHandler::version()
 {
-  return "3.3.0";
+  return OpenRPT::version;
 }
 
 int ReportHandler::insertItemCode() const
