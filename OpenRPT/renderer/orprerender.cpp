@@ -437,14 +437,17 @@ void ORPreRenderPrivate::renderDetailSection(ORDetailSectionData & detailData)
 
     if (orqThis->getQuery() && ((query = orqThis->getQuery())->size()))
     {
+      bool hasRecords = query->first();
+	  if(!hasRecords) {
+	    return; // No records => don't print the section
+	  }
+
       _detailQuery = query;
       QStringList keys;
       QStringList keyValues;
       bool    status;
       int i = 0, pos = 0, cnt = 0;
       ORDetailGroupSectionData * grp = 0;
-
-      query->first();
 
       // Go through the groups
       for(i = 0; i < (int)detailData.groupList.count(); i++)
