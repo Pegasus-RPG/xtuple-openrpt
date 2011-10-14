@@ -194,7 +194,7 @@ bool orReport::beginMultiPrint(QPrinter *pPrinter, bool & userCanceled)
   return true;
 }
 
-bool orReport::print(QPrinter *prtThis, bool boolSetupPrinter, bool showPreview)
+bool orReport::print(QPrinter *prtThis, bool boolSetupPrinter, bool showPreview, QWidget *parent)
 {
 // TODO: Figure out how all this is supposed to be with the new engine
   bool retval = false;
@@ -250,7 +250,7 @@ bool orReport::print(QPrinter *prtThis, bool boolSetupPrinter, bool showPreview)
 
           if (showPreview)
           {
-            PreviewDialog preview(_internal->_genDoc, prtThis, 0);
+            PreviewDialog preview(_internal->_genDoc, prtThis, parent);
             if (preview.exec() == QDialog::Rejected)
               return false;
           }

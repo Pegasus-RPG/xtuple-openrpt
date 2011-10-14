@@ -30,13 +30,13 @@ class orReportPrivate;
 class QWidget;
 class ParameterList;
 
-#include <qstringlist.h>
-#include <qpainter.h>
-#include <qprinter.h>
-#include <qimage.h>
-#include <qfont.h>
-#include <qdom.h>
+#include <QDomDocument>
+#include <QFont>
+#include <QImage>
+#include <QPainter>
+#include <QPrinter>
 #include <QSqlDatabase>
+#include <QStringList>
 
 
 class orReport {
@@ -56,7 +56,7 @@ class orReport {
     ~orReport();
 
     bool    render(QPainter *, QPrinter * = 0);
-    bool    print(QPrinter *prtThis = 0, bool boolSetupPrinter = TRUE, bool showPreview = false);
+    bool    print(QPrinter *prtThis = 0, bool boolSetupPrinter = TRUE, bool showPreview = false, QWidget *parent = 0);
     bool    exportToPDF( const QString& fileName );
 
     static bool    beginMultiPrint(QPrinter *);
