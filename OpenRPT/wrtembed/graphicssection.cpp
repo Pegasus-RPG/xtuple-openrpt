@@ -87,10 +87,11 @@ ORGraphicsSectionItem::ORGraphicsSectionItem(QGraphicsItem * parent)
   _previousWidth = 0; // set to zero so the first paint will adjust the handle and title into the correct positions
   _handle = new ORSectionHandle(this);
   _title = new QGraphicsSimpleTextItem(QObject::tr("SECTION TITLE"), this);
-  _title->setPen(QPen(QColor("lightgray")));
+  _hightLighted = true;
   QPen p(Qt::DashDotLine);
   setPen(p);
   highlight(Normal);
+  highlightTitle(false);
 }
 
 void ORGraphicsSectionItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
@@ -98,7 +99,7 @@ void ORGraphicsSectionItem::paint(QPainter * painter, const QStyleOptionGraphics
   if(rect().width() != _previousWidth)
   {
     _previousWidth = rect().width();
-    _title->setPos(rect().width() + 3, 0);
+    _title->setPos(rect().width() + 5, 0);
     _handle->setPos(rect().bottomRight());
   }
   QGraphicsRectItem::paint(painter, option, widget);
@@ -123,10 +124,28 @@ void ORGraphicsSectionItem::highlight(enum Highlight mode)
   setPen(p);
 }
 
+void ORGraphicsSectionItem::highlightTitle(bool v)
+{
+    if(_hightLighted == v)
+        return;
+
+    _hightLighted = v;
+    QString color = v ? "blue" : "darkgray";
+    _title->setBrush(QBrush(QColor(color)));
+}
+
 void ORGraphicsSectionItem::setTitle(const QString & s)
 {
   _title->setText(s);
 }
+
+QString ORGraphicsSectionItem::title() const
+{
+    if(_title)
+            return _title->text();
+    else    return "";
+}
+
 
 void ORGraphicsSectionItem::buildXML(QDomDocument & doc, QDomElement & section)
 {

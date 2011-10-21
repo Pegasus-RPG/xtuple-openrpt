@@ -188,7 +188,10 @@ class DocumentScene : public QGraphicsScene
     bool isModified() const { return _modified; }
 
     void repositionSections();
-    ORGraphicsSectionItem * getSection(QPointF scenePos);
+    ORGraphicsSectionItem * getSection(QPointF scenePos) const;
+    ORGraphicsSectionItem * getSection(QString title) const;
+    void highlightSectionTitles();
+    QList<ORGraphicsSectionItem *> sectionsList() const;
 	bool undo();
 	bool redo();
 	void loadDocument(const QDomElement &root, QWidget *parent, bool loadFromfile=true);
@@ -202,6 +205,7 @@ class DocumentScene : public QGraphicsScene
     void setModified(bool = true);
     void deleteSelected();
     void refreshFontToolBox();
+    void onSelChanged();
 
   signals:
     void modified();

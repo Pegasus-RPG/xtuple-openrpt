@@ -254,6 +254,9 @@ class ReportHandler : public QObject {
         QAction * fillAction;
 		QAction * rotationAction;
 
+		QList<QAction*> m_SectionActions;
+
+        void    createSectionActions();
         DocumentWindow * activeDocumentWindow();
         void addDocumentWindow(DocumentWindow * gw);
         QList<DocumentWindow*> gwList;
@@ -271,6 +274,7 @@ class ReportHandler : public QObject {
     private slots:
         void removeReportWindow(QObject * obj);
         void dbMenuAboutToShow();
+        void sectionToggled(bool v);
 };
 
 #endif

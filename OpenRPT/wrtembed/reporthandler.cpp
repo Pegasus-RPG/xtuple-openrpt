@@ -1746,6 +1746,55 @@ void ReportHandler::resetInsertItemCode()
       action->setChecked(false);
 }
 
+void ReportHandler::createSectionActions()
+{
+    DocumentWindow *gw = activeDocumentWindow();
+    if(!gw)
+        return;
+
+    if(selectionCount()==0)
+        return;
+
+    // delete previous actions
+    while (!m_SectionActions.isEmpty())
+    {
+        delete m_SectionActions.takeFirst();
+    }
+
+    QAction *selectedSection = NULL;
+    bool differentSectionSelected = false;
+    QList<ORGraphicsSectionItem *> sections = gw->_scene->sectionsList();
+
+    foreach(ORGraphicsSectionItem *section, sections)
+    {
+        if(!section->isVisible())
+            continue;
+
+        QAction *sectionAction = new QAction(section->title(),this);
+        sectionAction->setCheckable(true);
+        QList<QGraphicsItem*> lstSel = gw->_scene->selectedItems();
+        foreach(QGraphicsItem *item, lstSel)
+        {
+            if(item->parentItem() == section)
+            {
+                if(selectedSection && selectedSection != sectionAction)
+                    differentSectionSelected = true;
+
+                selectedSection = sectionAction;
+                break;
+            }
+        }
+        connect(sectionAction, SIGNAL(triggered(bool)), this, SLOT(sectionToggled(bool)));
+        m_SectionActions.prepend(sectionAction);
+    }
+
+    if(selectedSection && !differentSectionSelected)
+    {
+        // only check the action if all the items selected belong to the same section
+        selectedSection->setChecked(true);
+    }
+}
+
 void ReportHandler::buildItemContextMenu(QMenu * menu)
 {
   if(selectionCount() > 0)
@@ -1778,6 +1827,10 @@ void ReportHandler::buildItemContextMenu(QMenu * menu)
     menu->addAction(colorAction);
     menu->addAction(fillAction);
     menu->addAction(rotationAction);
+
+    createSectionActions();
+    QMenu *sectionsMenu = menu->addMenu(tr("Section"));
+    sectionsMenu->addActions(m_SectionActions);
   } 
 }
 
@@ -2357,4 +2410,41 @@ void ReportHandler::loadMemDB(const QString &filename, const QDomNode &it)
     bool ok = mdb.load(_databaseElt, QSqlDatabase::database());
     if(!ok)
         QMessageBox::warning(0, filename, mdb.lastError());
+}
+
+void ReportHandler::sectionToggled(bool v)
+{
+    if(!v)
+        return;
+
+    DocumentWindow * gw = activeDocumentWindow();
+    if(!gw)
+      return;
+
+    bool exit = false;
+
+    foreach(QAction *a, m_SectionActions) {
+        if(a->isChecked())
+        {
+            // change selected items to new section
+
+            ORGraphicsSectionItem * section = gw->_scene->getSection(a->text());
+            if(section)
+            {
+                QList<QGraphicsItem*> lstSel = gw->_scene->selectedItems();
+                foreach(QGraphicsItem *item, lstSel)
+                {
+                    if(item->parentItem() != section)
+                    {
+                        item->setParentItem(section);
+                        exit = true;
+                        break;
+                    }
+                }
+            }
+
+            if(exit)
+                break;
+        }
+    }
 }

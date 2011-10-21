@@ -58,6 +58,8 @@ class ORGraphicsSectionItem : public QGraphicsRectItem
     ORGraphicsSectionItem(QGraphicsItem * parent = 0);
 
     void setTitle(const QString & s);
+    QString title() const;
+    void highlightTitle(bool v);
 
     void buildXML(QDomDocument & doc, QDomElement & section);
     void initFromXML(QDomNode & section);
@@ -76,6 +78,7 @@ class ORGraphicsSectionItem : public QGraphicsRectItem
   private:
     ORSectionHandle * _handle;
     QGraphicsSimpleTextItem * _title;
+    bool _hightLighted;
 };
 
 class ORGraphicsSectionDetail;

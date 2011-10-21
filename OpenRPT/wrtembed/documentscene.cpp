@@ -57,7 +57,7 @@ DocumentScene::DocumentScene(bool newDoc, ReportHandler *handler, QObject * pare
       pageOptionsChanged();
   }
 
-  connect(this, SIGNAL(selectionChanged()), this, SLOT(refreshFontToolBox()));
+  connect(this, SIGNAL(selectionChanged()), this, SLOT(onSelChanged()));
 
   _loadingInProgress = false;
 }
@@ -265,7 +265,7 @@ void DocumentScene::pageOptionsChanged()
 }
 
 
-ORGraphicsSectionItem * DocumentScene::getSection(QPointF scenePos)
+ORGraphicsSectionItem * DocumentScene::getSection(QPointF scenePos) const
 {
     ORGraphicsSectionItem * section = NULL;
 
@@ -280,6 +280,66 @@ ORGraphicsSectionItem * DocumentScene::getSection(QPointF scenePos)
     }
 
     return section;
+}
+
+
+ORGraphicsSectionItem * DocumentScene::getSection(QString title) const
+{
+    ORGraphicsSectionItem * section = NULL;
+
+    QList<ORGraphicsSectionItem *> list = sectionsList();
+
+    for(int i = 0; i < list.count(); i++)
+    {
+        if(list.at(i)->title() == title)
+        {
+            section = list.at(i);
+            break;
+        }
+    }
+
+    return section;
+}
+
+
+void DocumentScene:: highlightSectionTitles()
+{
+    QList<ORGraphicsSectionItem *> sections = sectionsList();
+    QList<QGraphicsItem*> selection = selectedItems();
+
+    for(int i = 0; i < sections.count(); i++)
+    {
+        ORGraphicsSectionItem * section = sections.at(i);
+        bool sectionSelected = false;
+
+        foreach(QGraphicsItem* item, selection)
+        {
+            if(item->parentItem() == section)
+            {
+                sectionSelected = true;
+                break;
+            }
+        }
+
+        section->highlightTitle(sectionSelected);
+    }
+}
+
+
+QList<ORGraphicsSectionItem *> DocumentScene::sectionsList() const
+{
+    QList<ORGraphicsSectionItem *> res;
+
+    QList<QGraphicsItem*> list = items();
+    for(int i = 0; i < list.count(); i++)
+    {
+        if(list.at(i)->type() == ORGraphicsSectionItem::Type)
+        {
+            res.append(qgraphicsitem_cast<ORGraphicsSectionItem*>(list.at(i)));
+        }
+    }
+
+    return res;
 }
 
 
@@ -375,6 +435,20 @@ void DocumentScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
       // default QGraphicsScene::mousePressEvent() deselect items if "RubberBandDrag" active
       mouseEvent->setAccepted(true);
       return;
+  }
+  else if((mouseEvent->button() == Qt::LeftButton) && (mouseEvent->modifiers() & Qt::AltModifier)) {
+
+      // Selection of all the items in the section
+      ORGraphicsSectionItem * csection = getSection(mouseEvent->scenePos());
+      if(csection) {
+          QList<QGraphicsItem*> list = csection->childItems();
+          foreach(QGraphicsItem* item, list)
+          {
+              item->setSelected(true);
+          }
+          mouseEvent->setAccepted(true);
+          return;
+      }
   }
 
   QGraphicsScene::mousePressEvent(mouseEvent);
@@ -1819,6 +1893,13 @@ void DocumentScene::drawForeground(QPainter * painter, const QRectF & rect)
 }
 
 
+void DocumentScene::onSelChanged()
+{
+    refreshFontToolBox();
+    highlightSectionTitles();
+}
+
+
 void DocumentScene::refreshFontToolBox()
 {
     QString font, size;
@@ -2211,6 +2292,7 @@ void DocumentScene::updateSectionsOfMovedItems(Qt::KeyboardModifiers keyModifier
     }
 
     highlightSections(ORGraphicsSectionItem::Normal);
+	highlightSectionTitles();
 }
 
 
