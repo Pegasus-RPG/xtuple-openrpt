@@ -71,7 +71,7 @@ bool MQLUtil::rewriteMetadata(QString &query,      const QString &group,
       noteslines.replace(0, "-- Notes: " + noteslines.at(0));
 
     for (int i = 1; i < noteslines.size(); i++)
-      if (! dashdashRE.indexIn(noteslines.at(i)) >= 0)
+      if (dashdashRE.indexIn(noteslines.at(i)) < 0)
         noteslines.replace(i, "--        " + noteslines.at(i));
   }
 
