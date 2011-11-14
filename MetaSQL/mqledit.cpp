@@ -549,8 +549,8 @@ bool MQLEdit::databaseSave()
     params.append("tablename", _mqlSchema + ".pkgmetasql");
     params.append("trigname",  "pkgmetasqlaltertrigger");
   }
-  MetaSQLQuery disablem("ALTER TABLE <? literal(\"tablename\") ?> DISABLE TRIGGER <? literal(\"trigname\") ?>;");
-  MetaSQLQuery enablem("ALTER TABLE <? literal(\"tablename\") ?> ENABLE TRIGGER <? literal(\"trigname\") ?>;");
+  MetaSQLQuery disablem("ALTER TABLE <? literal('tablename') ?> DISABLE TRIGGER <? literal('trigname') ?>;");
+  MetaSQLQuery enablem("ALTER TABLE <? literal('tablename') ?> ENABLE TRIGGER <? literal('trigname') ?>;");
 
   XSqlQuery triggerq;
 
@@ -572,16 +572,26 @@ bool MQLEdit::databaseSave()
     }
   }
 
+  QString group;
+  QString name;
+  QString notes;
+  MQLUtil::extractMetadata(_text->toPlainText(), group, name, notes);
+
   XSqlQuery saveq;
-  saveq.prepare("SELECT saveMetasql(:group, :name, :notes, :query,"
-                "                   false, :schema, :grade) AS result;");
+  saveq.prepare("SELECT saveMetasql(:group, :name,"
+                "                   CASE :nonotes WHEN TRUE THEN NULL ELSE E:notes END,"
+                "                   E:query, false, :schema, :grade) AS result;");
   if (_mqlGrade >= 0)
-    saveq.bindValue(":grade",_mqlGrade);
-  saveq.bindValue(":group",  _mqlGroup);
-  saveq.bindValue(":name",   _mqlName);
-  saveq.bindValue(":notes",  _mqlNotes);
-  saveq.bindValue(":query",  _text->toPlainText());
-  saveq.bindValue(":schema", _mqlSchema);
+    saveq.bindValue(":grade", _mqlGrade);
+  saveq.bindValue(":group",   group.isEmpty() ? _mqlGroup : group);
+  saveq.bindValue(":name",    name.isEmpty()  ? _mqlName  : name);
+  saveq.bindValue(":nonotes", QVariant(notes.isEmpty()));
+  if (notes.isEmpty())
+    saveq.bindValue(":notes", _mqlNotes.isEmpty() ? QString("") : _mqlNotes);
+  else
+    saveq.bindValue(":notes", notes);
+  saveq.bindValue(":query",   _text->toPlainText());
+  saveq.bindValue(":schema",  _mqlSchema);
 
   saveq.exec();
   if (saveq.first())
@@ -772,7 +782,6 @@ QStringList MQLEdit::getParamsFromMetaSQLText(const QString p)
     if (DEBUG)
       qDebug("getParamsFromMetaSQLText looking at %s", qPrintable(tag));
 
-    //QRegExp paramre("(['\\\"])(\\w+)\\1");
     QRegExp paramre("(['\\\"])([^'\\\"]+)\\1");
     for (int j = 0; (j = paramre.indexIn(tag, j)) != -1; j += paramre.matchedLength())
     {
