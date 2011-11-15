@@ -2436,7 +2436,9 @@ void ReportHandler::sectionToggled(bool v)
                 {
                     if(item->parentItem() != section)
                     {
+                        QPointF scenePos = item->scenePos();
                         item->setParentItem(section);
+                        item->setPos(item->mapToParent(item->mapFromScene(scenePos)));
                         exit = true;
                         break;
                     }

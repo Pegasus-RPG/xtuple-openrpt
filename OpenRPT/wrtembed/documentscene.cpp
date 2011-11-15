@@ -439,15 +439,32 @@ void DocumentScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
   else if((mouseEvent->button() == Qt::LeftButton) && (mouseEvent->modifiers() & Qt::AltModifier)) {
 
       // Selection of all the items in the section
-      ORGraphicsSectionItem * csection = getSection(mouseEvent->scenePos());
-      if(csection) {
-          QList<QGraphicsItem*> list = csection->childItems();
-          foreach(QGraphicsItem* item, list)
+      // First find an item under the mouse pointer...
+      QGraphicsItem * item = 0;
+      QList<QGraphicsItem*> list = items(mouseEvent->scenePos());
+      for(int i = 0; i < list.count(); i++)
+      {
+          if(list.at(i)->type() != ORGraphicsSectionItem::Type)
           {
-              item->setSelected(true);
+              item = list.at(i);
+              break;
           }
-          mouseEvent->setAccepted(true);
-          return;
+      }
+
+      // ...then select all the items of the item's section
+      if(item)
+      {
+          ORGraphicsSectionItem * csection = qgraphicsitem_cast<ORGraphicsSectionItem*>(item->parentItem());
+          if(csection) {
+              qWarning("section=%s", csection->title().toLocal8Bit().constData());
+              QList<QGraphicsItem*> list = csection->childItems();
+              foreach(QGraphicsItem* item, list)
+              {
+                  item->setSelected(true);
+              }
+              mouseEvent->setAccepted(true);
+              return;
+          }
       }
   }
 
