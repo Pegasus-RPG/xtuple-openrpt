@@ -48,14 +48,14 @@ static inline std::string strlower(const std::string &cs) {
 // trim from start
 static inline std::string ltrim(const std::string &cs) {
     std::string s = cs;
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(isspace))));
     return s;
 }
 
 // trim from end
 static inline std::string rtrim(const std::string &cs) {
     std::string s = cs;
-    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(isspace))).base(), s.end());
     return s;
 }
 
@@ -302,7 +302,7 @@ class MetaSQLBlock : public MetaSQLOutput {
                                 if(qc == ',') {
                                     plist.push_back(wip);
                                     wip.clear();
-                                } else if(std::isspace(qc)) {
+                                } else if(isspace(qc)) {
                                     // eat white space
                                 } else if(qc == '\'' || qc == '"') {
                                     in_string = true;
@@ -682,7 +682,7 @@ bool MetaSQLQueryParser::parse_query(const std::string & query) {
                                 if(qc == ',') {
                                     plist.push_back(wip);
                                     wip.clear();
-                                } else if(std::isspace(qc)) {
+                                } else if(isspace(qc)) {
                                     // eat white space
                                 } else if(qc == '\'' || qc == '"') {
                                     in_string = true;
