@@ -123,7 +123,7 @@ class MetaSQLFunction : public MetaSQLOutput {
                         _valid = 1;
                         _noOutput = 1;
                         if(params.size() >= 1)
-                            _nBreaks = convertToDouble(params[0]);
+                            _nBreaks = (int) convertToDouble(params[0]);
                         if(_nBreaks < 1) _nBreaks = 1;
                         break;
                     default:
