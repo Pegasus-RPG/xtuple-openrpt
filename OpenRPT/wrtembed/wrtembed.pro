@@ -32,6 +32,8 @@ OBJECTS_DIR = tmp
 QT += xml sql
 #VERSION = 0.1.0
 
+LIBS += -L../../lib -lDmtx_Library
+
 #The following line was changed from FORMS to FORMS3 by qt3to4
 FORMS   += labeleditor.ui \
            labeldefinitions.ui \
@@ -55,7 +57,11 @@ FORMS   += labeleditor.ui \
            detailgroupsectiondialog.ui \
            editpreferences.ui \
            dbfiledialog.ui \
-           crosstabeditor.ui
+           crosstabeditor.ui \
+           dmatrixsquareconfig.ui \
+           dmatrixrectconfig.ui \
+           dbarcodeconfig.ui \
+           dmatrixpreview.ui
 
 HEADERS += reportgridoptions.h\
            reporthandler.h \
@@ -92,7 +98,11 @@ HEADERS += reportgridoptions.h\
            ../common/labelsizeinfo.h \
            ../common/pagesizeinfo.h \
            ../common/builtinSqlFunctions.h \
-           ../common/builtinformatfunctions.h
+           ../common/builtinformatfunctions.h \
+           dmatrixsquareconfig.h \
+           dmatrixrectconfig.h \
+           dbarcodeconfig.h \
+           dmatrixpreview.h
 
 SOURCES += reportgridoptions.cpp\
            reporthandler.cpp \
@@ -129,10 +139,15 @@ SOURCES += reportgridoptions.cpp\
            ../common/labelsizeinfo.cpp \
            ../common/pagesizeinfo.cpp \
            ../common/builtinSqlFunctions.cpp \
-           ../common/builtinformatfunctions.cpp
+           ../common/builtinformatfunctions.cpp \
+           dmatrixsquareconfig.cpp \
+           dmatrixrectconfig.cpp \
+           dbarcodeconfig.cpp \
+           dmatrixpreview.cpp
 
 RESOURCES += ../images/OpenRPTWrtembed.qrc \
              ../images/OpenRPTCommon.qrc
 
 TRANSLATIONS    = wrtembed_fr.ts wrtembed_it.ts wrtembed_ru.ts wrtembed_es.ts
 
+INCLUDEPATH += ../Dmtx_Library

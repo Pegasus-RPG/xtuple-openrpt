@@ -22,8 +22,14 @@
 #define BARCODEEDITOR_H
 
 #include <QDialog>
+#include <QGridLayout>
+#include <QString>
 
 #include "ui_barcodeeditor.h"
+
+#include "dbarcodeconfig.h"
+#include "dmatrixrectconfig.h"
+#include "dmatrixsquareconfig.h"
 
 class BarcodeEditor : public QDialog, public Ui::BarcodeEditor
 {
@@ -33,13 +39,27 @@ public:
     BarcodeEditor(QWidget* parent = 0, Qt::WindowFlags fl = 0);
     ~BarcodeEditor();
 
+    QString format();
+    void setCBSliderMaxValue(int value);
+    int getCBSlideMaxValue();
+
+    void setDatamatrixEditor(QString format);
+
 public slots:
     virtual void cbFormat_activated(int);
     virtual void sliderMaxVal_sliderMoved(int);
+    void cbFormat_ViewConfig(int);
 
 protected slots:
     virtual void languageChange();
 
+protected:
+    void closeEvent(QCloseEvent *);
+
+private:
+    DMatrixSquareConfig* dMatrixSquare;
+    DMatrixRectConfig* dMatrixRect;
+    DBarcodeConfig* dBarcode;
 };
 
 #endif // BARCODEEDITOR_H

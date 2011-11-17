@@ -29,6 +29,7 @@ MOC_DIR = tmp
 OBJECTS_DIR = tmp
 UI_DIR = tmp
 
+LIBS += -L../../lib -lDmtx_Library
 
 HEADERS = openreports.h \
           barcodes.h \
@@ -64,10 +65,14 @@ SOURCES = openreports.cpp \
           ../common/builtinformatfunctions.cpp \
           ../common/builtinSqlFunctions.cpp \		# MANU
           ../common/labelsizeinfo.cpp \
-          ../common/pagesizeinfo.cpp 
+          ../common/pagesizeinfo.cpp \ 
+    datamatrix.cpp
 
 INCLUDEPATH += ../common ../../common
 
-QT += xml sql
+
+QT += xml sql gui
 
 TRANSLATIONS    = renderer_fr.ts renderer_it.ts renderer_ru.ts renderer_es.ts
+
+INCLUDEPATH += ../Dmtx_Library

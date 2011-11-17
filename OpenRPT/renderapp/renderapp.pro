@@ -31,7 +31,7 @@ OBJECTS_DIR = tmp
 MOC_DIR     = tmp
 UI_DIR      = tmp
 
-LIBS += -L../../lib -lrenderer -lcommon
+LIBS += -L../../lib -lrenderer -lcommon -lDmtx_Library
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/common.lib   \

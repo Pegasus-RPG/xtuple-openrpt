@@ -878,6 +878,8 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
         renderCodeUPCA(_page, rect, dataThis.getValue(), bc);
       else if(bc->format == "upc-e")
         renderCodeUPCE(_page, rect, dataThis.getValue(), bc);
+      else if(bc->format.contains("datamatrix",Qt::CaseInsensitive))
+        renderCodeDatamatrix(_page, rect, dataThis.getValue(), bc);
       else
       {
         //logMessage("Encountered unknown barcode format: %s",bc->format.toLatin1().data());

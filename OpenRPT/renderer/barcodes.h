@@ -50,5 +50,12 @@ void renderCodeEAN8(OROPage *, const QRectF &, const QString &, ORBarcodeData * 
 void renderCodeUPCA(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
 void renderCodeUPCE(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
 
+//
+// CodeDataMatrix
+//
+
+void renderCodeDatamatrix(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
+void printRR(OROPage *,ORBarcodeData *,const QRectF &);
+
 #endif
 

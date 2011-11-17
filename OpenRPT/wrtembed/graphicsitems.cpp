@@ -37,6 +37,8 @@
 #include <parsexmlutils.h>
 #include <builtinformatfunctions.h>
 
+#include <QRegExp>
+
 int defaultZvalue = 10;
 bool __dosnap = true;
 
@@ -1910,11 +1912,18 @@ void ORGraphicsBarcodeItem::properties(QWidget * parent)
       le->rbAlignRight->setChecked(TRUE);
 
   le->tbColumn->setText(column());
+
   if(le->cbFormat->findText(format()) >= 0)
     le->cbFormat->setCurrentIndex(le->cbFormat->findText(format()));
+  else if(format().contains("datamatrix",Qt::CaseInsensitive))
+  {
+      le->setDatamatrixEditor(format());
+  }
   else
-    le->cbFormat->insertItem(0, format());
-  le->sliderMaxVal->setValue(maxLength());
+      le->cbFormat->insertItem(le->cbFormat->count(),format());
+
+  //le->sliderMaxVal->setValue(maxLength());
+  le->setCBSliderMaxValue(this->maxLength());
   double dx = pos().x() / 100.0;
   le->leXPos->setText(QString::number(dx,'g',3));
   double dy = pos().y() / 100.0;
@@ -1928,8 +1937,15 @@ void ORGraphicsBarcodeItem::properties(QWidget * parent)
   {
     setQuery(le->cbQuery->currentQuery());
     setColumn(le->tbColumn->text());
-    setFormat(le->cbFormat->currentText());
-    setMaxLength(le->sliderMaxVal->value());
+
+    //Seb Infflux
+    //setFormat(le->cbFormat->currentText());
+    this->setFormat(le->format());
+    //Seb Infflux
+
+    //setMaxLength(le->sliderMaxVal->value());
+    this->setMaxLength(le->getCBSlideMaxValue());
+
     double dt;
     bool ok;
     dt = le->leXPos->text().toDouble(&ok);
@@ -2067,6 +2083,8 @@ void ORGraphicsBarcodeItem::setMaxLength(int i)
       _min_width_total = 0.90;
       _min_height = 0.25;
     }
+    else if(_frmt.contains("datamatrix"))
+    {}
     else
     {
       qDebug("Unknown format encountered: %s", _frmt.toLatin1().constData());

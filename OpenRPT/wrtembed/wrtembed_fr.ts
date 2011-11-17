@@ -4,155 +4,163 @@
 <context>
     <name>BarcodeEditor</name>
     <message>
-        <location filename="barcodeeditor.ui" line="36"/>
+        <location filename="barcodeeditor.ui" line="37"/>
         <source>Bar Code Properties</source>
         <translation>Propriétés du code barre</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="100"/>
+        <location filename="barcodeeditor.ui" line="71"/>
         <source>Format:</source>
         <translation>Format:</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="116"/>
+        <location filename="barcodeeditor.ui" line="87"/>
         <source>Column:</source>
         <translation>Colonne:</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="123"/>
+        <location filename="barcodeeditor.ui" line="94"/>
         <source>Query Source:</source>
         <translation>Requête source:</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="131"/>
+        <location filename="barcodeeditor.ui" line="102"/>
         <source>3of9</source>
         <translation>3of9</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="136"/>
+        <location filename="barcodeeditor.ui" line="107"/>
         <source>3of9+</source>
         <translation>3of9+</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="141"/>
+        <location filename="barcodeeditor.ui" line="112"/>
         <source>128</source>
         <translation>128</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="146"/>
+        <location filename="barcodeeditor.ui" line="117"/>
         <source>ean13</source>
         <translation>ean13</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="151"/>
+        <location filename="barcodeeditor.ui" line="122"/>
         <source>ean8</source>
         <translation>ean8</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="156"/>
+        <location filename="barcodeeditor.ui" line="127"/>
         <source>upc-a</source>
         <translation>upc-a</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="161"/>
+        <location filename="barcodeeditor.ui" line="132"/>
         <source>upc-e</source>
         <translation>upc-e</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="180"/>
         <source>Maximum Length of Value</source>
-        <translation>Longueur maxi de la valeur</translation>
+        <translation type="obsolete">Longueur maxi de la valeur</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="205"/>
         <source>5</source>
-        <translation>5</translation>
+        <translation type="obsolete">5</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="215"/>
+        <location filename="barcodeeditor.ui" line="155"/>
         <source>Alignment</source>
         <translation>Alignement</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="236"/>
+        <location filename="barcodeeditor.ui" line="167"/>
         <source>Left</source>
         <translation>Gauche</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="246"/>
+        <location filename="barcodeeditor.ui" line="177"/>
         <source>Center</source>
         <translation>Centré</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="253"/>
+        <location filename="barcodeeditor.ui" line="184"/>
         <source>Right</source>
         <translation>Droite</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="263"/>
+        <location filename="barcodeeditor.ui" line="194"/>
         <source>Position/Size</source>
         <translation>Position/Taille</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="290"/>
-        <location filename="barcodeeditor.ui" line="318"/>
+        <location filename="barcodeeditor.ui" line="221"/>
+        <location filename="barcodeeditor.ui" line="249"/>
         <source>0.01</source>
         <translation>0.01</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="297"/>
+        <location filename="barcodeeditor.ui" line="228"/>
         <source>Y:</source>
         <translation>Y:</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="311"/>
+        <location filename="barcodeeditor.ui" line="242"/>
         <source>Height:</source>
         <translation>Hauteur:</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="269"/>
+        <location filename="barcodeeditor.ui" line="200"/>
         <source>X:</source>
         <translation>X:</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="283"/>
+        <location filename="barcodeeditor.ui" line="214"/>
         <source>Width:</source>
         <translation>Largeur:</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="353"/>
+        <location filename="barcodeeditor.ui" line="284"/>
         <source>in inches</source>
         <translation>en pouces</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="276"/>
-        <location filename="barcodeeditor.ui" line="304"/>
-        <location filename="barcodeeditor.ui" line="335"/>
+        <location filename="barcodeeditor.ui" line="207"/>
+        <location filename="barcodeeditor.ui" line="235"/>
+        <location filename="barcodeeditor.ui" line="266"/>
         <source>0.00</source>
         <translation>0.00</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="388"/>
+        <location filename="barcodeeditor.ui" line="137"/>
+        <source>Datamatrix square</source>
+        <translation>Datamatrix carré</translation>
+    </message>
+    <message>
+        <location filename="barcodeeditor.ui" line="142"/>
+        <source>Datamatrix rectangle</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="barcodeeditor.ui" line="310"/>
         <source>&amp;OK</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="391"/>
+        <location filename="barcodeeditor.ui" line="313"/>
         <source>Alt+O</source>
         <translation>Alt+O</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="404"/>
+        <location filename="barcodeeditor.ui" line="326"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annuler</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="407"/>
+        <location filename="barcodeeditor.ui" line="329"/>
         <source>Alt+C</source>
         <translation>Alt+C</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="325"/>
+        <location filename="barcodeeditor.ui" line="256"/>
         <source>Narrow bar width:</source>
         <translation>Largeur barre étroite:</translation>
     </message>
@@ -514,6 +522,141 @@ Veuillez spécifier un nom UNIQUE pour cette couleur.</translation>
     </message>
 </context>
 <context>
+    <name>DBarecodeConfig</name>
+    <message>
+        <location filename="dbarecodeconfig.ui" line="14"/>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="dbarecodeconfig.ui" line="20"/>
+        <source>Maximum Length of Value</source>
+        <translation>Longueur maxi de la chaine</translation>
+    </message>
+    <message>
+        <location filename="dbarecodeconfig.ui" line="39"/>
+        <source>5</source>
+        <translation>5</translation>
+    </message>
+</context>
+<context>
+    <name>DMatrixAppercu</name>
+    <message>
+        <location filename="dmatrixpreview.ui" line="14"/>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>DMatrixPreview</name>
+    <message>
+        <location filename="dmatrixpreview.cpp" line="14"/>
+        <source>Preview</source>
+        <translation>Aperçu</translation>
+    </message>
+</context>
+<context>
+    <name>DMatrixRectConfig</name>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="14"/>
+        <source>Form</source>
+        <translation>Formulaire</translation>
+    </message>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="23"/>
+        <source>Datamatrix Format</source>
+        <translation>Format Datamatrix</translation>
+    </message>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="32"/>
+        <source>Format :</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="42"/>
+        <source>Capacity :</source>
+        <translation>Capacité :</translation>
+    </message>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="49"/>
+        <source>10/6</source>
+        <translation>10/6</translation>
+    </message>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="59"/>
+        <source>Preview</source>
+        <translation>Aperçu</translation>
+    </message>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="70"/>
+        <source>8x18</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="75"/>
+        <source>8x32</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="80"/>
+        <source>12x26</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="85"/>
+        <source>12x36</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="90"/>
+        <source>16x36</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="dmatrixrectconfig.ui" line="95"/>
+        <source>16x48</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>DMatrixSquareConfig</name>
+    <message>
+        <location filename="dmatrixsquareconfig.ui" line="20"/>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="dmatrixsquareconfig.ui" line="29"/>
+        <source>Datamatrix Format</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="dmatrixsquareconfig.ui" line="54"/>
+        <source>Format :</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="dmatrixsquareconfig.ui" line="64"/>
+        <source>Capacity :</source>
+        <translation>Capacité :</translation>
+    </message>
+    <message>
+        <location filename="dmatrixsquareconfig.ui" line="71"/>
+        <source>36/25</source>
+        <translation>36/25</translation>
+    </message>
+    <message>
+        <location filename="dmatrixsquareconfig.ui" line="78"/>
+        <source>18x18</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="dmatrixsquareconfig.ui" line="88"/>
+        <source>Preview</source>
+        <translation>Aperçu</translation>
+    </message>
+</context>
+<context>
     <name>DetailGroupSectionDialog</name>
     <message>
         <location filename="detailgroupsectiondialog.ui" line="32"/>
@@ -759,12 +902,12 @@ des permissions sur le fichier vers lequel vous essayez d&apos;écrire.</transla
         <translation>Erreur à l&apos;enregistrement dans la base</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="2259"/>
+        <location filename="documentscene.cpp" line="2251"/>
         <source>Invalid Document</source>
         <translation>Document invalide</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="2260"/>
+        <location filename="documentscene.cpp" line="2252"/>
         <source>The detail section %1 is not valid because no query is specified.</source>
         <translation>La section de détail %1 n&apos;est pas valide car aucune requête n&apos;est spécifiée.</translation>
     </message>
@@ -1896,15 +2039,15 @@ Voulez-vous les enregistrer avant de quitter ?</translation>
         <translation>OpenRPT - Editeur de rapports</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="917"/>
+        <location filename="graphicsitems.cpp" line="919"/>
         <source>Label</source>
         <translation>Etiquette</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1318"/>
-        <location filename="graphicsitems.cpp" line="1658"/>
-        <location filename="graphicsitems.cpp" line="1890"/>
-        <location filename="graphicsitems.cpp" line="2195"/>
+        <location filename="graphicsitems.cpp" line="1320"/>
+        <location filename="graphicsitems.cpp" line="1660"/>
+        <location filename="graphicsitems.cpp" line="1892"/>
+        <location filename="graphicsitems.cpp" line="2226"/>
         <source>:</source>
         <translation>:</translation>
     </message>
@@ -1914,40 +2057,40 @@ Voulez-vous les enregistrer avant de quitter ?</translation>
         <translation>-- Sélectionnez une requête --</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1658"/>
+        <location filename="graphicsitems.cpp" line="1660"/>
         <source> textarea</source>
         <translation> zone de texte</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="491"/>
-        <location filename="graphicsitems.cpp" line="845"/>
+        <location filename="graphicsitems.cpp" line="493"/>
+        <location filename="graphicsitems.cpp" line="847"/>
         <source>Line width</source>
         <translation>Largeur de ligne</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="491"/>
-        <location filename="graphicsitems.cpp" line="845"/>
+        <location filename="graphicsitems.cpp" line="493"/>
+        <location filename="graphicsitems.cpp" line="847"/>
         <source>Width</source>
         <translation>Largeur</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1777"/>
-        <location filename="graphicsitems.cpp" line="1788"/>
+        <location filename="graphicsitems.cpp" line="1779"/>
+        <location filename="graphicsitems.cpp" line="1790"/>
         <source>3of9</source>
         <translation>3of9</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1890"/>
+        <location filename="graphicsitems.cpp" line="1892"/>
         <source> barcode</source>
         <translation>Code barres</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="2195"/>
+        <location filename="graphicsitems.cpp" line="2226"/>
         <source> image</source>
         <translation> image</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="2491"/>
+        <location filename="graphicsitems.cpp" line="2522"/>
         <source> graph</source>
         <translation> graphique</translation>
     </message>
@@ -1962,12 +2105,12 @@ Voulez-vous les enregistrer avant de quitter ?</translation>
         <translation>Déconnexion de la base</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1318"/>
+        <location filename="graphicsitems.cpp" line="1320"/>
         <source> field total</source>
         <translation> total</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1318"/>
+        <location filename="graphicsitems.cpp" line="1320"/>
         <source> field</source>
         <translation> champ</translation>
     </message>
