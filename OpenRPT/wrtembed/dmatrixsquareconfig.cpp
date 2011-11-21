@@ -17,7 +17,7 @@ DMatrixSquareConfig::DMatrixSquareConfig(QWidget *parent) :
 
     connect(this,               SIGNAL(refreshWidget(int)), this,           SLOT(capacityRefresh(int)));
     connect(this,               SIGNAL(refreshWidget(int)), this,           SLOT(formatRefresh(int)));
-    connect(this,               SIGNAL(refreshWidget(int)), this,           SLOT(generePreview(int)));
+    connect(this,               SIGNAL(refreshWidget(int)), this->_preview, SLOT(generePreview(int)));
 
     connect(this->_preview,     SIGNAL(escapeSignal(bool)), this->ui->_previewButton,   SLOT(setChecked(bool)));
 }
