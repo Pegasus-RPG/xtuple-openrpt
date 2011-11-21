@@ -4,155 +4,106 @@
 <context>
     <name>BoolEdit</name>
     <message>
-        <location filename="booledit.ui" line="32"/>
-        <source>Bool</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="booledit.ui" line="43"/>
         <source>name</source>
-        <translation>Nombre</translation>
+        <translation type="obsolete">Nombre</translation>
     </message>
     <message>
-        <location filename="booledit.ui" line="50"/>
         <source>Value:</source>
-        <translation>Valor:</translation>
+        <translation type="obsolete">Valor:</translation>
     </message>
     <message>
-        <location filename="booledit.ui" line="69"/>
         <source>True</source>
-        <translation>Verdadero</translation>
+        <translation type="obsolete">Verdadero</translation>
     </message>
     <message>
-        <location filename="booledit.ui" line="74"/>
         <source>False</source>
-        <translation>Falso</translation>
+        <translation type="obsolete">Falso</translation>
     </message>
     <message>
-        <location filename="booledit.ui" line="82"/>
         <source>Active</source>
-        <translation>Activo</translation>
+        <translation type="obsolete">Activo</translation>
     </message>
     <message>
-        <location filename="booledit.ui" line="105"/>
         <source>Name:</source>
-        <translation>Nombre:</translation>
+        <translation type="obsolete">Nombre:</translation>
     </message>
     <message>
-        <location filename="booledit.ui" line="122"/>
         <source>&amp;OK</source>
-        <translation>&amp;Aceptar</translation>
+        <translation type="obsolete">&amp;Aceptar</translation>
     </message>
     <message>
-        <location filename="booledit.ui" line="125"/>
         <source>Alt+O</source>
-        <translation>Alt+A</translation>
+        <translation type="obsolete">Alt+A</translation>
     </message>
     <message>
-        <location filename="booledit.ui" line="132"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Cancelar</translation>
-    </message>
-    <message>
-        <location filename="booledit.ui" line="135"/>
-        <source>Alt+C</source>
-        <translation></translation>
+        <translation type="obsolete">&amp;Cancelar</translation>
     </message>
 </context>
 <context>
     <name>DoubleEdit</name>
     <message>
-        <location filename="doubleedit.ui" line="32"/>
-        <source>Double</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="doubleedit.ui" line="59"/>
         <source>Value:</source>
-        <translation>Valor:</translation>
+        <translation type="obsolete">Valor:</translation>
     </message>
     <message>
-        <location filename="doubleedit.ui" line="69"/>
         <source>name</source>
-        <translation>Nombre</translation>
+        <translation type="obsolete">Nombre</translation>
     </message>
     <message>
-        <location filename="doubleedit.ui" line="76"/>
         <source>Active</source>
-        <translation>Activo</translation>
+        <translation type="obsolete">Activo</translation>
     </message>
     <message>
-        <location filename="doubleedit.ui" line="83"/>
         <source>Name:</source>
-        <translation>Nombre:</translation>
+        <translation type="obsolete">Nombre:</translation>
     </message>
     <message>
-        <location filename="doubleedit.ui" line="103"/>
         <source>&amp;OK</source>
-        <translation>&amp;Aceptar</translation>
+        <translation type="obsolete">&amp;Aceptar</translation>
     </message>
     <message>
-        <location filename="doubleedit.ui" line="106"/>
         <source>Alt+O</source>
-        <translation>Alt+A</translation>
+        <translation type="obsolete">Alt+A</translation>
     </message>
     <message>
-        <location filename="doubleedit.ui" line="113"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Cancelar</translation>
-    </message>
-    <message>
-        <location filename="doubleedit.ui" line="116"/>
-        <source>Alt+C</source>
-        <translation></translation>
+        <translation type="obsolete">&amp;Cancelar</translation>
     </message>
 </context>
 <context>
     <name>IntEdit</name>
     <message>
-        <location filename="intedit.ui" line="32"/>
         <source>Int</source>
-        <translation>Entero</translation>
+        <translation type="obsolete">Entero</translation>
     </message>
     <message>
-        <location filename="intedit.ui" line="59"/>
         <source>Value:</source>
-        <translation>Valor:</translation>
+        <translation type="obsolete">Valor:</translation>
     </message>
     <message>
-        <location filename="intedit.ui" line="69"/>
         <source>name</source>
-        <translation>Nombre</translation>
+        <translation type="obsolete">Nombre</translation>
     </message>
     <message>
-        <location filename="intedit.ui" line="76"/>
         <source>Active</source>
-        <translation>Activo</translation>
+        <translation type="obsolete">Activo</translation>
     </message>
     <message>
-        <location filename="intedit.ui" line="83"/>
         <source>Name:</source>
-        <translation>Nombre:</translation>
+        <translation type="obsolete">Nombre:</translation>
     </message>
     <message>
-        <location filename="intedit.ui" line="103"/>
         <source>&amp;OK</source>
-        <translation>&amp;Aceptar</translation>
+        <translation type="obsolete">&amp;Aceptar</translation>
     </message>
     <message>
-        <location filename="intedit.ui" line="106"/>
         <source>Alt+O</source>
-        <translation>Alt+A</translation>
+        <translation type="obsolete">Alt+A</translation>
     </message>
     <message>
-        <location filename="intedit.ui" line="113"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Cancelar</translation>
-    </message>
-    <message>
-        <location filename="intedit.ui" line="116"/>
-        <source>Alt+C</source>
-        <translation></translation>
+        <translation type="obsolete">&amp;Cancelar</translation>
     </message>
 </context>
 <context>
@@ -166,198 +117,127 @@
 <context>
     <name>ListEdit</name>
     <message>
-        <location filename="listedit.cpp" line="84"/>
         <source>String</source>
-        <translation>Cadena</translation>
+        <translation type="obsolete">Cadena</translation>
     </message>
     <message>
-        <location filename="listedit.cpp" line="96"/>
         <source>Int</source>
-        <translation>Entero</translation>
+        <translation type="obsolete">Entero</translation>
     </message>
     <message>
-        <location filename="listedit.cpp" line="108"/>
-        <source>Double</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="listedit.cpp" line="120"/>
-        <source>Bool</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="listedit.cpp" line="132"/>
-        <location filename="listedit.ui" line="30"/>
         <source>List</source>
-        <translation>Lista</translation>
+        <translation type="obsolete">Lista</translation>
     </message>
     <message>
-        <location filename="listedit.cpp" line="145"/>
         <source>Unknown Type</source>
-        <translation>Tipo desconocido</translation>
+        <translation type="obsolete">Tipo desconocido</translation>
     </message>
     <message>
-        <location filename="listedit.cpp" line="145"/>
         <source>I do not understand the type %1.</source>
-        <translation>No puedo entender el tipo %1.</translation>
+        <translation type="obsolete">No puedo entender el tipo %1.</translation>
     </message>
     <message>
-        <location filename="listedit.cpp" line="234"/>
         <source>Warning</source>
-        <translation>Advertencia</translation>
+        <translation type="obsolete">Advertencia</translation>
     </message>
     <message>
-        <location filename="listedit.cpp" line="234"/>
         <source>I do not know how to edit QVariant type %1.</source>
-        <translation>No conozco como editar el tipo QVariant %1.</translation>
+        <translation type="obsolete">No conozco como editar el tipo QVariant %1.</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="38"/>
         <source>Name:</source>
-        <translation>Nombre:</translation>
+        <translation type="obsolete">Nombre:</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="48"/>
         <source>name</source>
-        <translation>Nombre</translation>
+        <translation type="obsolete">Nombre</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="55"/>
         <source>Values:</source>
-        <translation>Valores:</translation>
+        <translation type="obsolete">Valores:</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="71"/>
         <source>Active</source>
-        <translation>Activo</translation>
+        <translation type="obsolete">Activo</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="85"/>
         <source>&amp;OK</source>
-        <translation>&amp;Aceptar</translation>
+        <translation type="obsolete">&amp;Aceptar</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="88"/>
         <source>Alt+O</source>
-        <translation>Alt+A</translation>
+        <translation type="obsolete">Alt+A</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="95"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Cancelar</translation>
+        <translation type="obsolete">&amp;Cancelar</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="98"/>
-        <source>Alt+C</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="listedit.ui" line="121"/>
         <source>&amp;New</source>
-        <translation>&amp;Nuevo</translation>
+        <translation type="obsolete">&amp;Nuevo</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="124"/>
-        <source>Alt+N</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="listedit.ui" line="141"/>
         <source>Move &amp;Up</source>
-        <translation>Mover arri&amp;ba</translation>
+        <translation type="obsolete">Mover arri&amp;ba</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="144"/>
         <source>Alt+U</source>
-        <translation>Alt+B</translation>
+        <translation type="obsolete">Alt+B</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="151"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Editar</translation>
+        <translation type="obsolete">&amp;Editar</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="154"/>
-        <source>Alt+E</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="listedit.ui" line="161"/>
         <source>Move &amp;Down</source>
-        <translation>Mover Aba&amp;jo</translation>
+        <translation type="obsolete">Mover Aba&amp;jo</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="164"/>
         <source>Alt+D</source>
-        <translation>Alt+J</translation>
+        <translation type="obsolete">Alt+J</translation>
     </message>
     <message>
-        <location filename="listedit.ui" line="181"/>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation type="obsolete">Borrar</translation>
     </message>
 </context>
 <context>
     <name>NewVariant</name>
     <message>
-        <location filename="newvariant.ui" line="32"/>
         <source>New Variant</source>
-        <translation>Nuevo Variant</translation>
+        <translation type="obsolete">Nuevo Variant</translation>
     </message>
     <message>
-        <location filename="newvariant.ui" line="43"/>
         <source>Type:</source>
-        <translation>Tipo:</translation>
+        <translation type="obsolete">Tipo:</translation>
     </message>
     <message>
-        <location filename="newvariant.ui" line="57"/>
         <source>String</source>
-        <translation>Cadena</translation>
+        <translation type="obsolete">Cadena</translation>
     </message>
     <message>
-        <location filename="newvariant.ui" line="62"/>
         <source>Int</source>
-        <translation>Entero</translation>
+        <translation type="obsolete">Entero</translation>
     </message>
     <message>
-        <location filename="newvariant.ui" line="67"/>
-        <source>Double</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="newvariant.ui" line="72"/>
-        <source>Bool</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="newvariant.ui" line="77"/>
         <source>List</source>
-        <translation>Lista</translation>
+        <translation type="obsolete">Lista</translation>
     </message>
     <message>
-        <location filename="newvariant.ui" line="101"/>
         <source>Name:</source>
-        <translation>Nombre:</translation>
+        <translation type="obsolete">Nombre:</translation>
     </message>
     <message>
-        <location filename="newvariant.ui" line="118"/>
         <source>&amp;OK</source>
-        <translation>&amp;Aceptar</translation>
+        <translation type="obsolete">&amp;Aceptar</translation>
     </message>
     <message>
-        <location filename="newvariant.ui" line="121"/>
         <source>Alt+O</source>
-        <translation>Alt+A</translation>
+        <translation type="obsolete">Alt+A</translation>
     </message>
     <message>
-        <location filename="newvariant.ui" line="128"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Cancelar</translation>
-    </message>
-    <message>
-        <location filename="newvariant.ui" line="131"/>
-        <source>Alt+C</source>
-        <translation></translation>
+        <translation type="obsolete">&amp;Cancelar</translation>
     </message>
 </context>
 <context>
@@ -405,174 +285,332 @@ El nodo raíz no es &apos;report&apos;.</translation>
         <translation>El nombre ya existe</translation>
     </message>
     <message>
-        <location filename="parameteredit.cpp" line="187"/>
+        <location filename="parameteredit.cpp" line="188"/>
+        <source>&lt;p&gt;The name for the parameter you specified already exists in the list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>The name for the parameter you specified already exists in the list.</source>
-        <translation>El nombre que eligió para el parámetro a existe en la lista de parámetros.</translation>
+        <translation type="obsolete">El nombre que eligió para el parámetro a existe en la lista de parámetros.</translation>
     </message>
     <message>
-        <location filename="parameteredit.cpp" line="194"/>
         <source>String</source>
-        <translation>Cadena</translation>
+        <translation type="obsolete">Cadena</translation>
     </message>
     <message>
-        <location filename="parameteredit.cpp" line="203"/>
         <source>Int</source>
-        <translation>Entero</translation>
+        <translation type="obsolete">Entero</translation>
     </message>
     <message>
-        <location filename="parameteredit.cpp" line="212"/>
-        <source>Double</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="parameteredit.cpp" line="221"/>
-        <source>Bool</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="parameteredit.cpp" line="230"/>
-        <location filename="parameteredit.ui" line="112"/>
+        <location filename="parameteredit.ui" line="113"/>
         <source>List</source>
         <translation>Lista</translation>
     </message>
     <message>
-        <location filename="parameteredit.cpp" line="240"/>
         <source>Unknown Type</source>
-        <translation>Tipo desconocido</translation>
+        <translation type="obsolete">Tipo desconocido</translation>
     </message>
     <message>
-        <location filename="parameteredit.cpp" line="240"/>
         <source>I do not understand the type %1.</source>
-        <translation>No puedo entender el tipo %1.</translation>
+        <translation type="obsolete">No puedo entender el tipo %1.</translation>
     </message>
     <message>
-        <location filename="parameteredit.cpp" line="343"/>
         <source>Warning</source>
-        <translation>Advertencia</translation>
+        <translation type="obsolete">Advertencia</translation>
     </message>
     <message>
-        <location filename="parameteredit.cpp" line="343"/>
         <source>I do not know how to edit QVariant type %1.</source>
-        <translation>No conozco como editar el tipo QVariant %1.</translation>
+        <translation type="obsolete">No conozco como editar el tipo QVariant %1.</translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="30"/>
+        <location filename="parameteredit.ui" line="31"/>
         <source>Parameter List</source>
         <translation>Lista de Parámetros</translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="37"/>
+        <location filename="parameteredit.ui" line="38"/>
         <source>Active</source>
         <translation>Activo</translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="42"/>
+        <location filename="parameteredit.ui" line="43"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="47"/>
+        <location filename="parameteredit.ui" line="48"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="52"/>
+        <location filename="parameteredit.ui" line="53"/>
         <source>Value</source>
         <translation>Valor</translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="62"/>
+        <location filename="parameteredit.ui" line="63"/>
         <source>&amp;OK</source>
         <translation>&amp;Aceptar</translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="65"/>
+        <location filename="parameteredit.ui" line="66"/>
         <source>Alt+O</source>
         <translation>Alt+A</translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="72"/>
+        <location filename="parameteredit.ui" line="73"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Cancelar</translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="75"/>
+        <location filename="parameteredit.ui" line="76"/>
         <source>Alt+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="92"/>
+        <location filename="parameteredit.ui" line="93"/>
         <source>&amp;New</source>
         <translation>&amp;Nuevo</translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="95"/>
+        <location filename="parameteredit.ui" line="96"/>
         <source>Alt+N</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="102"/>
+        <location filename="parameteredit.ui" line="103"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editar</translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="105"/>
-        <location filename="parameteredit.ui" line="115"/>
+        <location filename="parameteredit.ui" line="106"/>
+        <location filename="parameteredit.ui" line="116"/>
         <source>Alt+E</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="parameteredit.ui" line="122"/>
+        <location filename="parameteredit.ui" line="123"/>
         <source>Delete</source>
         <translation>Borrar</translation>
     </message>
 </context>
 <context>
+    <name>ParameterProperties</name>
+    <message>
+        <location filename="parameterproperties.ui" line="14"/>
+        <source>Parameter Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="20"/>
+        <source>Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="34"/>
+        <location filename="parameterproperties.cpp" line="107"/>
+        <location filename="parameterproperties.cpp" line="207"/>
+        <location filename="parameterproperties.cpp" line="274"/>
+        <location filename="parameterproperties.cpp" line="301"/>
+        <source>String</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="39"/>
+        <location filename="parameterproperties.cpp" line="95"/>
+        <location filename="parameterproperties.cpp" line="198"/>
+        <location filename="parameterproperties.cpp" line="280"/>
+        <location filename="parameterproperties.cpp" line="307"/>
+        <source>Bool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="44"/>
+        <location filename="parameterproperties.cpp" line="99"/>
+        <location filename="parameterproperties.cpp" line="201"/>
+        <location filename="parameterproperties.cpp" line="276"/>
+        <location filename="parameterproperties.cpp" line="303"/>
+        <source>Int</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="49"/>
+        <location filename="parameterproperties.cpp" line="103"/>
+        <location filename="parameterproperties.cpp" line="204"/>
+        <location filename="parameterproperties.cpp" line="278"/>
+        <location filename="parameterproperties.cpp" line="305"/>
+        <source>Double</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="54"/>
+        <location filename="parameterproperties.cpp" line="111"/>
+        <location filename="parameterproperties.cpp" line="210"/>
+        <location filename="parameterproperties.cpp" line="282"/>
+        <location filename="parameterproperties.cpp" line="309"/>
+        <source>List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="72"/>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="95"/>
+        <location filename="parameterproperties.ui" line="115"/>
+        <location filename="parameterproperties.ui" line="155"/>
+        <location filename="parameterproperties.ui" line="175"/>
+        <source>Value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="135"/>
+        <source>False</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="140"/>
+        <source>True</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="192"/>
+        <source>Values:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="210"/>
+        <source>&amp;New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="213"/>
+        <source>Alt+N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="230"/>
+        <source>Move &amp;Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="233"/>
+        <source>Alt+U</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="240"/>
+        <source>&amp;Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="243"/>
+        <source>Alt+E</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="250"/>
+        <source>Move &amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="253"/>
+        <source>Alt+D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="270"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.ui" line="299"/>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.cpp" line="115"/>
+        <location filename="parameterproperties.cpp" line="188"/>
+        <location filename="parameterproperties.cpp" line="213"/>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.cpp" line="116"/>
+        <source>I do not know how to edit QVariant type %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.cpp" line="189"/>
+        <location filename="parameterproperties.cpp" line="214"/>
+        <source>I do not recognize type %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.cpp" line="285"/>
+        <location filename="parameterproperties.cpp" line="312"/>
+        <source>Unknown Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameterproperties.cpp" line="286"/>
+        <location filename="parameterproperties.cpp" line="313"/>
+        <source>I do not understand the type %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="data.cpp" line="25"/>
+        <source>%1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="data.cpp" line="26"/>
+        <source>Copyright (c) 2002-2011, OpenMFG, LLC.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="data.cpp" line="28"/>
+        <source>3.3.1Beta</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>StringEdit</name>
     <message>
-        <location filename="stringedit.ui" line="32"/>
         <source>String</source>
-        <translation>Cadena</translation>
+        <translation type="obsolete">Cadena</translation>
     </message>
     <message>
-        <location filename="stringedit.ui" line="59"/>
         <source>Value:</source>
-        <translation>Valor:</translation>
+        <translation type="obsolete">Valor:</translation>
     </message>
     <message>
-        <location filename="stringedit.ui" line="69"/>
         <source>name</source>
-        <translation>Nombre</translation>
+        <translation type="obsolete">Nombre</translation>
     </message>
     <message>
-        <location filename="stringedit.ui" line="76"/>
         <source>Active</source>
-        <translation>Activo</translation>
+        <translation type="obsolete">Activo</translation>
     </message>
     <message>
-        <location filename="stringedit.ui" line="83"/>
         <source>Name:</source>
-        <translation>Nombre:</translation>
+        <translation type="obsolete">Nombre:</translation>
     </message>
     <message>
-        <location filename="stringedit.ui" line="103"/>
         <source>&amp;OK</source>
-        <translation>&amp;Aceptar</translation>
+        <translation type="obsolete">&amp;Aceptar</translation>
     </message>
     <message>
-        <location filename="stringedit.ui" line="106"/>
         <source>Alt+O</source>
-        <translation>Alt+A</translation>
+        <translation type="obsolete">Alt+A</translation>
     </message>
     <message>
-        <location filename="stringedit.ui" line="113"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Cancelar</translation>
-    </message>
-    <message>
-        <location filename="stringedit.ui" line="116"/>
-        <source>Alt+C</source>
-        <translation></translation>
+        <translation type="obsolete">&amp;Cancelar</translation>
     </message>
 </context>
 <context>
@@ -640,47 +678,47 @@ Error de Sistema &apos;%1&apos;
         <translation>Accediendo a la Base de datos</translation>
     </message>
     <message>
-        <location filename="login.ui" line="32"/>
+        <location filename="login.ui" line="31"/>
         <source>Log In</source>
         <translation>Conectar</translation>
     </message>
     <message>
-        <location filename="login.ui" line="1202"/>
+        <location filename="login.ui" line="2010"/>
         <source>Build: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="login.ui" line="1526"/>
+        <location filename="login.ui" line="2538"/>
         <source>&amp;Username:</source>
         <translation type="unfinished">&amp;Usuario:</translation>
     </message>
     <message>
-        <location filename="login.ui" line="1539"/>
+        <location filename="login.ui" line="2551"/>
         <source>&amp;Password:</source>
         <translation>&amp;Contraseña:</translation>
     </message>
     <message>
-        <location filename="login.ui" line="1629"/>
+        <location filename="login.ui" line="2637"/>
         <source>S&amp;erver:</source>
         <translation>&amp;Servidor:</translation>
     </message>
     <message>
-        <location filename="login.ui" line="1642"/>
+        <location filename="login.ui" line="2650"/>
         <source>&amp;Database:</source>
         <translation>&amp;Base de Datos:</translation>
     </message>
     <message>
-        <location filename="login.ui" line="1777"/>
+        <location filename="login.ui" line="2781"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Cancelar</translation>
     </message>
     <message>
-        <location filename="login.ui" line="1784"/>
+        <location filename="login.ui" line="2788"/>
         <source>&amp;Login</source>
         <translation>C&amp;onectar</translation>
     </message>
     <message>
-        <location filename="login.ui" line="1797"/>
+        <location filename="login.ui" line="2801"/>
         <source>&amp;Options</source>
         <translation>&amp;Opciones</translation>
     </message>
@@ -688,47 +726,47 @@ Error de Sistema &apos;%1&apos;
 <context>
     <name>loginOptions</name>
     <message>
-        <location filename="loginOptions.ui" line="32"/>
+        <location filename="loginOptions.ui" line="31"/>
         <source>Login Options</source>
         <translation>Opciones de Conexión</translation>
     </message>
     <message>
-        <location filename="loginOptions.ui" line="95"/>
+        <location filename="loginOptions.ui" line="87"/>
         <source>&amp;Database:</source>
         <translation>&amp;Base de Datos:</translation>
     </message>
     <message>
-        <location filename="loginOptions.ui" line="208"/>
+        <location filename="loginOptions.ui" line="194"/>
         <source>S&amp;erver:</source>
         <translation>&amp;Servidor:</translation>
     </message>
     <message>
-        <location filename="loginOptions.ui" line="235"/>
+        <location filename="loginOptions.ui" line="219"/>
         <source>&amp;Port:</source>
         <translation>&amp;Puerto:</translation>
     </message>
     <message>
-        <location filename="loginOptions.ui" line="264"/>
+        <location filename="loginOptions.ui" line="246"/>
         <source>Driver:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginOptions.ui" line="278"/>
+        <location filename="loginOptions.ui" line="260"/>
         <source>PostgreSQL</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginOptions.ui" line="283"/>
+        <location filename="loginOptions.ui" line="265"/>
         <source>ODBC</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="loginOptions.ui" line="327"/>
+        <location filename="loginOptions.ui" line="309"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Cancelar</translation>
     </message>
     <message>
-        <location filename="loginOptions.ui" line="334"/>
+        <location filename="loginOptions.ui" line="316"/>
         <source>&amp;Save</source>
         <translation>&amp;Guardar</translation>
     </message>

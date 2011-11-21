@@ -13,27 +13,27 @@
     </message>
     <message>
         <source>Database File</source>
-        <translation>Файл Базы Данных</translation>
+        <translation type="obsolete">Файл Базы Данных</translation>
     </message>
     <message>
         <source>Report Name:</source>
-        <translation>Название Отчета:</translation>
+        <translation type="obsolete">Название Отчета:</translation>
     </message>
     <message>
         <source>Grade:</source>
-        <translation>Уровень:</translation>
+        <translation type="obsolete">Уровень:</translation>
     </message>
     <message>
         <source>##</source>
-        <translation>##</translation>
+        <translation type="obsolete">##</translation>
     </message>
     <message>
         <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
+        <translation type="obsolete">&amp;OK</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>&amp;Отмена</translation>
+        <translation type="obsolete">&amp;Отмена</translation>
     </message>
 </context>
 <context>
