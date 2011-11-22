@@ -93,15 +93,15 @@ void DMatrixPreview::paintEvent(QPaintEvent *)
     double Xo = Xc - (img->width*pas)/2;
     double Yo = Yc + (img->height*pas)/2 - pas;
 
-    int *valeur = new int(0);
+    int valeur = 0;
     //for(int y = img->height - 1; y >= 0; y--)
     for(int y = 0; y < img->height; y++)
     {
             for(int x = 0; x < img->width; x++)
             {
-                    dmtxImageGetPixelValue(img,x,y,0,valeur);
+                    dmtxImageGetPixelValue(img,x,y,0,&valeur);
 
-                    if(*valeur < 128)
+                    if(valeur < 128)
                     {
                         dessin.setBrush(Qt::black);
                         dessin.setPen(Qt::black);
@@ -112,9 +112,6 @@ void DMatrixPreview::paintEvent(QPaintEvent *)
                     }
             }
     }
-
-    //cleanning the memory
-    delete valeur;
 }
 
 void DMatrixPreview::escapeEvent()

@@ -102,7 +102,7 @@ void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qst
         DmtxEncode     *enc = NULL;
         DmtxImage      *img = NULL;
         ORORect        *rect = NULL;
-        int *valeur = new int(0);
+        int valeur = 0;
 
 	/* 1) ENCODE a new Data Matrix barcode image (in memory only) */
 	enc = dmtxEncodeCreate();
@@ -142,31 +142,23 @@ void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qst
 	QPen pen(Qt::NoPen);
 	QBrush brush(QColor("black"));
 
-//	qreal Xo = qrect.left();
-//	qreal Yo = qrect.bottom();
+    qreal Xo = 0;
+    qreal Yo = 0;
+    //length of square
+    qreal pas = 0;
 
-//        //length of square
-//	qreal pas =  std::min(qrect.width()/img->width, qrect.height()/img->height);
-        qreal *ptrXo = new qreal(0);
-        qreal *ptrYo = new qreal(0);
-        qreal *ptrPas = new qreal(0);
-
-        datamatrixGeometry(align,qrect,img,ptrXo,ptrYo,ptrPas);
-        qreal Xo = *ptrXo;
-        qreal Yo = *ptrYo;
-        qreal pas = *ptrPas;
-        delete ptrXo; delete ptrYo; delete ptrPas;
+        datamatrixGeometry(align,qrect,img,&Xo,&Yo,&pas);
 
         //draw the datamatrix
 	for(int y = 0; y < img->height; y++)
 	{
 		for(int x = 0; x < img->width; x++)
 		{
-			dmtxImageGetPixelValue(img,x,y,0,valeur);
+			dmtxImageGetPixelValue(img,x,y,0,&valeur);
                         rect = new ORORect(bc);
 			rect->setPen(pen);
 			
-                        if(*valeur == 0)
+						if(valeur == 0)
 			{
                                 brush.setColor(Qt::black);
 				rect->setBrush(brush);
@@ -182,7 +174,6 @@ void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qst
 	}
 
         //memory cleanning
-        delete valeur;
         free(pxl);
         dmtxEncodeDestroy(&enc);
         dmtxImageDestroy(&img);
@@ -193,8 +184,7 @@ void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qst
         //RR is printed
             printRR(page,bc,qrect);
 
-        //memory cleanning
-            delete valeur;
+        //memory cleaning
             if(rect != NULL)
             {
                 delete rect;
@@ -203,11 +193,11 @@ void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qst
             {
                 dmtxEncodeDestroy(&enc);
             }
-            if(enc != NULL)
+            if(img != NULL)
             {
                 dmtxImageDestroy(&img);
             }
-            if(img!=NULL)
+            if(pxl!=NULL)
             {
                 free(pxl);
             }
