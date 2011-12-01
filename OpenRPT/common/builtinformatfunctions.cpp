@@ -39,6 +39,7 @@ static const char* __builtinTable[][__fieldCount] = {
   {"money",      "Money",          "formatMoney"},
 
   {"percent",    "Percent",        "formatPrcnt"},
+  {"weight",     "Weight",         "formatWeight"},
   {"ratio",      "Ratio",          "formatRatio"},
   {"uomratio",   "UOM Ratio",      "formatUOMRatio"},
   {"scrap",      "Scrap",          "formatScrap"},
