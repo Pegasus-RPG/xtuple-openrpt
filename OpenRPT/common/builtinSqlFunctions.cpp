@@ -88,7 +88,7 @@ static const char* __SqlTable[][3] = {
 // fmt10
   {"fmt10",      "QPSQL",          "UPDATE report "
                                         "   SET report_descrip=:report_desc, "
-                                        "       report_source =:report_src "
+                                        "       report_source =E:report_src "
                                         " WHERE ((report_id=:report_id) "
                                         "   AND (report_name=:report_name))"},
   {"fmt10",      "QOCI",          "UPDATE report "
@@ -99,7 +99,7 @@ static const char* __SqlTable[][3] = {
 // fmt11
   {"fmt11",      "QPSQL",          "INSERT INTO report "
                                         "       (report_name, report_descrip, report_source, report_grade) "
-                                        " VALUES (:report_name, :report_desc, :report_src, :report_grade)"},
+                                        " VALUES (:report_name, :report_desc, E:report_src, :report_grade)"},
   {"fmt11",      "QOCI",          "INSERT INTO report "
                                         "       (report_name, report_descrip, report_source, report_grade) "
                                         " VALUES (:report_name, :report_desc, :report_src, :report_grade)"},
