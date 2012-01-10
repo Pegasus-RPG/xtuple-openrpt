@@ -13,23 +13,27 @@
     </message>
     <message>
         <source>Database File</source>
-        <translation type="obsolete">Archivo de base de datos</translation>
+        <translation type="unfinished">Archivo de base de datos</translation>
     </message>
     <message>
         <source>Report Name:</source>
-        <translation type="obsolete">Nombre del informe:</translation>
+        <translation type="unfinished">Nombre del informe:</translation>
     </message>
     <message>
         <source>Grade:</source>
-        <translation type="obsolete">Grado:</translation>
+        <translation type="unfinished">Grado:</translation>
     </message>
     <message>
         <source>&amp;OK</source>
-        <translation type="obsolete">&amp;Aceptar</translation>
+        <translation type="unfinished">&amp;Aceptar</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="obsolete">&amp;Cancelar</translation>
+        <translation type="unfinished">&amp;Cancelar</translation>
+    </message>
+    <message>
+        <source>##</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

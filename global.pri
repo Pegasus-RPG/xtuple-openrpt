@@ -24,7 +24,7 @@
 # of the projects can be place.
 #
 
-CONFIG += release
+CONFIG += release debug
 
 macx:exists(macx.pri) {
   include(macx.pri)

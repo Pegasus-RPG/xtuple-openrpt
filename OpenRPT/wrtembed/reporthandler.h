@@ -148,6 +148,8 @@ class ReportHandler : public QObject {
         void alignLeft();
         void alignHCenter();
         void alignRight();
+        void evenHSpacing();
+        void evenVSpacing();
 
         void color();
         void fill();
@@ -182,6 +184,7 @@ class ReportHandler : public QObject {
 
     private:
         QString getIconName(const QString& defaultName);
+        void evenSpacing(Qt::Axis axis);
 
         QAction * fileNewAction;
         QAction * fileNewTestAction;
@@ -242,6 +245,8 @@ class ReportHandler : public QObject {
         QAction * alignLeftAction;
         QAction * alignHCenterAction;
         QAction * alignRightAction;
+        QAction * evenHSpacingAction;
+        QAction * evenVSpacingAction;
 
         QActionGroup *  grpFont;
         QFontComboBox*  cbFont;

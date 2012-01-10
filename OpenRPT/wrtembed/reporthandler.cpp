@@ -328,6 +328,8 @@ ReportHandler::ReportHandler(QObject * parent, const char * name)
   alignLeftAction = new QAction(tr("Align Left"), grpAlign);
   alignHCenterAction = new QAction(tr("Align H. Center"), grpAlign);
   alignRightAction = new QAction(tr("Align Right"), grpAlign);
+  evenHSpacingAction = new QAction(tr("Even Horizontal Spacing"), grpAlign);
+  evenVSpacingAction = new QAction(tr("Even Vertical Spacing"), grpAlign);
 
 /*
   cbFont = new QFontComboBox();
@@ -411,6 +413,8 @@ ReportHandler::ReportHandler(QObject * parent, const char * name)
   connect(alignLeftAction, SIGNAL(activated()), this, SLOT(alignLeft()));
   connect(alignHCenterAction, SIGNAL(activated()), this, SLOT(alignHCenter()));
   connect(alignRightAction, SIGNAL(activated()), this, SLOT(alignRight()));
+  connect(evenHSpacingAction, SIGNAL(activated()), this, SLOT(evenHSpacing()));
+  connect(evenVSpacingAction, SIGNAL(activated()), this, SLOT(evenVSpacing()));
   connect(colorAction, SIGNAL(activated()), this, SLOT(color()));
   connect(fillAction, SIGNAL(activated()), this, SLOT(fill()));
   connect(rotationAction, SIGNAL(activated()), this, SLOT(rotation()));
@@ -1821,6 +1825,11 @@ void ReportHandler::buildItemContextMenu(QMenu * menu)
     menu->addAction(alignHCenterAction);
     menu->addAction(alignRightAction);
   }
+  if(selectionCount() > 2)
+  {
+    menu->addAction(evenHSpacingAction);
+    menu->addAction(evenVSpacingAction);
+  }
   if(selectionCount() >= 1)
   {
     menu->addSeparator();
@@ -2179,6 +2188,62 @@ void ReportHandler::alignRight()
     __dosnap = true;
   }
 }
+
+
+void ReportHandler::evenHSpacing()
+{
+  evenSpacing(Qt::XAxis);
+}
+
+void ReportHandler::evenVSpacing()
+{
+  evenSpacing(Qt::YAxis);
+}
+
+void ReportHandler::evenSpacing(Qt::Axis axis)
+{
+  DocumentWindow *gw = activeDocumentWindow();
+  if(!gw)
+    return;
+
+  __dosnap = false;
+
+  QMap< qreal, QGraphicsItem* > sortedItems;
+  foreach(QGraphicsItem* item, gw->_scene->selectedItems())
+  {
+    qreal refPosition = (axis == Qt::XAxis ? item->sceneBoundingRect().right() : item->sceneBoundingRect().bottom());
+    sortedItems.insert(refPosition, item);
+  }
+
+  // We have to sort the items in ascending pos values
+  QList<qreal> refPositions = sortedItems.keys();
+  QList<QGraphicsItem*> values = sortedItems.values();
+  qreal offset = 0;
+  qreal firstSpacing = 0;
+
+  for(int i = 1; i < sortedItems.count(); i++)
+  {
+    QGraphicsItem* item = values.at(i);
+    qreal itemPos = (axis == Qt::XAxis ? item->sceneBoundingRect().left() : item->sceneBoundingRect().top());
+    qreal spacing = itemPos - refPositions.at(i-1);
+    if(i==1)
+    { // the spacing between all items will be egal to the gap between the first two items
+      firstSpacing = spacing;
+    }
+
+    qreal shift = firstSpacing - spacing;
+
+    if(axis == Qt::XAxis)
+      item->setPos(item->x() + shift + offset, item->y());
+    else
+      item->setPos(item->x(), item->y() + shift + offset);
+
+    offset += shift;
+  }
+
+  __dosnap = true;
+}
+
 
 void ReportHandler::color()
 {
