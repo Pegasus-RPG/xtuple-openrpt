@@ -2155,6 +2155,28 @@ Do you want to save the changes before closing?</source>
         <source>Copyright (c) 2002-2011, OpenMFG, LLC.</source>
         <translation type="obsolete">Copyright (c) 2002-2011, OpenMFG, LLC.</translation>
     </message>
+    <message>
+        <location filename="../renderer/openreports.cpp" line="578"/>
+        <source>Report Definition Not Found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../renderer/openreports.cpp" line="579"/>
+        <source>The report definition for this report, &quot;%1&quot; cannot be found.
+Please contact your Systems Administrator and report this issue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../renderer/openreports.cpp" line="583"/>
+        <source>Unknown Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../renderer/openreports.cpp" line="584"/>
+        <source>An unknown error was encountered while processing your request.
+Please contact your Systems Administrator and report this issue.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QueryComboBox</name>
