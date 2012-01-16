@@ -25,7 +25,7 @@
 QString OpenRPT::build     = QObject::tr("%1 %2").arg(__DATE__, __TIME__);
 QString OpenRPT::copyright = QObject::tr("Copyright (c) 2002-2011, OpenMFG, LLC.");
 bool    OpenRPT::loggedIn  = FALSE;
-QString OpenRPT::version   = QObject::tr("3.3.1BETA");
+QString OpenRPT::version   = QObject::tr("3.3.1");
 
 LanguageOptions OpenRPT::languages(0);
 
