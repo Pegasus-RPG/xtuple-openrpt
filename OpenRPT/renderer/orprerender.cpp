@@ -1256,6 +1256,8 @@ QString ORPreRenderPrivate::evaluateField(ORFieldData* f)
     {
         if(f->data.query == "Context Query" && f->data.column == "page_number")
             str = QString("%1").arg(_pageCounter);
+        else if(f->data.query == "Context Query" && f->data.column == "page_count")
+            str = f->data.column;
         else if(f->data.query == "Context Query" && f->data.column == "report_name")
             str = _reportData->name;
         else if(f->data.query == "Context Query" && f->data.column == "report_title")
