@@ -212,10 +212,14 @@ class ORObject
 	qreal rotation() const { return _rotation; }
 	void setRotation(qreal angle) { _rotation = angle;}
 
+    QPen border() const {return _border;}
+    void setBorder(QPen p) {_border = p;}
+
 private:
     QPen    _pen;
     QBrush  _brush;
 	qreal   _rotation;
+    QPen    _border;
 };
 
 class ORLineData : public ORObject
@@ -223,7 +227,6 @@ class ORLineData : public ORObject
   public:
     int xStart, yStart;
     int xEnd,   yEnd;
-    int weight;
 
     virtual bool isLine();
     virtual ORLineData * toLine();
@@ -234,7 +237,6 @@ class ORRectData : public ORObject
 public:
     int x, y;
     int width,  height;
-    int weight;
 
     virtual bool isRect();
     virtual ORRectData * toRect();

@@ -61,7 +61,8 @@ FORMS   += labeleditor.ui \
            dmatrixsquareconfig.ui \
            dmatrixrectconfig.ui \
            dbarcodeconfig.ui \
-           dmatrixpreview.ui
+           dmatrixpreview.ui \
+           patheditor.ui
 
 HEADERS += reportgridoptions.h\
            reporthandler.h \
@@ -102,7 +103,8 @@ HEADERS += reportgridoptions.h\
            dmatrixsquareconfig.h \
            dmatrixrectconfig.h \
            dbarcodeconfig.h \
-           dmatrixpreview.h
+           dmatrixpreview.h \
+           patheditor.h
 
 SOURCES += reportgridoptions.cpp\
            reporthandler.cpp \
@@ -143,7 +145,8 @@ SOURCES += reportgridoptions.cpp\
            dmatrixsquareconfig.cpp \
            dmatrixrectconfig.cpp \
            dbarcodeconfig.cpp \
-           dmatrixpreview.cpp
+           dmatrixpreview.cpp \
+           patheditor.cpp
 
 RESOURCES += ../images/OpenRPTWrtembed.qrc \
              ../images/OpenRPTCommon.qrc

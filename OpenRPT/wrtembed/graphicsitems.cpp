@@ -31,6 +31,7 @@
 #include "graphicssection.h"
 #include "reporthandler.h"
 #include "crosstabeditor.h"
+#include "patheditor.h"
 
 #include <querysource.h>
 #include <quuencode.h>
@@ -352,9 +353,13 @@ void ORGraphicsRectItem::parseRect(const QDomNode & entity)
         node = nl.item(i);
         n = node.nodeName();
         if(n == "weight") {
-            p.setWidth(node.firstChild().nodeValue().toInt());
+            _border.setWidth(node.firstChild().nodeValue().toInt());
         } else if(n == "color") {
             p.setColor(parseColor(node));
+            if(type() == ORGraphicsRectItem::Type)
+            {
+              _border.setColor(p.color());
+            }
         } else if(n == "bgcolor") {
             b.setStyle(Qt::SolidPattern);
             b.setColor(parseColor(node));
@@ -368,11 +373,18 @@ void ORGraphicsRectItem::parseRect(const QDomNode & entity)
             witdh = node.firstChild().nodeValue().toDouble();
         } else if(n == "height") {
             height = node.firstChild().nodeValue().toDouble();
+        } else if(n == "bordercolor") {
+            _border.setColor(parseColor(node));
+        } else if(n == "borderwidth") {
+            _border.setWidth(node.firstChild().nodeValue().toInt());
+        } else if(n == "borderstyle") {
+            _border.setStyle(static_cast<Qt::PenStyle>(node.firstChild().nodeValue().toInt()));
         } else {
             qDebug("While parsing line encountered unknown element: %s", n.toLatin1().constData());
         }
     }
     setPen(p);
+
     setBrush(b);
     setPos(sx, sy);
     setRect(0, 0, witdh, height);
@@ -393,32 +405,34 @@ void ORGraphicsRectItem::paint(QPainter * painter, const QStyleOptionGraphicsIte
     _rhLeft->reposition();
   }
 
-  if(type() == ORGraphicsRectItem::Type)
+  painter->save();
+
+//  const qreal pad = 0.5 + _border.widthF()/2;
+
+  if(_border.width()>0 || type() == ORGraphicsRectItem::Type)
   {
-    // let the base class draw the selection and box
-    QGraphicsRectItem::paint(painter, option, widget);
+    // we have to draw the border by hand
+    painter->setPen(_border);
   }
-  else if (isSelected())
+  else
+  {
+    painter->setPen(Qt::NoPen);
+  }
+  painter->setBrush(brush());
+  painter->drawRect(rect());//.adjusted(pad, pad, -pad, -pad));
+
+  if(isSelected())
   {
     const qreal pad = 0.5;
-    const QColor fgcolor = option->palette.windowText().color();
-    const QColor bgcolor( // ensure good contrast against fgcolor
-        fgcolor.red()   > 127 ? 0 : 255,
-        fgcolor.green() > 127 ? 0 : 255,
-        fgcolor.blue()  > 127 ? 0 : 255);
-
-    painter->save();
-
-    painter->setPen(QPen(bgcolor, 0, Qt::SolidLine));
+    QRectF r = rect().adjusted(pad, pad, -pad, -pad);
     painter->setBrush(Qt::NoBrush);
-    painter->drawRect(boundingRect().adjusted(pad, pad, -pad, -pad));
-
-    painter->setPen(QPen(option->palette.windowText(), 0, Qt::DashLine));
-    painter->setBrush(Qt::NoBrush);
-    painter->drawRect(boundingRect().adjusted(pad, pad, -pad, -pad));
-
-    painter->restore();
+    painter->setPen(QPen(Qt::white, 0, Qt::SolidLine));
+    painter->drawRect(r);
+    painter->setPen(QPen(Qt::black, 0, Qt::DashLine));
+    painter->drawRect(r);
   }
+
+  painter->restore();
 }
 
 QVariant ORGraphicsRectItem::itemChange(GraphicsItemChange change, const QVariant &value)
@@ -487,15 +501,16 @@ void ORGraphicsRectItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event)
 
 void ORGraphicsRectItem::properties(QWidget * parent)
 {
-  if(type() == ORGraphicsRectItem::Type)
+  borderProperties(parent);
+}
+
+void ORGraphicsRectItem::borderProperties(QWidget * parent)
+{
+  PathEditor* dlg = new PathEditor(parent, _border);
+  if(dlg->exec() == QDialog::Accepted && dlg->pen() != _border)
   {
-    bool ok;
-    int w = QInputDialog::getInteger(parent, QObject::tr("Line width"),QObject::tr("Width"), pen().width(), 0, 100, 1, &ok);
-    if(ok) {
-      QPen p = pen();
-      p.setWidth(w);
-      setPen(p);
-    }
+    _border = dlg->pen();
+    _setModified(scene(), true);
   }
 }
 
@@ -525,9 +540,11 @@ void ORGraphicsRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
 
 void ORGraphicsRectItem::buildXML(QDomDocument & doc, QDomElement & entity)
 {
-  buildXMLCommon(doc, entity);
+  // for compatibility with older versions, the color and width parameters must be written from the pen,
+  // even if the rect only uses the border for drawing
+  setPen(_border);
 
-  QDomElement element = doc.createElement("pen");
+  buildXMLCommon(doc, entity);
 }
 
 void ORGraphicsRectItem::buildXML(QGraphicsItem * item, QDomDocument & doc, QDomElement & parent)
@@ -621,11 +638,24 @@ void ORGraphicsRectItem::buildXMLCommon(QDomDocument & doc, QDomElement & entity
         wght.appendChild(doc.createTextNode(QString::number(pen().width())));
         element.appendChild(wght);
     }
-        if(rotation() != 0) {
+    if(rotation() != 0) {
         QDomElement rot = doc.createElement("rotation");
         qreal angle = rotation(); 
         rot.appendChild(doc.createTextNode(QString::number(angle)));
         element.appendChild(rot);
+    }
+    if(_border.width() != 0) {
+        QDomElement w = doc.createElement("borderwidth");
+        w.appendChild(doc.createTextNode(QString::number(_border.width())));
+        element.appendChild(w);
+    }
+    if(_border.style() != Qt::SolidLine) {
+        QDomElement bstyle = doc.createElement("borderstyle");
+        bstyle.appendChild(doc.createTextNode(QString::number(_border.style())));
+        element.appendChild(bstyle);
+    }
+    if(_border.color() != Qt::black) {
+          buildXMLColor(doc, element, _border.color(), "bordercolor");
     }
 
     // Pen and brush
@@ -713,6 +743,10 @@ ORGraphicsLineItem::ORGraphicsLineItem(const QDomNode & entity, QGraphicsItem * 
       QPen p = pen();
       p.setWidth(node.firstChild().nodeValue().toInt());
       setPen(p);
+    } else if(n == "style") {
+      QPen p = pen();
+      p.setStyle(static_cast<Qt::PenStyle>(node.firstChild().nodeValue().toInt()));
+      setPen(p);
     } else if(n == "xstart") {
       sx = node.firstChild().nodeValue().toDouble();
     } else if(n == "ystart") {
@@ -796,6 +830,14 @@ void ORGraphicsLineItem::buildXML(QDomDocument & doc, QDomElement & parent)
   wght.appendChild(doc.createTextNode(QString::number(pen().width())));
   entity.appendChild(wght);
 
+  // style
+  if(pen().style() != Qt::SolidLine)
+  {
+    QDomElement style = doc.createElement("style");
+    style.appendChild(doc.createTextNode(QString::number(pen().style())));
+    entity.appendChild(style);
+  }
+
   parent.appendChild(entity);
 }
 
@@ -843,12 +885,10 @@ void ORGraphicsLineItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event)
 
 void ORGraphicsLineItem::properties(QWidget * parent)
 {
-  bool ok;
-  int w = QInputDialog::getInteger(parent, QObject::tr("Line width"),QObject::tr("Width"), pen().width(), 0, 100, 1, &ok);
-  if(ok) {
-    QPen p = pen();
-    p.setWidth(w);
-    setPen(p);
+  PathEditor* dlg = new PathEditor(parent, pen());
+  if(dlg->exec() == QDialog::Accepted)
+  {
+    setPen(dlg->pen());
   }
 }
 
@@ -1014,6 +1054,9 @@ void ORGraphicsLabelItem::buildXML(QDomDocument & doc, QDomElement & parent)
 
 void ORGraphicsLabelItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+  // let the base class draw the selection and box
+  ORGraphicsRectItem::paint(painter, option, widget);
+
   painter->save();
 
   painter->setFont(_font);
@@ -1023,8 +1066,6 @@ void ORGraphicsLabelItem::paint(QPainter * painter, const QStyleOptionGraphicsIt
 
   painter->restore();
 
-  // let the base class draw the selection and box
-  ORGraphicsRectItem::paint(painter, option, widget);
 }
 
 void ORGraphicsLabelItem::properties(QWidget * parent)
@@ -1312,6 +1353,9 @@ void ORGraphicsFieldItem::buildXML(QDomDocument & doc, QDomElement & parent)
 
 void ORGraphicsFieldItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+  // let the base class draw the selection and box
+  ORGraphicsRectItem::paint(painter, option, widget);
+
   painter->save();
 
   painter->setFont(_font);
@@ -1336,8 +1380,6 @@ void ORGraphicsFieldItem::paint(QPainter * painter, const QStyleOptionGraphicsIt
 
   painter->restore();
 
-  // let the base class draw the selection and box
-  ORGraphicsRectItem::paint(painter, option, widget);
 }
 
 QRectF ORGraphicsFieldItem::boundingRect () const
@@ -1652,6 +1694,9 @@ void ORGraphicsTextItem::buildXML(QDomDocument & doc, QDomElement & parent)
 
 void ORGraphicsTextItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+  // let the base class draw the selection and box
+  ORGraphicsRectItem::paint(painter, option, widget);
+
   painter->save();
 
   painter->setFont(_font);
@@ -1660,9 +1705,6 @@ void ORGraphicsTextItem::paint(QPainter * painter, const QStyleOptionGraphicsIte
   painter->drawText(rect(), _flags, _clmn+QObject::tr(":")+_qry+QObject::tr(" textarea"));
 
   painter->restore();
-
-  // let the base class draw the selection and box
-  ORGraphicsRectItem::paint(painter, option, widget);
 }
 
 void ORGraphicsTextItem::properties(QWidget * parent)
@@ -1885,6 +1927,9 @@ void ORGraphicsBarcodeItem::buildXML(QDomDocument & doc, QDomElement & parent)
 
 void ORGraphicsBarcodeItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+  // let the base class draw the selection and box
+  ORGraphicsRectItem::paint(painter, option, widget);
+
   painter->save();
 
   painter->setPen(pen());
@@ -1892,9 +1937,6 @@ void ORGraphicsBarcodeItem::paint(QPainter * painter, const QStyleOptionGraphics
   painter->drawText(rect(), 0, _clmn+QObject::tr(":")+_qry+QObject::tr(" barcode"));
 
   painter->restore();
-
-  // let the base class draw the selection and box
-  ORGraphicsRectItem::paint(painter, option, widget);
 }
 
 void ORGraphicsBarcodeItem::properties(QWidget * parent)
@@ -2197,6 +2239,9 @@ void ORGraphicsImageItem::buildXML(QDomDocument & doc, QDomElement & parent)
 
 void ORGraphicsImageItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+  // let the base class draw the selection and box
+  ORGraphicsRectItem::paint(painter, option, widget);
+
   painter->save();
 
   if(isInline())
@@ -2215,8 +2260,6 @@ void ORGraphicsImageItem::paint(QPainter * painter, const QStyleOptionGraphicsIt
 
   painter->restore();
 
-  // let the base class draw the selection and box
-  ORGraphicsRectItem::paint(painter, option, widget);
 }
 
 void ORGraphicsImageItem::properties(QWidget * parent)
@@ -2502,6 +2545,9 @@ void ORGraphicsGraphItem::buildXML(QDomDocument & doc, QDomElement & parent)
 
 void ORGraphicsGraphItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+  // let the base class draw the selection and box
+  ORGraphicsRectItem::paint(painter, option, widget);
+
   painter->save();
 
   painter->setPen(pen());
@@ -2509,9 +2555,6 @@ void ORGraphicsGraphItem::paint(QPainter * painter, const QStyleOptionGraphicsIt
   painter->drawText(rect(), 0, _graphData.data.query+QObject::tr(" graph"));
 
   painter->restore();
-
-  // let the base class draw the selection and box
-  ORGraphicsRectItem::paint(painter, option, widget);
 }
 
 void ORGraphicsGraphItem::properties(QWidget * parent)
@@ -3068,6 +3111,9 @@ void ORGraphicsCrossTabItem::buildXML(QDomDocument & doc, QDomElement & parent)
 //////////////////////////////////////////////////////////////////////////////
 void ORGraphicsCrossTabItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+  // let the base class draw the selection and box
+  ORGraphicsRectItem::paint(painter, option, widget);
+
   painter->save();
 
   painter->setFont(font());
@@ -3148,9 +3194,6 @@ void ORGraphicsCrossTabItem::paint(QPainter * painter, const QStyleOptionGraphic
   }
 
   painter->restore();
-
-  // let the base class draw the selection and box
-  ORGraphicsRectItem::paint(painter, option, widget);
 }
 
 void ORGraphicsCrossTabItem::properties(QWidget * parent)

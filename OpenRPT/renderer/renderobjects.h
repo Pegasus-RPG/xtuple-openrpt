@@ -154,6 +154,9 @@ class OROPrimitive
     QPen pen() const {return _pen;}
     void setPen(QPen p) {_pen = p;}
 
+    QPen border() const {return _border;}
+    void setBorder(QPen p) {_border = p;}
+
     QBrush brush() const {return _brush;}
     void setBrush(QBrush b) {_brush = b;}
 
@@ -161,6 +164,8 @@ class OROPrimitive
 	void setRotation(qreal angle) { _rotation = angle;}
 	QPointF rotationAxis() const { return _rotationAxis;}
 	void setRotationAxis(const QPointF p);
+
+    void drawRect(QRectF rc, QPainter* painter, int printResolution);
 
   protected:
     OROPrimitive(ORObject *o, int);
@@ -170,6 +175,7 @@ class OROPrimitive
     int     _type;
     QPointF _position;
     QPen    _pen;
+    QPen    _border;
     QBrush  _brush;
 	qreal	_rotation;
 	QPointF _rotationAxis;
@@ -224,14 +230,10 @@ class OROLine : public OROPrimitive
     QPointF endPoint() const { return _endPoint; };
     void setEndPoint(const QPointF &);
 
-    qreal weight() const { return _weight; };
-    void setWeight(qreal);
-
     static const int Line;
 
   protected:
     QPointF _endPoint;
-    qreal _weight;
 };
 
 //
@@ -285,14 +287,10 @@ class ORORect: public OROPrimitive
     QRectF rect() const { return QRectF(position(), _size); };
     void setRect(const QRectF &);
 
-    qreal weight() const { return _weight; };
-    void setWeight(qreal);
-
     static const int Rect;
 
   protected:
     QSizeF _size;
-    qreal _weight;
 
 };
 

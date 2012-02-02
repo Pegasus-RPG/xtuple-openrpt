@@ -176,62 +176,80 @@ ORBackgroundData::ORBackgroundData()
 
 bool parseReportRect(const QDomElement & elemSource, ORRectData & rectTarget)
 {
-    QDomNodeList params = elemSource.childNodes();
-    int          coorCounter = 0;
+  QDomNodeList params = elemSource.childNodes();
+  int          coorCounter = 0;
 
-    rectTarget.weight = 0; // default to 0
+  QPen border = rectTarget.border();
 
-    for ( int paramCounter = 0; paramCounter < params.count(); paramCounter++ )
+  for ( int paramCounter = 0; paramCounter < params.count(); paramCounter++ )
+  {
+    QDomElement elemParam = params.item(paramCounter).toElement();
+
+    if (elemParam.tagName() == "x")
     {
-        QDomElement elemParam = params.item(paramCounter).toElement();
-
-        if (elemParam.tagName() == "x")
-        {
-            rectTarget.x = (int)elemParam.text().toDouble();
-            coorCounter++;
-        }
-        else if (elemParam.tagName() == "y")
-        {
-            rectTarget.y = (int)elemParam.text().toDouble();
-            coorCounter++;
-        }
-        else if (elemParam.tagName() == "width")
-        {
-            rectTarget.width = (int)elemParam.text().toDouble();
-            coorCounter++;
-        }
-        else if (elemParam.tagName() == "height")
-        {
-            rectTarget.height = (int)elemParam.text().toDouble();
-            coorCounter++;
-        }
-        else if (elemParam.tagName() == "weight")
-            rectTarget.weight = elemParam.text().toInt();
-        else if (elemParam.tagName() == "color")
-		{
-            QColor color = parseColor(elemParam);
-			QPen pen = rectTarget.pen();
-			pen.setColor(color);
-			rectTarget.setPen(pen);
-		}
-        else if (elemParam.tagName() == "bgcolor")
-		{
-            QColor color = parseColor(elemParam);
-			QBrush brush = rectTarget.brush();
-			brush.setColor(color);
-			brush.setStyle(Qt::SolidPattern);
-			rectTarget.setBrush(brush);
-		}
-		else if (elemParam.tagName() == "rotation")
-		{
-			rectTarget.setRotation(elemParam.text().toFloat());
-		}
-		else
-            qDebug("Tag not Parsed at <line>:%s\n", elemParam.tagName().toLatin1().data());
+      rectTarget.x = (int)elemParam.text().toDouble();
+      coorCounter++;
     }
-    if (coorCounter == 4)
-        return TRUE;
-    return FALSE;
+    else if (elemParam.tagName() == "y")
+    {
+      rectTarget.y = (int)elemParam.text().toDouble();
+      coorCounter++;
+    }
+    else if (elemParam.tagName() == "width")
+    {
+      rectTarget.width = (int)elemParam.text().toDouble();
+      coorCounter++;
+    }
+    else if (elemParam.tagName() == "height")
+    {
+      rectTarget.height = (int)elemParam.text().toDouble();
+      coorCounter++;
+    }
+    else if (elemParam.tagName() == "weight")
+      border.setWidth(elemParam.text().toInt());
+    else if (elemParam.tagName() == "color")
+    {
+      QColor color = parseColor(elemParam);
+      QPen pen = rectTarget.pen();
+      pen.setColor(color);
+      rectTarget.setPen(pen);
+    }
+    else if (elemParam.tagName() == "bgcolor")
+    {
+      QColor color = parseColor(elemParam);
+      QBrush brush = rectTarget.brush();
+      brush.setColor(color);
+      brush.setStyle(Qt::SolidPattern);
+      rectTarget.setBrush(brush);
+    }
+    else if (elemParam.tagName() == "bordercolor")
+    {
+      QColor color = parseColor(elemParam);
+      border.setColor(color);
+    }
+    else if (elemParam.tagName() == "borderwidth")
+    {
+      int width = elemParam.text().toInt();
+      border.setWidth(width);
+    }
+    else if (elemParam.tagName() == "borderstyle")
+    {
+      Qt::PenStyle style = static_cast<Qt::PenStyle>(elemParam.text().toInt());
+      border.setStyle(style);
+    }
+    else if (elemParam.tagName() == "rotation")
+    {
+      rectTarget.setRotation(elemParam.text().toFloat());
+    }
+    else
+      qDebug("Tag not Parsed at <line>:%s\n", elemParam.tagName().toLatin1().data());
+  }
+
+  rectTarget.setBorder(border);
+
+  if (coorCounter == 4)
+    return TRUE;
+  return FALSE;
 }
 
 bool parseReportRect(const QDomElement & elemSource, QRect & rectTarget, ORObject &o)
@@ -244,6 +262,7 @@ bool parseReportRect(const QDomElement & elemSource, QRect & rectTarget, ORObjec
 	o.setPen(rData.pen());
 	o.setBrush(rData.brush());
 	o.setRotation(rData.rotation());
+    o.setBorder(rData.border());
   }
   return res;
 }
@@ -392,8 +411,7 @@ bool parseReportLine(const QDomElement & elemSource, ORLineData & lineTarget)
 {
   QDomNodeList params = elemSource.childNodes();
   int          coorCounter = 0;
-
-  lineTarget.weight = 0; // default to 0
+  QPen pen;
 
   for ( int paramCounter = 0; paramCounter < params.count(); paramCounter++ )
   {
@@ -420,18 +438,20 @@ bool parseReportLine(const QDomElement & elemSource, ORLineData & lineTarget)
       coorCounter++;
     }
     else if (elemParam.tagName() == "weight")
-		lineTarget.weight = elemParam.text().toInt();
-	else if (elemParam.tagName() == "color")
-	{
-		QColor color = parseColor(elemParam);
-		QPen pen = lineTarget.pen();
-		pen.setColor(color);
-		lineTarget.setPen(pen);
-	}	else
-		qDebug("Tag not Parsed at <line>:%s\n", elemParam.tagName().toLatin1().data());
+      pen.setWidth(elemParam.text().toInt());
+    else if (elemParam.tagName() == "style")
+      pen.setStyle(static_cast<Qt::PenStyle>(elemParam.text().toInt()));
+    else if (elemParam.tagName() == "color")
+      pen.setColor(parseColor(elemParam));
+    else
+      qDebug("Tag not Parsed at <line>:%s\n", elemParam.tagName().toLatin1().data());
   }
+
+  lineTarget.setPen(pen);
+
   if (coorCounter == 4)
-      return TRUE;
+    return TRUE;
+
   return FALSE;
 }
 
@@ -1327,7 +1347,13 @@ bool parseReportSection(const QDomElement & elemSource, ORSectionData & sectionT
         ORRectData * rect = new ORRectData();
         if(parseReportRect(elemThis, *rect) == TRUE)
         {
-            sectionTarget.objects.prepend(rect);
+          // to maintain compatibility with older version that don't support borders,
+          // for which rect border color is recorded in the "pen" element
+          QPen borderPen = rect->border();
+          borderPen.setColor(rect->pen().color());
+          rect->setBorder(borderPen);
+
+          sectionTarget.objects.prepend(rect);
         }
         else
             delete rect;

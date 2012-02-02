@@ -2,227 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ru">
 <context>
-    <name>ImportWindow</name>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="30"/>
-        <location filename="importmql_gui/importwindow.cpp" line="100"/>
-        <source>MetaSQL Import Tool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="45"/>
-        <source>Import into schema:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="70"/>
-        <source>MetaSQL Files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="85"/>
-        <location filename="importmql_gui/importwindow.ui" line="240"/>
-        <location filename="importmql_gui/importwindow.ui" line="243"/>
-        <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="88"/>
-        <source>Alt+A</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="95"/>
-        <source>Remove</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="112"/>
-        <source>&amp;Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="115"/>
-        <source>Alt+I</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="138"/>
-        <source>Select All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="150"/>
-        <source>Messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="179"/>
-        <source>&amp;File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="187"/>
-        <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="199"/>
-        <source>&amp;Contents...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="202"/>
-        <source>Contents</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="210"/>
-        <source>&amp;Index...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="213"/>
-        <source>Index</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="221"/>
-        <source>&amp;About</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="224"/>
-        <source>About</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.ui" line="232"/>
-        <location filename="importmql_gui/importwindow.ui" line="235"/>
-        <source>E&amp;xit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="63"/>
-        <source>&lt;font color=red&gt;The following error was encountered retrieving available schemas:
-	%1
-	%2
-&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="88"/>
-        <location filename="importmql_gui/importwindow.cpp" line="94"/>
-        <source>Not Yet Implemented</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="88"/>
-        <location filename="importmql_gui/importwindow.cpp" line="94"/>
-        <source>This function has not been implemented.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="101"/>
-        <source>%1 version %2
-%3, All Rights Reserved
-Build: %4
-
-%5 is a tool for importing MetaSQL files into a database.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="116"/>
-        <source>Select one or more MetaSQL files to open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="117"/>
-        <source>MetSQL (*.mql)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="137"/>
-        <source>Import Started...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="141"/>
-        <source>No Reports Selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="142"/>
-        <source>You have not selected any reports to import. Would you like to select all loaded reports now?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="154"/>
-        <source>&lt;font color=red&gt;The following error was encountered disabling the trigger:
-	%1
-	%2
-&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="198"/>
-        <source>&lt;font color=red&gt;The following error was encountered while trying to import %1 into the database:
-	%2
-	%3
-&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="211"/>
-        <source>The saveMetasql stored procedure failed for %1, returning %2.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="215"/>
-        <source>Import successful of %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="218"/>
-        <source>No results returned from query for %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="222"/>
-        <source>&lt;font color=orange&gt;The document %1 does not have a name and/or group defined
-&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="226"/>
-        <source>&lt;font color=red&gt;Error reading file %1 or file was empty
-&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="230"/>
-        <source>&lt;font color=red&gt;Could not open the specified file: %1
-&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="239"/>
-        <source>&lt;font color=red&gt;The following error was encountered re-enabling the trigger:
-	%1
-	%2
-&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/importwindow.cpp" line="244"/>
-        <source>Import complete!
-
-
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>LogOutput</name>
     <message>
         <location filename="logoutput.ui" line="30"/>
@@ -861,72 +640,24 @@ Build: %4
         <translation type="obsolete">Copyright (c) 2002-2011, OpenMFG, LLC.</translation>
     </message>
     <message>
-        <location filename="importmql_gui/main.cpp" line="43"/>
-        <source>MetaSQL Import Tool for Windows</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/main.cpp" line="45"/>
-        <source>MetaSQL Import Tool for Linux</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/main.cpp" line="47"/>
-        <source>MetaSQL Import Tool for OS X</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/main.cpp" line="49"/>
-        <source>MetaSQL Import Tool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="importmql_gui/main.cpp" line="100"/>
-        <location filename="metasql_gui/main.cpp" line="96"/>
         <source>Can not load database driver</source>
-        <translation type="unfinished">Невозможно загрузить драйвер базы данных</translation>
+        <translation type="obsolete">Невозможно загрузить драйвер базы данных</translation>
     </message>
     <message>
-        <location filename="importmql_gui/main.cpp" line="100"/>
-        <location filename="metasql_gui/main.cpp" line="97"/>
         <source>Unable to load the database driver. Please contact your systems administrator.</source>
-        <translation type="unfinished">Невозможно загрузить драйвер базы данных. Пожалуйста сообщите об этом Вашему системному администратору.</translation>
+        <translation type="obsolete">Невозможно загрузить драйвер базы данных. Пожалуйста сообщите об этом Вашему системному администратору.</translation>
     </message>
     <message>
-        <location filename="importmql_gui/main.cpp" line="109"/>
-        <location filename="metasql_gui/main.cpp" line="106"/>
         <source>Unable to connect to database</source>
-        <translation type="unfinished">Невозможно соединится с базой данных</translation>
+        <translation type="obsolete">Невозможно соединится с базой данных</translation>
     </message>
     <message>
-        <location filename="importmql_gui/main.cpp" line="109"/>
-        <location filename="metasql_gui/main.cpp" line="107"/>
         <source>Unable to connect to the database with the given information.</source>
-        <translation type="unfinished">Невозможно соединится с базой данных согласно предоставленой информации.</translation>
+        <translation type="obsolete">Невозможно соединится с базой данных согласно предоставленой информации.</translation>
     </message>
     <message>
         <location filename="mqlutil.cpp" line="140"/>
         <source>Could not open file &apos;%1&apos;: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="metasql_gui/main.cpp" line="46"/>
-        <source>MetaSQL Editor for Windows</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="metasql_gui/main.cpp" line="48"/>
-        <source>MetaSQL Editor for Linux</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="metasql_gui/main.cpp" line="50"/>
-        <source>MetaSQL Editor for OS X</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="metasql_gui/main.cpp" line="52"/>
-        <source>MetaSQL Editor</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

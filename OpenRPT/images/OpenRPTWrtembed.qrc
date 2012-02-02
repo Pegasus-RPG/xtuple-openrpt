@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="OpenRPT/icons" >
+    <qresource prefix="/OpenRPT/icons">
         <file>attribute_32.png</file>
         <file>barcode_32.png</file>
         <file>copy_32.png</file>
@@ -20,8 +20,6 @@
         <file>numeric_field_32.png</file>
         <file>numeric_field_ok_32.png</file>
         <file>font_32.png</file>
-    </qresource>
-    <qresource prefix="OpenRPT/icons" >
         <file>icons_16x16/attribute_16x16.png</file>
         <file>icons_16x16/barcode_16x16.png</file>
         <file>icons_16x16/box_16x16.png</file>
@@ -43,8 +41,6 @@
         <file>icons_16x16/scissors_16x16.png</file>
         <file>icons_16x16/statistic_16x16.png</file>
         <file>icons_16x16/text_field_16x16.png</file>
-    </qresource>
-    <qresource prefix="OpenRPT/icons" >
         <file>icons_24x24/attribute_24x24.png</file>
         <file>icons_24x24/barcode_24x24.png</file>
         <file>icons_24x24/box_24x24.png</file>
@@ -66,8 +62,6 @@
         <file>icons_24x24/scissors_24x24.png</file>
         <file>icons_24x24/statistic_24x24.png</file>
         <file>icons_24x24/text_field_24x24.png</file>
-    </qresource>
-    <qresource prefix="OpenRPT/icons" >
         <file>icons_32x32/attribute_32x32.png</file>
         <file>icons_32x32/barcode_32x32.png</file>
         <file>icons_32x32/box_32x32.png</file>
@@ -89,8 +83,6 @@
         <file>icons_32x32/scissors_32x32.png</file>
         <file>icons_32x32/statistic_32x32.png</file>
         <file>icons_32x32/text_field_32x32.png</file>
-    </qresource>
-    <qresource prefix="OpenRPT/icons" >
         <file>icons_48x48/attribute_48x48.png</file>
         <file>icons_48x48/barcode_48x48.png</file>
         <file>icons_48x48/box_48x48.png</file>
@@ -112,8 +104,6 @@
         <file>icons_48x48/scissors_48x48.png</file>
         <file>icons_48x48/statistic_48x48.png</file>
         <file>icons_48x48/text_field_48x48.png</file>
-    </qresource>
-    <qresource prefix="OpenRPT/icons" >
         <file>icons_64x64/attribute_64x64.png</file>
         <file>icons_64x64/barcode_64x64.png</file>
         <file>icons_64x64/box_64x64.png</file>
@@ -135,5 +125,10 @@
         <file>icons_64x64/scissors_64x64.png</file>
         <file>icons_64x64/statistic_64x64.png</file>
         <file>icons_64x64/text_field_64x64.png</file>
+    </qresource>
+    <qresource prefix="/OpenRPT/images">
+        <file>line_solid.png</file>
+        <file>line_dashed.png</file>
+        <file>line_dotted.png</file>
     </qresource>
 </RCC>

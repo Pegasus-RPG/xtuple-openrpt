@@ -357,19 +357,21 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
     if(prim->type() == OROTextBox::TextBox)
     {
       OROTextBox * tb = (OROTextBox*)prim;
-	  painter->setFont(tb->font());
 
       QSizeF sz = tb->size();
       QRectF rc = QRectF(0, 0, sz.width() * xDpi, sz.height() * yDpi);
 
+      prim->drawRect(rc, painter, printResolution);
+
+	  painter->setFont(tb->font());
       painter->drawText(rc, tb->flags(), tb->text());
     }
     else if(prim->type() == OROLine::Line)
     {
-		OROLine * ln = (OROLine*)prim;
+        OROLine * ln = (OROLine*)prim;
 		QPointF s = ln->startPoint();
 		QPointF e = ln->endPoint();
-		pen.setWidthF((ln->weight() / 100) * printResolution);
+        pen.setWidthF((pen.widthF() / 100) * printResolution);
 		painter->setPen(pen);
 		painter->drawLine(QLineF(0, 0, (e.x()-s.x()) * xDpi, (e.y()-s.y()) * yDpi));
     }
@@ -378,6 +380,8 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
       OROImage * im = (OROImage*)prim;
       QSizeF sz = im->size();
       QRectF rc = QRectF(0, 0, sz.width() * xDpi, sz.height() * yDpi);
+
+      prim->drawRect(rc, painter, printResolution);
 
       QImage img = im->image();
       if(im->scaled())
@@ -388,13 +392,9 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
     }
     else if(prim->type() == ORORect::Rect)
     {
-      ORORect * re = (ORORect*)prim;
-
-      QSizeF sz = re->size();
+      QSizeF sz = ((OROTextBox*)prim)->size();
       QRectF rc = QRectF(0, 0, sz.width() * xDpi, sz.height() * yDpi);
-      pen.setWidthF((re->weight() / 100) * printResolution);
-	  painter->setPen(pen);
-      painter->drawRect(rc);
+      prim->drawRect(rc, painter, printResolution);
     }
     else
     {

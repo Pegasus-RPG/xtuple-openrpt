@@ -153,7 +153,8 @@ class ReportHandler : public QObject {
 
         void color();
         void fill();
-		void rotation();
+        void border();
+        void rotation();
 
         void fontChange(const QString &text);
         void fontSizeChange(const QString &text);
@@ -257,7 +258,8 @@ class ReportHandler : public QObject {
         QActionGroup * grpProperties;
         QAction * colorAction;
         QAction * fillAction;
-		QAction * rotationAction;
+        QAction * borderAction;
+        QAction * rotationAction;
 
 		QList<QAction*> m_SectionActions;
 

@@ -836,18 +836,16 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
       OROLine * ln = new OROLine(elemThis);
       ln->setStartPoint(QPointF((l->xStart / 100.0) + _leftMargin, (l->yStart / 100.0) + _yOffset));
       ln->setEndPoint(QPointF((l->xEnd / 100.0) + _leftMargin, (l->yEnd / 100.0) + _yOffset));
-      ln->setWeight(l->weight);
-	  ln->setRotation(l->rotation());
+      ln->setRotation(l->rotation());
       _page->addPrimitive(ln);
     }
     else if (elemThis->isRect())
     {
-        ORRectData * r = elemThis->toRect();
-        ORORect * rn = new ORORect(elemThis);
-        rn->setRect(QRectF((r->x / 100.0) + _leftMargin, (r->y / 100.0) + _yOffset, r->width / 100.0, r->height / 100.0));
-        rn->setWeight(r->weight);
-		rn->setRotation(r->rotation());
-        _page->addPrimitive(rn);
+      ORRectData * r = elemThis->toRect();
+      ORORect * rn = new ORORect(elemThis);
+      rn->setRect(QRectF((r->x / 100.0) + _leftMargin, (r->y / 100.0) + _yOffset, r->width / 100.0, r->height / 100.0));
+      rn->setRotation(r->rotation());
+      _page->addPrimitive(rn);
     }
     else if (elemThis->isBarcode())
     {

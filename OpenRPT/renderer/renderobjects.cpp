@@ -17,6 +17,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  * Please contact info@openmfg.com with any questions on this license.
  */
+
+#include <QPainter>
+
 #include "renderobjects.h"
 #include "parsexmlutils.h"
 
@@ -178,7 +181,7 @@ void OROPage::setBackgroundOpacity(unsigned char o)
 // OROPrimitive
 //
 OROPrimitive::OROPrimitive(ORObject *o, int pType)
-  : _type(pType), _pen(o->pen()), _brush(o->brush()), _rotation(o->rotation())
+  : _type(pType), _pen(o->pen()), _border(o->border()), _brush(o->brush()), _rotation(o->rotation())
 {
   _page = 0;
 }
@@ -202,6 +205,21 @@ void OROPrimitive::setRotationAxis(const QPointF p)
 	_rotationAxis = p;
 }
 
+void OROPrimitive::drawRect(QRectF rc, QPainter* painter, int printResolution)
+{
+  if(border().width()==0 && type()!=ORORect::Rect && brush()==Qt::NoBrush)
+  {
+    return; // nothing to draw
+  }
+
+  QPen pen = border();
+  pen.setWidthF((pen.widthF() / 100) * printResolution);
+  painter->save();
+  painter->setPen(border().width()==0 && type()!=ORORect::Rect ? Qt::NoPen : pen);
+  painter->setBrush(brush());
+  painter->drawRect(rc);
+  painter->restore();
+}
 
 //
 // OROTextBox
@@ -245,7 +263,6 @@ const int OROLine::Line = 2;
 OROLine::OROLine(ORObject *o)
   : OROPrimitive(o, OROLine::Line)
 {
-  _weight = 0.0;
 } 
 
 OROLine::~OROLine()
@@ -260,11 +277,6 @@ void OROLine::setStartPoint(const QPointF & p)
 void OROLine::setEndPoint(const QPointF & p)
 {
   _endPoint = p;
-}
-
-void OROLine::setWeight(qreal w)
-{
-  _weight = w;
 }
 
 //
@@ -317,7 +329,6 @@ const int ORORect::Rect = 4;
 ORORect::ORORect(ORObject *o)
   : OROPrimitive(o, ORORect::Rect)
 {
-  _weight = 0.0;
 }
 
 ORORect::~ORORect()
@@ -327,11 +338,6 @@ ORORect::~ORORect()
 void ORORect::setSize(const QSizeF & s)
 {
   _size = s;
-}
-
-void ORORect::setWeight(qreal w)
-{
-    _weight = w;
 }
 
 void ORORect::setRect(const QRectF & r)

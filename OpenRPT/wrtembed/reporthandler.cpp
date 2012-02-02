@@ -127,6 +127,7 @@ class ReportWriterCopyData
 
     QBrush copy_brush;     // all entities
     QPen   copy_pen;       // all entities
+    QPen   copy_border;    // all entities
 
     ORGraphData copy_graph; // graph
 };
@@ -363,6 +364,7 @@ ReportHandler::ReportHandler(QObject * parent, const char * name)
   grpProperties = new QActionGroup(this);
   colorAction = new QAction(tr("Color"), grpProperties);
   fillAction = new QAction(tr("Fill"), grpProperties);
+  borderAction = new QAction(tr("Border"), grpProperties);
   rotationAction = new QAction(tr("Rotation"), grpProperties);
 
 
@@ -417,6 +419,7 @@ ReportHandler::ReportHandler(QObject * parent, const char * name)
   connect(evenVSpacingAction, SIGNAL(activated()), this, SLOT(evenVSpacing()));
   connect(colorAction, SIGNAL(activated()), this, SLOT(color()));
   connect(fillAction, SIGNAL(activated()), this, SLOT(fill()));
+  connect(borderAction, SIGNAL(activated()), this, SLOT(border()));
   connect(rotationAction, SIGNAL(activated()), this, SLOT(rotation()));
 }
 
@@ -902,6 +905,7 @@ void ReportHandler::editCopy() {
           cp.copy_str1 = ent->text();
           cp.copy_font = ent->font();
           cp.copy_pen  = ent->pen();
+          cp.copy_border  = ent->border();
           cp.copy_brush = ent->brush();
           cp.copy_int1 = ent->textFlags();
           cp.copy_rect = QRectF(ent->mapToScene(ent->rect().topLeft()), ent->rect().size());
@@ -917,6 +921,7 @@ void ReportHandler::editCopy() {
           cp.copy_str3 = ent->format();
           cp.copy_font = ent->font();
           cp.copy_pen  = ent->pen();
+          cp.copy_border  = ent->border();
           cp.copy_brush = ent->brush();
           cp.copy_int1 = ent->textFlags();
           cp.copy_int2 = ent->lines();
@@ -940,6 +945,7 @@ void ReportHandler::editCopy() {
           cp.copy_str2 = ent->column();
           cp.copy_font = ent->font();
           cp.copy_pen  = ent->pen();
+          cp.copy_border  = ent->border();
           cp.copy_brush = ent->brush();
           cp.copy_int1 = ent->textFlags();
           cp.copy_rect = QRectF(ent->mapToScene(ent->rect().topLeft()), ent->rect().size());
@@ -954,7 +960,7 @@ void ReportHandler::editCopy() {
           cp.copy_line_start = ent->mapToScene(ent->line().p1());
           cp.copy_line_end = ent->mapToScene(ent->line().p2());
           cp.copy_pen  = ent->pen();
-          cp.copy_offset = cp.copy_line_start - sectionData->copy_pos;
+           cp.copy_offset = cp.copy_line_start - sectionData->copy_pos;
           sectionData->copy_list.append(cp);
         }
         else if(rtti == ORGraphicsRectItem::Type)
@@ -963,6 +969,7 @@ void ReportHandler::editCopy() {
           cp.copy_item = ReportWriterSectionData::RectItem;
           cp.copy_rect = QRectF(ent->mapToScene(ent->rect().topLeft()), ent->rect().size());
           cp.copy_pen  = ent->pen();
+          cp.copy_border  = ent->border();
           cp.copy_brush = ent->brush();
           cp.copy_offset = cp.copy_rect.topLeft() - sectionData->copy_pos;
           sectionData->copy_list.append(cp);
@@ -978,6 +985,7 @@ void ReportHandler::editCopy() {
           cp.copy_int2 = ent->alignment();
           cp.copy_dbl1 = ent->narrowBarWidth();
           cp.copy_pen  = ent->pen();
+          cp.copy_border  = ent->border();
           cp.copy_brush = ent->brush();
           cp.copy_rect = QRectF(ent->mapToScene(ent->rect().topLeft()), ent->rect().size());
           cp.copy_offset = cp.copy_rect.topLeft() - sectionData->copy_pos;
@@ -993,6 +1001,7 @@ void ReportHandler::editCopy() {
           cp.copy_str4 = ent->mode();
           cp.copy_bool1 = ent->isInline();
           cp.copy_pen  = ent->pen();
+          cp.copy_border  = ent->border();
           cp.copy_brush = ent->brush();
           cp.copy_rect = QRectF(ent->mapToScene(ent->rect().topLeft()), ent->rect().size());
           cp.copy_offset = cp.copy_rect.topLeft() - sectionData->copy_pos;
@@ -1004,6 +1013,7 @@ void ReportHandler::editCopy() {
           cp.copy_item = ReportWriterSectionData::GraphItem;
           cp.copy_rect = QRectF(ent->mapToScene(ent->rect().topLeft()), ent->rect().size());
           cp.copy_pen  = ent->pen();
+          cp.copy_border  = ent->border();
           cp.copy_brush = ent->brush();
           ent->copyData(cp.copy_graph);
           cp.copy_offset = cp.copy_rect.topLeft() - sectionData->copy_pos;
@@ -1069,6 +1079,7 @@ void ReportHandler::editPaste(const QPointF & pos)
       ent->setText(cp.copy_str1);
       ent->setFont(cp.copy_font);
       ent->setPen(cp.copy_pen);
+      ent->setBorder(cp.copy_border);
       ent->setBrush(cp.copy_brush);
       ent->setTextFlags(cp.copy_int1);
       ent->setPos(section->mapFromScene(pos + cp.copy_offset));
@@ -1082,6 +1093,7 @@ void ReportHandler::editPaste(const QPointF & pos)
       ent->setColumn(cp.copy_str2);
       ent->setFont(cp.copy_font);
       ent->setPen(cp.copy_pen);
+      ent->setBorder(cp.copy_border);
       ent->setBrush(cp.copy_brush);
       ent->setTextFlags(cp.copy_int1);
       ent->setArray(cp.copy_int2, cp.copy_int3, cp.copy_dbl1, cp.copy_dbl2, cp.copy_bool4, cp.copy_bool5);
@@ -1099,6 +1111,7 @@ void ReportHandler::editPaste(const QPointF & pos)
       ent->setColumn(cp.copy_str2);
       ent->setFont(cp.copy_font);
       ent->setPen(cp.copy_pen);
+      ent->setBorder(cp.copy_border);
       ent->setBrush(cp.copy_brush);
       ent->setTextFlags(cp.copy_int1);
       ent->setPos(section->mapFromScene(pos + cp.copy_offset));
@@ -1118,6 +1131,7 @@ void ReportHandler::editPaste(const QPointF & pos)
     {
       ORGraphicsRectItem * ent = new ORGraphicsRectItem(section);
       ent->setPen(cp.copy_pen);
+      ent->setBorder(cp.copy_border);
       ent->setBrush(cp.copy_brush);
       ent->setPos(section->mapFromScene(pos + cp.copy_offset));
       ent->setRect(0, 0, cp.copy_rect.width(),cp.copy_rect.height());
@@ -1129,6 +1143,7 @@ void ReportHandler::editPaste(const QPointF & pos)
       ent->setQuery(cp.copy_str1);
       ent->setColumn(cp.copy_str2);
       ent->setPen(cp.copy_pen);
+      ent->setBorder(cp.copy_border);
       ent->setBrush(cp.copy_brush);
       ent->setFormat(cp.copy_str3);
       ent->setMaxLength(cp.copy_int1);
@@ -1144,6 +1159,7 @@ void ReportHandler::editPaste(const QPointF & pos)
       ent->setQuery(cp.copy_str1);
       ent->setColumn(cp.copy_str2);
       ent->setPen(cp.copy_pen);
+      ent->setBorder(cp.copy_border);
       ent->setBrush(cp.copy_brush);
       ent->setInlineImageData(cp.copy_str3);
       ent->setMode(cp.copy_str4);
@@ -1157,6 +1173,7 @@ void ReportHandler::editPaste(const QPointF & pos)
       ORGraphicsGraphItem * ent = new ORGraphicsGraphItem(section);
       ent->setData(cp.copy_graph);
       ent->setPen(cp.copy_pen);
+      ent->setBorder(cp.copy_border);
       ent->setBrush(cp.copy_brush);
       ent->setPos(section->mapFromScene(pos + cp.copy_offset));
       ent->setRect(0, 0, cp.copy_rect.width(),cp.copy_rect.height());
@@ -1835,6 +1852,7 @@ void ReportHandler::buildItemContextMenu(QMenu * menu)
     menu->addSeparator();
     menu->addAction(colorAction);
     menu->addAction(fillAction);
+    menu->addAction(borderAction);
     menu->addAction(rotationAction);
 
     createSectionActions();
@@ -2320,6 +2338,57 @@ void ReportHandler::fill()
             item->setBrush(brush);
         }
     }
+}
+
+
+void ReportHandler::border()
+{
+  DocumentWindow *gw = activeDocumentWindow();
+  if(!gw)
+    return;
+
+  QList<QGraphicsItem*> list = gw->_scene->selectedItems();
+  QPen newBorder, previousBorder;
+
+  for(int i = 0; i < list.count(); i++)
+  {
+    if(list.at(i)->type() == ORGraphicsLineItem::Type)
+    {
+      ORGraphicsLineItem * l = static_cast<ORGraphicsLineItem*>(list.at(i));
+      if(i==0)
+      {
+        previousBorder = l->pen();
+        l->properties(gw);
+        newBorder = l->pen();
+      }
+      else
+      {
+        QPen pen = l->pen();
+        if(newBorder.color() != previousBorder.color()) pen.setColor(newBorder.color());
+        if(newBorder.width() != previousBorder.width()) pen.setWidth(newBorder.width());
+        if(newBorder.style() != previousBorder.style()) pen.setStyle(newBorder.style());
+        l->setPen(pen);
+      }
+    }
+    else
+    {
+      ORGraphicsRectItem * r = static_cast<ORGraphicsRectItem*>(list.at(i));
+      if(i==0)
+      {
+        previousBorder = r->border();
+        r->borderProperties(gw);
+        newBorder = r->border();
+      }
+      else
+      {
+        QPen pen = r->border();
+        if(newBorder.color() != previousBorder.color()) pen.setColor(newBorder.color());
+        if(newBorder.width() != previousBorder.width()) pen.setWidth(newBorder.width());
+        if(newBorder.style() != previousBorder.style()) pen.setStyle(newBorder.style());
+        r->setBorder(pen);
+      }
+    }
+  }
 }
 
 

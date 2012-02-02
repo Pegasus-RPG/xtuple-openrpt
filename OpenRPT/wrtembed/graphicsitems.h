@@ -83,9 +83,13 @@ class ORGraphicsRectItem : public QGraphicsRectItem
     static void  setDefaultEntityFont(const QFont &);
 
     virtual void properties(QWidget * parent = 0);
+    void borderProperties(QWidget * parent = 0);
 
 	qreal rotation() const { return _rotation; }
 	void setRotation(qreal angle); 
+
+    QPen border() const { return _border; }
+    void setBorder(QPen p)  { _border = p; }
 
   protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent * event);
@@ -107,6 +111,7 @@ class ORGraphicsRectItem : public QGraphicsRectItem
     ORResizeHandle *_rhBottomLeft;
     ORResizeHandle *_rhLeft;
 	qreal			_rotation;
+    QPen            _border;
 
 	bool			_moved;
     static bool _readDefaultFont;

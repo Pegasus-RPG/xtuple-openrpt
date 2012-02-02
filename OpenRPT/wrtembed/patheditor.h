@@ -1,6 +1,6 @@
 /*
  * OpenRPT report writer and rendering engine
- * Copyright (C) 2001-2012 by OpenMFG, LLC
+ * Copyright (C) 2001-2011 by OpenMFG, LLC
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,31 +18,35 @@
  * Please contact info@openmfg.com with any questions on this license.
  */
 
-#ifndef COLOREDITOR_H
-#define COLOREDITOR_H
+#ifndef PATHEDITOR_H
+#define PATHEDITOR_H
 
 #include <QVariant>
 #include <QDialog>
+#include <QPen>
+#include "ui_patheditor.h"
 
-#include "ui_coloreditor.h"
-
-class ColorEditor : public QDialog, public Ui::ColorEditor
+class PathEditor : public QDialog, public Ui::PathEditor
 {
     Q_OBJECT
 
 public:
-    ColorEditor(QWidget* parent = 0, Qt::WindowFlags fl = 0);
-    ~ColorEditor();
+    PathEditor(QWidget* parent, QPen initPen, Qt::WindowFlags fl = 0);
+    ~PathEditor();
+
+    QPen pen() { return _pen; }
 
 public slots:
-    virtual void _btnColor_clicked();
-    virtual void setColorName( QString name );
-    virtual void setColor( const QColor & col );
-    virtual QColor getColor();
-    virtual QString getColorName();
+
+    void _btnColor_clicked();
 
 protected slots:
     virtual void languageChange();
+    virtual void accept();
+
+private:
+    QPen _pen;
+
 };
 
-#endif // COLOREDITOR_H
+#endif // PATHEDITOR_H
