@@ -155,11 +155,11 @@ void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qst
       for(int x = 0; x < img->width; x++)
       {
         dmtxImageGetPixelValue(img,x,y,0,&valeur);
-        rect = new ORORect(bc);
-        rect->setPen(pen);
 
         if(valeur == 0)
         {
+          rect = new ORORect(bc);
+          rect->setPen(pen);
           brush.setColor(Qt::black);
           rect->setBrush(brush);
           rect->setRect(QRectF(	Xo + x*pas,
@@ -170,7 +170,6 @@ void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qst
           page->addPrimitive(rect);
         }
       }
-      delete rect;
     }
 
     //memory cleanning
