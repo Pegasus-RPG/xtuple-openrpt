@@ -108,6 +108,9 @@ ORDetailSectionData::ORDetailSectionData()
 
 ORDetailSectionData::~ORDetailSectionData() {
 	qDeleteAll(groupList);
+	if (detail) {
+		delete detail;
+	}
 }
 
 ORReportData::ORReportData()
