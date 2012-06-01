@@ -22,6 +22,10 @@
 #include "renderobjects.h"
 #include "pagesizeinfo.h"
 
+#include <QTextDocument>
+#include <QTextCursor>
+#include <QPaintEngine>
+
 static void renderBackground(QImage &, const QImage &, const QRect &, bool, Qt::AspectRatioMode, int, unsigned int);
 static void renderWatermark(QImage &, const QString &, const QFont &, const unsigned int, double, double, double, double);
 
@@ -342,11 +346,13 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
     painter->setBrush(prim->brush());
 
 	QPointF ps = prim->position();
-	if(prim->rotationAxis().isNull()) {
+    if(prim->rotationAxis().isNull())
+    {
 		painter->translate(ps.x() * xDpi, ps.y() * yDpi); 
 		painter->rotate(prim->rotation()); // rotation around the origin of the primitive (not the center)
 	}
-	else { // rotation around the defined axis
+    else
+    { // rotation around the defined axis
 		qreal xRot = prim->rotationAxis().x();
 		qreal yRot = prim->rotationAxis().y();
 		painter->translate(xRot * xDpi, yRot * yDpi); 
@@ -364,14 +370,45 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
       prim->drawRect(rc, painter, printResolution);
 
 	  painter->setFont(tb->font());
-      painter->drawText(rc, tb->flags(), tb->text());
+      QString text = tb->text();
+      QString url;
+
+      if(tb->text().startsWith("<http"))
+      {
+          int endOfUrl = tb->text().indexOf('>');
+          if(endOfUrl > 0)
+          {
+              url = tb->text().mid(1, endOfUrl-1);
+              text = tb->text().mid(endOfUrl+1);
+              if(text.isEmpty()) text = url;
+          }
+      }
+
+      bool toPdf = painter->paintEngine()->type() == QPaintEngine::Pdf;
+      if(toPdf && !url.isEmpty())
+      {
+          QTextDocument doc;
+          QTextCursor cursor(&doc);
+          QTextCharFormat format;
+          format.setFont(tb->font());
+          format.setFontPointSize(tb->font().pointSizeF()*printResolution/100.0);
+          format.setAnchor(true);
+          format.setAnchorHref(url);
+          cursor.insertText(text, format);
+          doc.drawContents(painter);
+      }
+      else
+      {
+          painter->drawText(rc, tb->flags(), text);
+      }
+
     }
     else if(prim->type() == OROLine::Line)
     {
         OROLine * ln = (OROLine*)prim;
 		QPointF s = ln->startPoint();
 		QPointF e = ln->endPoint();
-        pen.setWidthF((pen.widthF() / 100) * printResolution);
+        pen.setWidthF((pen.widthF() / 100.0) * printResolution);
 		painter->setPen(pen);
 		painter->drawLine(QLineF(0, 0, (e.x()-s.x()) * xDpi, (e.y()-s.y()) * yDpi));
     }
