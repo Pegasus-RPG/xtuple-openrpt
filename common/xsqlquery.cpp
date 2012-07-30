@@ -150,9 +150,10 @@ XSqlQuery::XSqlQuery(const QSqlQuery & other) :
 XSqlQuery::XSqlQuery(const XSqlQuery & other) :
   QSqlQuery(other)
 {
-  _data = new XSqlQueryPrivate(this);
   if (other._data)
     _data = new XSqlQueryPrivate(*other._data);
+  else
+    _data = new XSqlQueryPrivate(this);
 }
 
 XSqlQuery::~XSqlQuery()
