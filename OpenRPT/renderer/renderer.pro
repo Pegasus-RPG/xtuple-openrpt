@@ -50,6 +50,7 @@ HEADERS = openreports.h \
 SOURCES = openreports.cpp \
           3of9.cpp \
           ext3of9.cpp \
+          i2of5.cpp \
           code128.cpp \
           codeean.cpp \
           crosstab.cpp \
@@ -66,7 +67,7 @@ SOURCES = openreports.cpp \
           ../common/builtinSqlFunctions.cpp \		# MANU
           ../common/labelsizeinfo.cpp \
           ../common/pagesizeinfo.cpp \ 
-    datamatrix.cpp
+          datamatrix.cpp
 
 INCLUDEPATH += ../common ../../common
 

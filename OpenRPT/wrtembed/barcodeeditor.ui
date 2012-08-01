@@ -137,6 +137,11 @@
          </item>
          <item>
           <property name="text">
+           <string>i2of5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>Datamatrix square</string>
           </property>
          </item>

@@ -38,6 +38,11 @@ void render3of9(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
 void renderExtended3of9(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
 
 //
+// Interleaved 2 of 5
+//
+void renderI2of5(OROPage * page, const QRectF &, const QString & _str, ORBarcodeData * bc);
+
+//
 // Code 128
 //
 void renderCode128(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);

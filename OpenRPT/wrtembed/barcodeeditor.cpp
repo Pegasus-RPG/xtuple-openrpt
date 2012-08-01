@@ -59,6 +59,9 @@ BarcodeEditor::BarcodeEditor(QWidget* parent, Qt::WindowFlags fl)
     leWidth->setValidator(new QDoubleValidator(0.01,100.0,3,leWidth));
     leHeight->setValidator(new QDoubleValidator(0.01,100.0,3,leHeight));
     leNarrowBarWidth->setValidator(new QDoubleValidator(0.005,0.1,3,leNarrowBarWidth));
+
+    iDatamatrix_square = cbFormat->findText(tr("Datamatrix square"));
+    iDatamatrix_rect = cbFormat->findText(tr("Datamatrix rectangle"));
 }
 
 BarcodeEditor::~BarcodeEditor()
@@ -99,11 +102,11 @@ QString BarcodeEditor::format()
     }
 
 
-    if(!this->cbFormat->currentText().contains("Datamatrix"))
+    if(!this->cbFormat->currentText().contains("datamatrix",Qt::CaseInsensitive))
     {
         return this->cbFormat->currentText();
     }
-    else if(this->cbFormat->currentIndex() == 7 /*square*/)
+    else if(this->cbFormat->currentIndex() == iDatamatrix_square)
     {
         return this->dMatrixSquare->format() + qsAlign;
     }
@@ -115,9 +118,8 @@ QString BarcodeEditor::format()
 
 void BarcodeEditor::cbFormat_ViewConfig(int i)
 {
-    switch(i)
+    if(i==iDatamatrix_square)
     {
-    case 7:
         this->leNarrowBarWidth->setVisible(false);
         this->lnarrowBar->setVisible(false);
 
@@ -125,8 +127,9 @@ void BarcodeEditor::cbFormat_ViewConfig(int i)
         this->dMatrixSquare->setVisible(true);
         this->dMatrixRect->setVisible2(false);
         this->dBarcode->setVisible(false);
-        break;
-    case 8:
+    }
+    else if(i==iDatamatrix_rect)
+    {
         this->leNarrowBarWidth->setVisible(false);
         this->lnarrowBar->setVisible(false);
 
@@ -134,8 +137,9 @@ void BarcodeEditor::cbFormat_ViewConfig(int i)
         this->dMatrixSquare->setVisible2(false);
         this->dMatrixRect->setVisible(true);
         this->dBarcode->setVisible(false);
-        break;
-    default:
+     }
+     else
+     {
         this->leNarrowBarWidth->setVisible(true);
         this->lnarrowBar->setVisible(true);
 
@@ -143,7 +147,6 @@ void BarcodeEditor::cbFormat_ViewConfig(int i)
         this->dMatrixSquare->setVisible2(false);
         this->dMatrixRect->setVisible2(false);
         this->dBarcode->setVisible(true);
-        break;
     }
 }
 
@@ -174,17 +177,15 @@ void BarcodeEditor::setDatamatrixEditor(QString format)
 
     if(value <24)
     {
-        //this->cbFormat->setCurrentIndex(this->cbFormat->findText(tr("Datamatrix square")));
-        this->cbFormat->setCurrentIndex(7 /*square Datamatrix*/);
+        this->cbFormat->setCurrentIndex(iDatamatrix_square);
         this->dMatrixSquare->setCursorValue(value);
-        this->cbFormat_ViewConfig(7);
+        this->cbFormat_ViewConfig(iDatamatrix_square);
     }
     else
     {
-        //this->cbFormat->setCurrentIndex(this->cbFormat->findText(tr("Datamatrix rectangle")));
-        this->cbFormat->setCurrentIndex(8 /*rectangle Datamatrix*/);
+      this->cbFormat->setCurrentIndex(iDatamatrix_rect);
         this->dMatrixRect->setIndexValue(value - 24);
-        this->cbFormat_ViewConfig(8);
+        this->cbFormat_ViewConfig(iDatamatrix_rect);
     }
 
     if(align == "L")

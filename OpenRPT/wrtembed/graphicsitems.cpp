@@ -2091,6 +2091,10 @@ void ORGraphicsBarcodeItem::setMaxLength(int i)
       _min_width_total = _min_width_data + 0.22; // added a little buffer to make sure we don't loose any
                                                // of our required quiet zone in conversions
     }
+    else if(_frmt == "i2of5")
+    {
+      _min_height = 0.25;
+    }
     else if(_frmt == "128")
     {
       int C = i; // assuming 1:1 ratio of data passed in to data actually used in encoding

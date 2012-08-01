@@ -60,6 +60,9 @@ private:
     DMatrixSquareConfig* dMatrixSquare;
     DMatrixRectConfig* dMatrixRect;
     DBarcodeConfig* dBarcode;
+
+    int iDatamatrix_square;
+    int iDatamatrix_rect;
 };
 
 #endif // BARCODEEDITOR_H

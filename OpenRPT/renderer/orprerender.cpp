@@ -863,9 +863,11 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
       populateData(bc->data, dataThis);
 
       if(bc->format == "3of9")
-        render3of9(_page, rect,dataThis.getValue(), bc);
+        render3of9(_page, rect, dataThis.getValue(), bc);
       else if(bc->format == "3of9+")
-        renderExtended3of9(_page, rect,dataThis.getValue(), bc);
+        renderExtended3of9(_page, rect, dataThis.getValue(), bc);
+      else if(bc->format == "i2of5")
+        renderI2of5(_page, rect, dataThis.getValue(), bc);
       else if(bc->format == "128")
         renderCode128(_page, rect, dataThis.getValue(), bc);
       else if(bc->format == "ean13")
