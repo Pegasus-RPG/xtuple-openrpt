@@ -245,6 +245,27 @@ void OROTextBox::setText(const QString & s)
   _text = s;
 }
 
+// insert spaces into long stretches of non-whitespace to allow wrapping
+// TODO: why doesn't Qt::TextWrapAnywhere work?
+QString OROTextBox::textForcedToWrap(QPainter *p)
+{
+  QRectF  tbrect(0.0, 0.0,
+                 size().width()  * p->device()->logicalDpiX(),
+                 size().height() * p->device()->logicalDpiY());
+  QString result = text();
+
+  for (int charwid = result.length() * (double)tbrect.width() /
+                     p->boundingRect(tbrect, _flags, result).width();
+       charwid > 0 &&
+       (p->boundingRect(tbrect, _flags, result).width() > tbrect.width());
+       charwid--)
+  {
+    result = text();
+    result.replace(QRegExp(QString("(\\S{%1})").arg(charwid)), "\\1 ");
+  }
+  return result;
+}
+
 void OROTextBox::setFont(const QFont & f)
 {
   _font = f;
@@ -263,7 +284,7 @@ const int OROLine::Line = 2;
 OROLine::OROLine(ORObject *o)
   : OROPrimitive(o, OROLine::Line)
 {
-} 
+}
 
 OROLine::~OROLine()
 {

@@ -92,7 +92,7 @@ bool ORPrintRender::render(ORODocument * pDocument)
   {
     deleteWhenComplete = true;
     _painter = &localPainter;
-  } 
+  }
 
   if(!_painter->isActive())
   {
@@ -345,20 +345,20 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
     painter->setPen(pen);
     painter->setBrush(prim->brush());
 
-	QPointF ps = prim->position();
+    QPointF ps = prim->position();
     if(prim->rotationAxis().isNull())
     {
-		painter->translate(ps.x() * xDpi, ps.y() * yDpi); 
-		painter->rotate(prim->rotation()); // rotation around the origin of the primitive (not the center)
-	}
+      painter->translate(ps.x() * xDpi, ps.y() * yDpi);
+      painter->rotate(prim->rotation()); // rotation around the origin of the primitive (not the center)
+    }
     else
     { // rotation around the defined axis
-		qreal xRot = prim->rotationAxis().x();
-		qreal yRot = prim->rotationAxis().y();
-		painter->translate(xRot * xDpi, yRot * yDpi); 
-		painter->rotate(prim->rotation());
-		painter->translate((ps.x() - xRot) * xDpi, (ps.y() - yRot) * yDpi); 
-	}
+      qreal xRot = prim->rotationAxis().x();
+      qreal yRot = prim->rotationAxis().y();
+      painter->translate(xRot * xDpi, yRot * yDpi);
+      painter->rotate(prim->rotation());
+      painter->translate((ps.x() - xRot) * xDpi, (ps.y() - yRot) * yDpi);
+    }
 
     if(prim->type() == OROTextBox::TextBox)
     {
@@ -369,7 +369,7 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
 
       prim->drawRect(rc, painter, printResolution);
 
-	  painter->setFont(tb->font());
+      painter->setFont(tb->font());
       QString text = tb->text();
       QString url;
 
@@ -399,18 +399,21 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
       }
       else
       {
+        if ((tb->flags() & Qt::TextWordWrap) && 
+            painter->boundingRect(rc, tb->flags(), text).width() > rc.width())
+          painter->drawText(rc, tb->flags(), tb->textForcedToWrap(painter));
+        else
           painter->drawText(rc, tb->flags(), text);
       }
-
     }
     else if(prim->type() == OROLine::Line)
     {
         OROLine * ln = (OROLine*)prim;
-		QPointF s = ln->startPoint();
-		QPointF e = ln->endPoint();
+        QPointF s = ln->startPoint();
+        QPointF e = ln->endPoint();
         pen.setWidthF((pen.widthF() / 100.0) * printResolution);
-		painter->setPen(pen);
-		painter->drawLine(QLineF(0, 0, (e.x()-s.x()) * xDpi, (e.y()-s.y()) * yDpi));
+        painter->setPen(pen);
+        painter->drawLine(QLineF(0, 0, (e.x()-s.x()) * xDpi, (e.y()-s.y()) * yDpi));
     }
     else if(prim->type() == OROImage::Image)
     {
