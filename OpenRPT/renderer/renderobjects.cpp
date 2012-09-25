@@ -255,31 +255,38 @@ QString OROTextBox::textForcedToWrap(QPainter *p)
                  size().width()  * p->device()->logicalDpiX(),
                  size().height() * p->device()->logicalDpiY());
   QString result = text();
+  QFont   origfont = p->font();
 
-  if (p->boundingRect(tbrect, _flags, result).width() < tbrect.width())
-    return result;
+  p->setFont(_font);
 
-  QRegExp wordre("(\\S+)");
-  QFontMetrics fm = p->fontMetrics();
-
-  int wordstart = 0;
-  while (wordre.indexIn(result, wordstart) != -1)
+  if (p->boundingRect(tbrect, _flags, result).width() >= tbrect.width())
   {
-    if (fm.width(wordre.cap(1)) <= tbrect.width())
-      wordstart += wordre.matchedLength();
-    else
+    QRegExp wordre("(\\S+)");
+    QFontMetrics fm = p->fontMetrics();
+
+    int wordstart = 0;
+    while (wordre.indexIn(result, wordstart) != -1)
     {
-      QString longword = wordre.cap(1);
-      int i = longword.length() * (double)tbrect.width() / fm.width(longword);
-      while (i < longword.length() &&
-             fm.width(longword.left(i)) < tbrect.width())
-         i++;
-      // i now points to the char that overflows
-      result.insert(wordstart + i - 1, " ");
-      wordstart += i - 1;
+      if (fm.width(wordre.cap(1)) <= tbrect.width())
+        wordstart += wordre.matchedLength();
+      else
+      {
+        QString longword = wordre.cap(1);
+        int i = longword.length() * (double)tbrect.width() / fm.width(longword);
+        while (i > 2 &&
+               fm.width(longword.left(i)) >= tbrect.width())
+           i--;
+        while (i < longword.length() &&
+               fm.width(longword.left(i)) < tbrect.width())
+           i++;
+        // i now points to the char that overflows
+        result.insert(wordstart + i - 1, " ");
+        wordstart += i - 1;
+      }
     }
   }
 
+  p->setFont(origfont);
   return result;
 }
 

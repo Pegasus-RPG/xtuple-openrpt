@@ -653,17 +653,11 @@ qreal ORPreRenderPrivate::renderSectionSize(const ORSectionData & sectionData, b
       qreal   intStretch      = trf.top() - _yOffset;
       qreal   intRectHeight   = trf.height();
 
-      QFont f = t->font;
-
       qstrValue = dataThis.getValue();
       if (qstrValue.length())
       {
-        int pos = 0;
-        int idx;
-        QChar separator;
-        QRegExp re("\\s");
         QImage prnt(1, 1, QImage::Format_RGB32);
-        QFontMetrics fm(f, &prnt);
+        QFontMetrics fm(t->font, &prnt);
 
         int intRectWidth = (int)(trf.width() * prnt.logicalDpiX()) - CLIPMARGIN;
 
@@ -675,8 +669,7 @@ qreal ORPreRenderPrivate::renderSectionSize(const ORSectionData & sectionData, b
           rect.setRight(rect.right() + CLIPMARGIN / 100.0);
 #endif
         // insert spaces into qstrValue to allow it to wrap
-        // TODO: why is width in textForcedToWrap off by 2x that found by fm?
-        rect.setWidth(intRectWidth * 2.0 / prnt.logicalDpiX());
+        rect.setWidth((qreal)intRectWidth / (qreal)prnt.logicalDpiX());
 
         QPainter imagepainter(&prnt);
         OROTextBox tmpbox(elemThis);
@@ -688,37 +681,11 @@ qreal ORPreRenderPrivate::renderSectionSize(const ORSectionData & sectionData, b
         tmpbox.setRotation(t->rotation());
         qstrValue = tmpbox.textForcedToWrap(&imagepainter);
 
-        while(qstrValue.length())
-        {
-          idx = re.indexIn(qstrValue, pos);
-          if(idx == -1)
-          {
-            idx = qstrValue.length();
-            separator = QChar('\n');
-          }
-          else
-            separator = qstrValue.at(idx);
-
-          if(fm.boundingRect(qstrValue.left(idx)).width() < intRectWidth || pos == 0)
-          {
-            pos = idx + 1;
-            if(separator == '\n')
-            {
-              qstrValue = qstrValue.mid(idx+1,qstrValue.length());
-              pos = 0;
-
-              intStretch += intRectHeight;
-            }
-          }
-          else
-          {
-            qstrValue = qstrValue.mid(pos,qstrValue.length());
-            pos = 0;
-
-            intStretch += intRectHeight;
-          }
-        }
-
+        QRectF brect = imagepainter.boundingRect(rect,
+                                                 t->align | Qt::TextWordWrap,
+                                                 qstrValue);
+        qreal actHeight = intRectHeight * brect.height() / fm.leading(); // is this right?
+        intStretch += actHeight;
         intStretch += (t->bottompad / 100.0);
 
         if (intStretch > intHeight)
@@ -1155,8 +1122,7 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
             sizeLimit = _maxHeight - _bottomMargin - finishCurPageSize((l+1 == qs));
 
           // insert spaces into qstrValue to allow it to wrap
-          // TODO: why is width in textForcedToWrap off by 2x that found by fm?
-          rect.setWidth(intRectWidth * 2.0 / prnt.logicalDpiX());
+          rect.setWidth((qreal)intRectWidth / (qreal)prnt.logicalDpiX());
 
           QPainter imagepainter(&prnt);
           OROTextBox tmpbox(elemThis);
