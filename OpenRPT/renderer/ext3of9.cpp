@@ -179,7 +179,7 @@ QString convertTo3of9(QChar c)
 }
 
 
-void renderExtended3of9(OROPage * page, const QRectF & r, const QString & str, ORBarcodeData * bc)
+void renderExtended3of9(QPainter *painter, int dpi, const QRectF & r, const QString & str, OROBarcode * bc)
 {
   QString new_str;
   QChar c;
@@ -190,7 +190,7 @@ void renderExtended3of9(OROPage * page, const QRectF & r, const QString & str, O
     new_str += convertTo3of9(c);
   }
 
-  render3of9(page, r, new_str, bc);
+  render3of9(painter, dpi, r, new_str, bc);
 
   return;
 }

@@ -46,37 +46,29 @@ const char* _i2of5charmap[] = {
 };
 
 
-static QPointF addElement(OROPage * page, const QRectF &r, QPointF startPos, ORBarcodeData * bc, qreal width, bool isSpace)
+static QPointF addElement(QPainter *painter, const QRectF &r, QPointF startPos, qreal width, bool isSpace)
 {
-  QPen pen(Qt::NoPen);
-  QBrush brush(QColor("black"));
-
   if(!isSpace)
   {
-    ORORect * rect = new ORORect(bc);
-    rect->setPen(pen);
-    rect->setBrush(brush);
-    rect->setRect(QRectF(startPos.x(),startPos.y(), width, r.height()));
-    rect->setRotationAxis(bc->rect.topLeft());
-    page->addPrimitive(rect);
+    painter->drawRect(QRectF(startPos.x(),startPos.y(), width, r.height()));
   }
   return QPointF(startPos.x() + width, startPos.y());
 }
 
-static QPointF addBar(OROPage * page, const QRectF &r, QPointF startPos, ORBarcodeData * bc, qreal width)
+static QPointF addBar(QPainter *painter, const QRectF &r, QPointF startPos, qreal width)
 {
-  return addElement(page, r, startPos, bc, width, false);
+  return addElement(painter, r, startPos, width, false);
 }
-static QPointF addSpace(OROPage * page, const QRectF &r, QPointF startPos, ORBarcodeData * bc, qreal width)
+static QPointF addSpace(QPainter *painter, const QRectF &r, QPointF startPos, qreal width)
 {
-  return addElement(page, r, startPos, bc, width, true);
+  return addElement(painter, r, startPos, width, true);
 }
 
 
-void renderI2of5(OROPage * page, const QRectF &r, const QString & _str, ORBarcodeData * bc)
+void renderI2of5(QPainter *painter, int dpi, const QRectF &r, const QString & _str, OROBarcode * bc)
 {
   QString str = _str;
-  qreal narrow_bar = bc->narrowBarWidth;
+  qreal narrow_bar = bc->narrowBarWidth() * dpi;
   qreal bar_width_mult = 2.5; // the wide bar width multiple of the narrow bar
   qreal wide_bar = narrow_bar * bar_width_mult;
 
@@ -87,8 +79,8 @@ void renderI2of5(OROPage * page, const QRectF &r, const QString & _str, ORBarcod
 
   // this is our mandatory minimum quiet zone
   qreal quiet_zone = narrow_bar * 10;
-  if(quiet_zone < 0.1)
-    quiet_zone = 0.1;
+  if(quiet_zone < 0.1*dpi)
+    quiet_zone = 0.1*dpi;
 
   // what kind of area do we have to work with
   qreal draw_width = r.width();
@@ -115,23 +107,29 @@ void renderI2of5(OROPage * page, const QRectF &r, const QString & _str, ORBarcod
   // to the right
   //
   // calculate the starting position based on the alignment option
-  if(bc->align == 1) // center
+  if(bc->align() == 1) // center
   {
     qreal nqz = (draw_width - L) / 2.0;
     if(nqz > quiet_zone)
       quiet_zone = nqz;
   }
-  else if(bc->align > 1) // right
+  else if(bc->align() > 1) // right
     quiet_zone = draw_width - (L + quiet_zone);
   //else if(align < 1) {} // left : do nothing
 
   QPointF pos(r.left() + quiet_zone, r.top());
 
+  QPen pen(Qt::NoPen);
+  QBrush brush(QColor("black"));
+  painter->save();
+  painter->setPen(pen);
+  painter->setBrush(brush);
+
   // start character
-  pos = addBar(page, r, pos, bc, narrow_bar);
-  pos = addSpace(page, r, pos, bc, narrow_bar);
-  pos = addBar(page, r, pos, bc, narrow_bar);
-  pos = addSpace(page, r, pos, bc, narrow_bar);
+  pos = addBar(painter, r, pos, narrow_bar);
+  pos = addSpace(painter, r, pos, narrow_bar);
+  pos = addBar(painter, r, pos, narrow_bar);
+  pos = addSpace(painter, r, pos, narrow_bar);
 
   for(int i = 0; i < str.length()-1; i+=2)
   {
@@ -145,16 +143,17 @@ void renderI2of5(OROPage * page, const QRectF &r, const QString & _str, ORBarcod
         }
         int iChar = c.digitValue();
         qreal width = _i2of5charmap[iChar][iElt] == 'W' ? wide_bar : narrow_bar;
-        pos = addElement(page, r, pos, bc, width, offset==1);
+        pos = addElement(painter, r, pos, width, offset==1);
       }
     }
   }
 
   // stop character
-  pos = addBar(page, r, pos, bc, wide_bar);
-  pos = addSpace(page, r, pos, bc, narrow_bar);
-  pos = addBar(page, r, pos, bc, narrow_bar);
+  pos = addBar(painter, r, pos, wide_bar);
+  pos = addSpace(painter, r, pos, narrow_bar);
+  pos = addBar(painter, r, pos, narrow_bar);
 
+  painter->restore();
 
   return;
 }

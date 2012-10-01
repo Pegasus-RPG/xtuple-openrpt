@@ -41,6 +41,22 @@ bool ORObject::isImage() { return false; }
 bool ORObject::isGraph() { return false; }
 bool ORObject::isCrossTab() { return false; }
 
+bool ORObject::isStatic()
+{
+  if(isLine() || isRect() || isLabel())
+  {
+    return true;
+  }
+  if(isImage())
+  {
+    ORImageData * im = toImage();
+    return !im->format.isEmpty();
+  }
+
+  return false;
+
+}
+
 ORLineData * ORObject::toLine() { return 0; }
 ORRectData * ORObject::toRect() { return 0; }
 ORLabelData * ORObject::toLabel() { return 0; }
@@ -50,6 +66,7 @@ ORBarcodeData * ORObject::toBarcode() { return 0; }
 ORImageData * ORObject::toImage() { return 0; }
 ORGraphData * ORObject::toGraph() { return 0; }
 ORCrossTabData * ORObject::toCrossTab() { return 0; }
+
 
 
 //

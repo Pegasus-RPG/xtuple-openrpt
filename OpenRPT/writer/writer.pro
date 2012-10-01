@@ -54,7 +54,7 @@ SOURCES += rptwrt.cpp\
            ../common/builtinSqlFunctions.cpp \	# MANU
            reportwriterwindow.cpp
 
-QT += xml sql
+QT += xml sql network
 #QT += qt3support
 
 RESOURCES += writer.qrc

@@ -21,6 +21,7 @@
 #include "orprintrender.h"
 #include "renderobjects.h"
 #include "pagesizeinfo.h"
+#include "barcodes.h"
 
 #include <QTextDocument>
 #include <QTextCursor>
@@ -71,10 +72,21 @@ bool ORPrintRender::setupPrinter(ORODocument * pDocument, QPrinter * pPrinter)
     //  pPrinter->setPageSize((QPrinter::PageSize)psi.qpValue());
     pPrinter->setPaperSize(QSizeF(pDocument->pageOptions().getCustomWidth(), pDocument->pageOptions().getCustomHeight()), QPrinter::Inch);
   }
-  else
-    pPrinter->setPageSize((QPrinter::PageSize)psi.qpValue());
+  else 
+  {
+    pPrinter->setPaperSize(QSizeF(psi.width()/100,psi.height()/100), QPrinter::Inch);
+  }
 
   return true;
+}
+
+bool ORPrintRender::render(ORODocument * pDocument, ReportPrinter *printer)
+{
+  setPrinter(printer);
+  printer->setParams(pDocument->getPrinterParams());
+  printer->setPrinterType(pDocument->printerType());
+  setupPrinter(pDocument, printer);
+  return render(pDocument);
 }
 
 bool ORPrintRender::render(ORODocument * pDocument)
@@ -92,7 +104,7 @@ bool ORPrintRender::render(ORODocument * pDocument)
   {
     deleteWhenComplete = true;
     _painter = &localPainter;
-  }
+  } 
 
   if(!_painter->isActive())
   {
@@ -345,20 +357,20 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
     painter->setPen(pen);
     painter->setBrush(prim->brush());
 
-    QPointF ps = prim->position();
+	QPointF ps = prim->position();
     if(prim->rotationAxis().isNull())
     {
-      painter->translate(ps.x() * xDpi, ps.y() * yDpi);
-      painter->rotate(prim->rotation()); // rotation around the origin of the primitive (not the center)
-    }
+		painter->translate(ps.x() * xDpi, ps.y() * yDpi); 
+		painter->rotate(prim->rotation()); // rotation around the origin of the primitive (not the center)
+	}
     else
     { // rotation around the defined axis
-      qreal xRot = prim->rotationAxis().x();
-      qreal yRot = prim->rotationAxis().y();
-      painter->translate(xRot * xDpi, yRot * yDpi);
-      painter->rotate(prim->rotation());
-      painter->translate((ps.x() - xRot) * xDpi, (ps.y() - yRot) * yDpi);
-    }
+		qreal xRot = prim->rotationAxis().x();
+		qreal yRot = prim->rotationAxis().y();
+		painter->translate(xRot * xDpi, yRot * yDpi); 
+		painter->rotate(prim->rotation());
+		painter->translate((ps.x() - xRot) * xDpi, (ps.y() - yRot) * yDpi); 
+	}
 
     if(prim->type() == OROTextBox::TextBox)
     {
@@ -369,7 +381,7 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
 
       prim->drawRect(rc, painter, printResolution);
 
-      painter->setFont(tb->font());
+	  painter->setFont(tb->font());
       QString text = tb->text();
       QString url;
 
@@ -399,21 +411,58 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
       }
       else
       {
-        if ((tb->flags() & Qt::TextWordWrap) && 
-            painter->boundingRect(rc, tb->flags(), text).width() > rc.width())
-          painter->drawText(rc, tb->flags(), tb->textForcedToWrap(painter));
-        else
           painter->drawText(rc, tb->flags(), text);
+      }
+
+    }
+    else if(prim->type() == OROBarcode::Barcode)
+    {
+      OROBarcode * bc = (OROBarcode*)prim;
+
+      QSizeF sz = bc->size();
+      QRectF rc = QRectF(0, 0, sz.width() * xDpi, sz.height() * yDpi);
+
+
+      if(painter->paintEngine()->type() == QPaintEngine::User)
+      {
+        // label paint engine: the barcode parameters are encoded in a text item
+        QString encodedData = ReportPrinter::barcodePrefix() + QString("%1;%2;%3;%4").arg(bc->format()).arg(sz.height()).arg(bc->narrowBarWidth()).arg(bc->data());
+        painter->drawText(rc, 0, encodedData);
+      }
+      else
+      {
+        if(bc->format() == "3of9")
+          render3of9(painter, xDpi, rc, bc->data(), bc);
+        else if(bc->format() == "3of9+")
+          renderExtended3of9(painter, xDpi, rc, bc->data(), bc);
+        else if(bc->format() == "128")
+          renderCode128(painter, xDpi, rc, bc->data(), bc);
+        else if(bc->format() == "i2of5")
+          renderI2of5(painter, xDpi, rc, bc->data(), bc);
+        else if(bc->format() == "ean13")
+          renderCodeEAN13(painter, xDpi, rc, bc->data(), bc);
+        else if(bc->format() == "ean8")
+          renderCodeEAN8(painter, xDpi, rc, bc->data(), bc);
+        else if(bc->format() == "upc-a")
+          renderCodeUPCA(painter, xDpi, rc, bc->data(), bc);
+        else if(bc->format() == "upc-e")
+          renderCodeUPCE(painter, xDpi, rc, bc->data(), bc);
+        else if(bc->format().contains("datamatrix"))
+          renderCodeDatamatrix(painter, rc, bc->data(), bc);
+        else
+        {
+          painter->drawText(rc, 0, "ERR: [" + bc->format() + "]" + bc->data());
+        }
       }
     }
     else if(prim->type() == OROLine::Line)
     {
         OROLine * ln = (OROLine*)prim;
-        QPointF s = ln->startPoint();
-        QPointF e = ln->endPoint();
+		QPointF s = ln->startPoint();
+		QPointF e = ln->endPoint();
         pen.setWidthF((pen.widthF() / 100.0) * printResolution);
-        painter->setPen(pen);
-        painter->drawLine(QLineF(0, 0, (e.x()-s.x()) * xDpi, (e.y()-s.y()) * yDpi));
+		painter->setPen(pen);
+		painter->drawLine(QLineF(0, 0, (e.x()-s.x()) * xDpi, (e.y()-s.y()) * yDpi));
     }
     else if(prim->type() == OROImage::Image)
     {
@@ -451,7 +500,7 @@ bool ORPrintRender::exportToPDF(ORODocument * pDocument, QString pdfFileName)
   if(!pDocument)
     return false;
 
-  QPrinter printer(QPrinter::ScreenResolution);
+  ReportPrinter printer(QPrinter::ScreenResolution);
   printer.setResolution(300);
 
 #ifdef Q_WS_MAC
@@ -463,8 +512,6 @@ bool ORPrintRender::exportToPDF(ORODocument * pDocument, QString pdfFileName)
   printer.setOutputFileName( pdfFileName );
 
   ORPrintRender render;
-  render.setupPrinter(pDocument, &printer);
-  render.setPrinter(&printer);
-  return render.render(pDocument);
+  return render.render(pDocument, &printer);
 }
 

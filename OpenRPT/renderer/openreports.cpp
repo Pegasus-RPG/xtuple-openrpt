@@ -235,7 +235,7 @@ bool orReport::print(QPrinter *prtThis, bool boolSetupPrinter, bool showPreview,
     {
       if (prtThis == 0)
       {
-        prtThis = new QPrinter(QPrinter::HighResolution);
+        prtThis = new ReportPrinter(QPrinter::HighResolution);
         localPrinter = true;
       }
 

@@ -9,16 +9,13 @@
 #include "parsexmlutils.h"
 #include "renderobjects.h"
 
+#include "barcodes.h"
 #include "dmtx.h"
 #include "stdexcept"
 
-void printRR(OROPage *page,ORBarcodeData *bc,const QRectF &qrect)
+
+static void printRR(QPainter *painter, const QRectF &qrect)
 {
-  ORORect * rect = NULL;
-
-  QPen pen(Qt::NoPen);
-  QBrush brush(QColor("black"));
-
   qreal Xo = qrect.left();
   qreal Yo = qrect.bottom();
 
@@ -26,40 +23,25 @@ void printRR(OROPage *page,ORBarcodeData *bc,const QRectF &qrect)
   qreal pas =  std::min(qrect.width()/7, qrect.height()/4);
 
   //draw the RR
-  rect = new ORORect(bc);
-  rect->setPen(pen);
-
-  brush.setColor(Qt::black);
-  rect->setBrush(brush);
 
   for(int t = 0; t <= 1; t++)
   {
     for(int y=0; y<4; y++)
     {
-      rect = new ORORect(bc);
-      rect->setBrush(brush);
-      rect->setRect(QRectF(   Xo + t*4*pas,
-                              Yo - y*pas,
-                              pas,
-                              pas));
-      rect->setRotationAxis(qrect.topLeft());
-      page->addPrimitive(rect);
+      painter->drawRect(QRectF( Xo + t*4*pas,
+                                Yo - y*pas,
+                                pas,
+                                pas));
 
-      //delete rect;
-      rect = new ORORect(bc);
-      rect->setBrush(brush);
-      rect->setRect(QRectF(   Xo + ((y + 1)%2 + 1 + t*4)*pas,
-                              Yo - y*pas,
-                              pas,
-                              pas));
-      rect->setRotationAxis(qrect.topLeft());
-      page->addPrimitive(rect);
-      //delete rect;
+      painter->drawRect(QRectF( Xo + ((y + 1)%2 + 1 + t*4)*pas,
+                                Yo - y*pas,
+                                pas,
+                                pas));
     }
   }
 }
 
-void datamatrixGeometry(QString &inFormat, const QRectF &inQrect,DmtxImage *inImg, qreal *outXo, qreal *outYo, qreal *outPas)
+static void datamatrixGeometry(QString &inFormat, const QRectF &inQrect,DmtxImage *inImg, qreal *outXo, qreal *outYo, qreal *outPas)
 {
   *outPas =  std::min(inQrect.width()/inImg->width, inQrect.height()/inImg->height);
   *outYo = inQrect.bottom();
@@ -84,34 +66,90 @@ void datamatrixGeometry(QString &inFormat, const QRectF &inQrect,DmtxImage *inIm
   }
 }
 
-void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qstr, ORBarcodeData * bc)
+
+DmtxInfos extractInfosDtmx(const QString &s)
+{
+  const int sizes[][2] = {
+      {10,10},
+      {12,12},
+      {14,14},
+      {16,16},
+      {18,18},
+      {20,20},
+      {22,22},
+      {24,24},
+      {26,26},
+      {32,32},
+      {36,36},
+      {40,40},
+      {44,44},
+      {48,48},
+      {52,52},
+      {64,64},
+      {72,72},
+      {80,80},
+      {88,88},
+      {96,96},
+      {104,104},
+      {120,120},
+      {132,132},
+      {144,144},
+      {8,18},
+      {18,32},
+      {12,26},
+      {12,36},
+      {16,36},
+      {16,48}
+  };
+
+  int nbNsizes = sizeof(sizes)/sizeof(sizes[0]);
+
+  DmtxInfos res;
+
+  QRegExp regex("[a-zA-Z]{10}_([0-9]{1,2})_([LCR]{1})");
+  regex.indexIn(s);
+  res.type = regex.cap(1).toInt();
+  res.align = regex.cap(2);
+  if(res.type>0 && res.type<nbNsizes ) {
+    res.ySize = sizes[res.type][0];
+    res.xSize = sizes[res.type][1];
+  }
+  else {
+    res.xSize = res.ySize = 1;
+  }
+
+  return res;
+}
+
+
+void renderCodeDatamatrix(QPainter *painter, const QRectF &qrect, const QString &qstr, OROBarcode * bc)
 {
 
-	//5 pixel par carré
-  //qreal pix = 5;
   //lecture du type de datamatrix
-  QRegExp regex("[a-zA-Z]{10}_([0-9]{1,2})_([LCR]{1})");
-  regex.indexIn(bc->format);
-  int type = regex.cap(1).toInt();
-  QString align = regex.cap(2);
+  DmtxInfos dmtxInfos = extractInfosDtmx(bc->format());
 
-	size_t          width, height, bytesPerPixel;
+  size_t          width, height, bytesPerPixel;
 
   //pointer declaration
   unsigned char  *pxl = NULL;
   DmtxEncode     *enc = NULL;
   DmtxImage      *img = NULL;
-  ORORect        *rect = NULL;
   int valeur = 0;
 
-	/* 1) ENCODE a new Data Matrix barcode image (in memory only) */
-	enc = dmtxEncodeCreate();
+  /* 1) ENCODE a new Data Matrix barcode image (in memory only) */
+  enc = dmtxEncodeCreate();
 
   //see DmtxSymbolSize in dmtx.h for more details
-  enc->sizeIdxRequest = type;
-	enc->marginSize = 0;
+  enc->sizeIdxRequest = dmtxInfos.type;
+  enc->marginSize = 0;
   //number of pixel for one square
-	enc->moduleSize = 1;
+  enc->moduleSize = 1;
+
+  QPen pen(Qt::NoPen);
+  QBrush brush(QColor("black"));
+  painter->save();
+  painter->setPen(pen);
+  painter->setBrush(brush);
 
   try
   {
@@ -138,16 +176,12 @@ void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qst
     /* 3) DECODE the Data Matrix barcode from the copied image */
     img = dmtxImageCreate(pxl, width, height, DmtxPack24bppRGB);
 
-
-    QPen pen(Qt::NoPen);
-    QBrush brush(QColor("black"));
-
     qreal Xo = 0;
     qreal Yo = 0;
     //length of square
     qreal pas = 0;
 
-    datamatrixGeometry(align,qrect,img,&Xo,&Yo,&pas);
+    datamatrixGeometry(dmtxInfos.align,qrect,img,&Xo,&Yo,&pas);
 
     //draw the datamatrix
     for(int y = 0; y < img->height; y++)
@@ -158,16 +192,10 @@ void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qst
 
         if(valeur == 0)
         {
-          rect = new ORORect(bc);
-          rect->setPen(pen);
-          brush.setColor(Qt::black);
-          rect->setBrush(brush);
-          rect->setRect(QRectF(	Xo + x*pas,
+          painter->drawRect(QRectF(	Xo + x*pas,
                                 Yo - y*pas,
                                 pas,
                                 pas));
-          rect->setRotationAxis(qrect.topLeft());
-          page->addPrimitive(rect);
         }
       }
     }
@@ -181,13 +209,9 @@ void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qst
   {
     //there is a problem with the datamatrix
     //RR is printed
-    printRR(page,bc,qrect);
+    printRR(painter, qrect);
 
     //memory cleaning
-    if(rect != NULL)
-    {
-      delete rect;
-    }
     if(enc != NULL)
     {
       dmtxEncodeDestroy(&enc);
@@ -201,6 +225,8 @@ void renderCodeDatamatrix(OROPage *page, const QRectF &qrect, const QString &qst
       free(pxl);
     }
   }
+
+  painter->restore();
 }
 
 

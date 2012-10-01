@@ -62,5 +62,5 @@ SOURCES += ../common/builtinSqlFunctions.cpp \
 
 RESOURCES += renderapp.qrc
 
-QT += xml sql
+QT += xml sql network
 TRANSLATIONS    = renderapp_fr.ts renderapp_it.ts renderapp_ru.ts renderapp_es.ts

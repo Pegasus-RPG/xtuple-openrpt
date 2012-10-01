@@ -98,18 +98,18 @@ int codeIndex(QChar code) {
     return -1;  // couldn't find it
 }
 
-void render3of9(OROPage * page, const QRectF & r, const QString & _str, ORBarcodeData * bc)
+void render3of9(QPainter *painter, int dpi, const QRectF &r, const QString &_str, OROBarcode *bc)
 {
   QString str = _str;
   // lets determine some core attributes about this barcode
-  qreal narrow_bar = bc->narrowBarWidth; 
+  double narrow_bar = bc->narrowBarWidth()*dpi;
   qreal interchange_gap = narrow_bar; // the space between each 'set' of bars
   int bar_width_mult = 2; // the wide bar width multiple of the narrow bar
 
   // this is our mandatory minimum quiet zone
   qreal quiet_zone = narrow_bar * 10;
-  if(quiet_zone < 0.1)
-    quiet_zone = 0.1;
+  if(quiet_zone < 0.1*dpi)
+    quiet_zone = 0.1*dpi;
 
   // what kind of area do we have to work with
   qreal draw_width = r.width();
@@ -142,13 +142,13 @@ void render3of9(OROPage * page, const QRectF & r, const QString & _str, ORBarcod
   //
   // calculate the starting position based on the alignment option
   // for left align we don't need to do anything as the values are already setup for it
-  if(bc->align == 1) // center
+  if(bc->align() == 1) // center
   {
     qreal nqz = (draw_width - L) / 2.0;
     if(nqz > quiet_zone)
       quiet_zone = nqz;
   }
-  else if(bc->align > 1) // right
+  else if(bc->align() > 1) // right
     quiet_zone = draw_width - (L + quiet_zone);
   //else if(align < 1) {} // left : do nothing
 
@@ -160,6 +160,10 @@ void render3of9(OROPage * page, const QRectF & r, const QString & _str, ORBarcod
 
   QPen pen(Qt::NoPen);
   QBrush brush(QColor("black"));
+  painter->save();
+  painter->setPen(pen);
+  painter->setBrush(brush);
+
   for(int i = 0; i < str.length(); i++)
   {
     // loop through each char and render the barcode
@@ -174,20 +178,16 @@ void render3of9(OROPage * page, const QRectF & r, const QString & _str, ORBarcod
     bool space = false;
     for(int b = 0; b < 9; b++, space = !space)
     {
-      qreal w = (_3of9codes[idx].values[b] == 1 ?narrow_bar*bar_width_mult:narrow_bar);
+      qreal w = _3of9codes[idx].values[b] == 1 ?narrow_bar*bar_width_mult:narrow_bar;
       if(!space)
       {
-        ORORect * rect = new ORORect(bc);
-        rect->setPen(pen);
-        rect->setBrush(brush);
-        rect->setRect(QRectF(pos,top, w,draw_height));
-		rect->setRotationAxis(r.topLeft());
-        page->addPrimitive(rect);
+        painter->drawRect(QRectF(pos,top, w,draw_height));
       }
       pos += w;
     }
     pos += interchange_gap;
   }
 
+  painter->restore();
   return;
 } 

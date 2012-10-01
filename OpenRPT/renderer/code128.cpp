@@ -32,6 +32,8 @@
 
 #include "parsexmlutils.h"
 #include "renderobjects.h"
+#include "barcodes.h"
+
 
 static const int SETA = 0;
 static const int SETB = 1;
@@ -183,7 +185,7 @@ int code128Index(QChar code, int set) {
     return -1;  // couldn't find it
 }
 
-void renderCode128(OROPage * page, const QRectF & r, const QString & _str, ORBarcodeData * bc)
+void renderCode128(QPainter *painter, int dpi, const QRectF &r, const QString &_str, OROBarcode *bc)
 {
   QVector<int> str;
   int i = 0;
@@ -267,7 +269,7 @@ void renderCode128(OROPage * page, const QRectF & r, const QString & _str, ORBar
   str.push_back(checksum);
 
   // lets determine some core attributes about this barcode
-  qreal bar_width = bc->narrowBarWidth; 
+  qreal bar_width = bc->narrowBarWidth();
 
   // this is are mandatory minimum quiet zone
   qreal quiet_zone = bar_width * 10;
@@ -302,13 +304,13 @@ void renderCode128(OROPage * page, const QRectF & r, const QString & _str, ORBar
   //
   // calculate the starting position based on the alignment option
   // for left align we don't need to do anything as the values are already setup for it
-  if(bc->align == 1) // center
+  if(bc->align() == 1) // center
   {
     qreal nqz = (draw_width - L) / 2.0;
     if(nqz > quiet_zone)
       quiet_zone = nqz;
   }
-  else if(bc->align > 1) // right
+  else if(bc->align() > 1) // right
     quiet_zone = draw_width - (L + quiet_zone);
   // else if(align < 1) {} // left : do nothing
 
@@ -317,6 +319,9 @@ void renderCode128(OROPage * page, const QRectF & r, const QString & _str, ORBar
 
   QPen pen(Qt::NoPen);
   QBrush brush(QColor("black"));
+  painter->save();
+  painter->setPen(pen);
+  painter->setBrush(brush);
 
   bool space = false;
   int idx = 0, b = 0;
@@ -333,15 +338,10 @@ void renderCode128(OROPage * page, const QRectF & r, const QString & _str, ORBar
     space = false;
     for(b = 0; b < 6; b++, space = !space)
     {
-      w = _128codes[idx].values[b] * bar_width;
+      w = _128codes[idx].values[b] * bar_width * dpi;
       if(!space)
       {
-        ORORect * rect = new ORORect(bc);
-        rect->setPen(pen);
-        rect->setBrush(brush);
-        rect->setRect(QRectF(pos,top, w,draw_height));
-		rect->setRotationAxis(r.topLeft());
-        page->addPrimitive(rect);
+        painter->drawRect(QRectF(pos,top, w,draw_height));
       }
       pos += w;
     }
@@ -353,18 +353,14 @@ void renderCode128(OROPage * page, const QRectF & r, const QString & _str, ORBar
   space = false;
   for(b = 0; b < 7; b++, space = !space)
   {
-    w = STOP_CHARACTER[b] * bar_width;
+    w = STOP_CHARACTER[b] * bar_width * dpi;
     if(!space)
     {
-      ORORect * rect = new ORORect(bc);
-      rect->setPen(pen);
-      rect->setBrush(brush);
-      rect->setRect(QRectF(pos,top, w,draw_height));
-	  rect->setRotationAxis(r.topLeft());
-      page->addPrimitive(rect);
+      painter->drawRect(QRectF(pos,top, w,draw_height));
     }
     pos += w;
   }
 
+  painter->restore();
   return;
 } 

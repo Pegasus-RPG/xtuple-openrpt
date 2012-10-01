@@ -1642,7 +1642,7 @@ void ReportHandler::print(bool showPreview)
 
   if(doc)
   {
-    QPrinter printer(QPrinter::HighResolution);
+    ReportPrinter printer(QPrinter::HighResolution);
 
     ORPrintRender render;
     render.setupPrinter(doc, &printer);
@@ -1666,8 +1666,7 @@ void ReportHandler::print(bool showPreview)
     pd.setMinMax(1, doc->pages());
     if(pd.exec() == QDialog::Accepted)
     {
-      render.setPrinter(&printer);
-      render.render(doc);
+      render.render(doc, &printer);
     }
     delete doc;
   }

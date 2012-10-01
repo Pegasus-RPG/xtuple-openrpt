@@ -215,6 +215,8 @@ class ORObject
     QPen border() const {return _border;}
     void setBorder(QPen p) {_border = p;}
 
+    bool isStatic();
+
 private:
     QPen    _pen;
     QBrush  _brush;

@@ -17,40 +17,35 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  * Please contact info@openmfg.com with any questions on this license.
  */
-#ifndef __ORPRINTRENDER_H__
-#define __ORPRINTRENDER_H__
 
-#include <QPrinter>
-#include <QPainter>
+#ifndef LABELPRINTENGINE_H
+#define LABELPRINTENGINE_H
 
-class ORODocument;
+#include <QPrintEngine>
+
+class LabelPaintEngine;
 class ReportPrinter;
 
-class ORPrintRender
+class LabelPrintEngine : public QPrintEngine
 {
-  public:
-    ORPrintRender();
-    virtual ~ORPrintRender();
+public:
+  LabelPrintEngine(LabelPaintEngine *paintEngine, ReportPrinter *printer, int resolution);
 
-    void setPrinter(QPrinter *);
-    QPrinter * printer() { return _printer; }
+  virtual bool	abort () { return true; }
+  virtual int	metric ( QPaintDevice::PaintDeviceMetric id ) const;
+  virtual bool	newPage ();
+  virtual QPrinter::PrinterState	printerState () const;
+  virtual QVariant	property ( PrintEnginePropertyKey key ) const;
+  virtual void	setProperty ( PrintEnginePropertyKey key, const QVariant & value );
 
-    void setPainter(QPainter *);
-    QPainter * painter() { return _painter; }
-
-    bool setupPrinter(ORODocument *, QPrinter *);
-    bool render(ORODocument *, ReportPrinter *);
-    bool render(ORODocument *);
-
-    static void renderPage(ORODocument * pDocument, int pageNb, QPainter *painter, qreal xDpi, qreal yDpi, QSize margins, int printResolution);
-    static bool exportToPDF(ORODocument * pDocument, QString pdfFileName);
-
-  protected:
-    QPrinter* _printer;
-    QPainter* _painter;
+private:
+  LabelPaintEngine *m_paintEngine;
+  ReportPrinter   *m_printer;
+  QString       m_printerName;
+  QString       m_docName;
+  QSizeF        m_paperSize;
+  QRect         m_paperRect;
+  int           m_resolution;
 };
 
-#endif // __ORPRINTRENDER_H__
-
-
-
+#endif // LABELPRINTENGINE_H

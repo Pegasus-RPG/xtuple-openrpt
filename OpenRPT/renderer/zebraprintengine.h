@@ -17,40 +17,19 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  * Please contact info@openmfg.com with any questions on this license.
  */
-#ifndef __ORPRINTRENDER_H__
-#define __ORPRINTRENDER_H__
 
-#include <QPrinter>
-#include <QPainter>
+#ifndef ZEBRAPRINTENGINE_H
+#define ZEBRAPRINTENGINE_H
 
-class ORODocument;
+#include "labelprintengine.h"
+
+class LabelPaintEngine;
 class ReportPrinter;
 
-class ORPrintRender
+class ZebraPrintEngine : public LabelPrintEngine
 {
-  public:
-    ORPrintRender();
-    virtual ~ORPrintRender();
-
-    void setPrinter(QPrinter *);
-    QPrinter * printer() { return _printer; }
-
-    void setPainter(QPainter *);
-    QPainter * painter() { return _painter; }
-
-    bool setupPrinter(ORODocument *, QPrinter *);
-    bool render(ORODocument *, ReportPrinter *);
-    bool render(ORODocument *);
-
-    static void renderPage(ORODocument * pDocument, int pageNb, QPainter *painter, qreal xDpi, qreal yDpi, QSize margins, int printResolution);
-    static bool exportToPDF(ORODocument * pDocument, QString pdfFileName);
-
-  protected:
-    QPrinter* _printer;
-    QPainter* _painter;
+public:
+  ZebraPrintEngine(LabelPaintEngine *paintEngine, ReportPrinter *printer);
 };
 
-#endif // __ORPRINTRENDER_H__
-
-
-
+#endif // ZEBRAPRINTENGINE_H

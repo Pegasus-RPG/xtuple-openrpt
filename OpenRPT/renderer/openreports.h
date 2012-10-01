@@ -38,7 +38,6 @@ class ParameterList;
 #include <QSqlDatabase>
 #include <QStringList>
 
-
 class orReport {
   private:
     void constructor(const QString &);

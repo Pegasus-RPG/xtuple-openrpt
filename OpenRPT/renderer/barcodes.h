@@ -24,43 +24,52 @@
 #include <QRect>
 #include <QString>
 
-class OROPage;
 class ORBarcodeData;
+class OROBarcode;
+class OROPage;
 
 //
 // 3of9
 //
-void render3of9(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
+void render3of9(QPainter *, int, const QRectF &, const QString &, OROBarcode * bc);
 
 //
 // 3of9+
 //
-void renderExtended3of9(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
+void renderExtended3of9(QPainter *, int, const QRectF &, const QString &, OROBarcode *bc);
 
 //
 // Interleaved 2 of 5
 //
-void renderI2of5(OROPage * page, const QRectF &, const QString & _str, ORBarcodeData * bc);
+void renderI2of5(QPainter *, int, const QRectF &, const QString &, OROBarcode * bc);
 
 //
 // Code 128
 //
-void renderCode128(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
+void renderCode128(QPainter *, int, const QRectF &r, const QString &_str, OROBarcode *bc);
 
 //
 // Code EAN/UPC
 //
-void renderCodeEAN13(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
-void renderCodeEAN8(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
-void renderCodeUPCA(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
-void renderCodeUPCE(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
+void renderCodeEAN13(QPainter *, int, const QRectF &, const QString &, OROBarcode * bc);
+void renderCodeEAN8(QPainter *, int, const QRectF &, const QString &, OROBarcode * bc);
+void renderCodeUPCA(QPainter *, int, const QRectF &, const QString &, OROBarcode * bc);
+void renderCodeUPCE(QPainter *, int, const QRectF &, const QString &, OROBarcode * bc);
 
 //
 // CodeDataMatrix
 //
 
-void renderCodeDatamatrix(OROPage *, const QRectF &, const QString &, ORBarcodeData * bc);
-void printRR(OROPage *,ORBarcodeData *,const QRectF &);
+void renderCodeDatamatrix(QPainter *, const QRectF &, const QString &, OROBarcode * bc);
+
+typedef struct DmtxInfos_struct {
+   int type;
+   int xSize;
+   int ySize;
+   QString align;
+} DmtxInfos;
+
+DmtxInfos extractInfosDtmx(const QString &s);
 
 #endif
 

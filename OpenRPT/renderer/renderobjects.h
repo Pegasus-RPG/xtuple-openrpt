@@ -29,7 +29,8 @@
 #include <QPen>
 #include <QBrush>
 
-#include <reportpageoptions.h>
+#include "../../common/reportpageoptions.h"
+#include "reportprinter.h"
 
 class ORObject;
 class ORODocument;
@@ -38,6 +39,7 @@ class OROPrimitive;
 class OROTextBox;
 class OROLine;
 class OROImage;
+class OROBarcode;
 
 //
 // ORODocument
@@ -48,11 +50,12 @@ class ORODocument
   friend class OROPage;
 
   public:
-    ORODocument(const QString & = QString());
+  ORODocument(const QString & title = QString(), ReportPrinter::type printerType = ReportPrinter::Standard);
     virtual ~ORODocument();
 
     QString title() const { return _title; };
-    void setTitle(const QString &);
+    void setTitle(const QString & pTitle);
+    ReportPrinter::type printerType() const { return _type; };
 
     int pages() const { return _pages.count(); };
     OROPage* page(int);
@@ -61,10 +64,15 @@ class ORODocument
     void setPageOptions(const ReportPageOptions &);
     ReportPageOptions pageOptions() const { return _pageOptions; };
 
-  protected:
+    void setPrinterParams(QList<QPair<QString,QString> > params) { _printerParams = params; }
+    QList<QPair<QString,QString> > getPrinterParams() const { return _printerParams; }
+
+  private:
     QString _title;
+    ReportPrinter::type _type;
     QList<OROPage*> _pages;
     ReportPageOptions _pageOptions;
+    QList<QPair<QString,QString> >  _printerParams;
 };
 
 //
@@ -160,10 +168,10 @@ class OROPrimitive
     QBrush brush() const {return _brush;}
     void setBrush(QBrush b) {_brush = b;}
 
-    qreal rotation() const { return _rotation; }
-    void setRotation(qreal angle) { _rotation = angle;}
-    QPointF rotationAxis() const { return _rotationAxis;}
-    void setRotationAxis(const QPointF p);
+	qreal rotation() const { return _rotation; }
+	void setRotation(qreal angle) { _rotation = angle;}
+	QPointF rotationAxis() const { return _rotationAxis;}
+	void setRotationAxis(const QPointF p);
 
     void drawRect(QRectF rc, QPainter* painter, int printResolution);
 
@@ -177,8 +185,8 @@ class OROPrimitive
     QPen    _pen;
     QPen    _border;
     QBrush  _brush;
-    qreal	_rotation;
-    QPointF _rotationAxis;
+	qreal	_rotation;
+	QPointF _rotationAxis;
 };
 
 //
@@ -198,7 +206,6 @@ class OROTextBox : public OROPrimitive
 
     QString text() const { return _text; };
     void setText(const QString &);
-    QString textForcedToWrap(QPainter *p);
 
     QFont font() const { return _font; };
     void setFont(const QFont &);
@@ -213,6 +220,41 @@ class OROTextBox : public OROPrimitive
     QString _text;
     QFont _font;
     int _flags; // Qt::AlignmentFlag and Qt::TextFlag OR'd
+};
+
+//
+// OROBarcode
+// This is a barcode primitive
+//
+class OROBarcode : public OROPrimitive
+{
+  public:
+    OROBarcode(ORObject *o);
+    virtual ~OROBarcode();
+
+    QSizeF size() const { return _size; };
+    void setSize(const QSizeF &);
+
+    QString data() const { return _data; };
+    void setData(const QString &);
+
+    QString format() const { return _format; };
+    void setFormat(const QString &);
+
+    qreal narrowBarWidth() const { return _narrowBarWidth; };
+    void setNarrowBarWidth(double);
+
+    int align() const { return _align; };
+    void setAlign(int);
+
+    static const int Barcode;
+
+  protected:
+    QSizeF  _size;
+    QString _data;
+    QString _format;
+    qreal   _narrowBarWidth;
+    int     _align;
 };
 
 //

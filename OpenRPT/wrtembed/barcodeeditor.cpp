@@ -19,6 +19,7 @@
  */
 
 #include "barcodeeditor.h"
+#include "barcodes.h"
 
 #include <QVariant>
 #include <QValidator>
@@ -170,28 +171,25 @@ void BarcodeEditor::closeEvent(QCloseEvent *)
 
 void BarcodeEditor::setDatamatrixEditor(QString format)
 {
-    QRegExp regex("[a-zA-Z]{10}_([0-9]{1,2})_([LCR]{1})");
-    regex.indexIn(format);
-    int value = regex.cap(1).toInt();
-    QString align = regex.cap(2);
+    DmtxInfos dmtxInfos = extractInfosDtmx(format);
 
-    if(value <24)
+    if(dmtxInfos.type <24)
     {
         this->cbFormat->setCurrentIndex(iDatamatrix_square);
-        this->dMatrixSquare->setCursorValue(value);
+        this->dMatrixSquare->setCursorValue(dmtxInfos.type);
         this->cbFormat_ViewConfig(iDatamatrix_square);
     }
     else
     {
       this->cbFormat->setCurrentIndex(iDatamatrix_rect);
-        this->dMatrixRect->setIndexValue(value - 24);
+        this->dMatrixRect->setIndexValue(dmtxInfos.type - 24);
         this->cbFormat_ViewConfig(iDatamatrix_rect);
     }
 
-    if(align == "L")
+    if(dmtxInfos.align == "L")
         this->rbAlignLeft->setChecked(true);
-    if(align == "C")
+    if(dmtxInfos.align == "C")
         this->rbAlignCenter->setChecked(true);
-    if(align == "R")
+    if(dmtxInfos.align == "R")
         this->rbAlignRight->setChecked(true);
 }
