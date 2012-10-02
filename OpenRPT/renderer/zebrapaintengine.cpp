@@ -91,7 +91,7 @@ void 	ZebraPaintEngine::addEndMessage ()
     printMode = "T";
   }
   m_printBuffer += QString(m_CmdPrefix + "MM%1").arg(printMode);
-  m_printBuffer += QString(m_CmdPrefix + "PQ%1%2").arg(m_parentPrinter->copyCount()).arg(m_parentPrinter->getParam("printqty_options"));
+  m_printBuffer += QString(m_CmdPrefix + "PQ%1%2").arg(m_parentPrinter->numCopies()).arg(m_parentPrinter->getParam("printqty_options"));
   m_printBuffer += QString(m_CmdPrefix + "XZ\n");
 }
 

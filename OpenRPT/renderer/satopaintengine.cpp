@@ -146,7 +146,7 @@ void 	SatoPaintEngine::addEndMessage ()
     }
   }
   if(output.isEmpty()) {
-    output = QString(m_CmdPrefix + "Q%1").arg(m_parentPrinter->copyCount());
+    output = QString(m_CmdPrefix + "Q%1").arg(m_parentPrinter->numCopies());
   }
 
   output += QString(m_CmdPrefix + "Z");

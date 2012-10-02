@@ -128,7 +128,7 @@ QVariant	LabelPrintEngine::property ( PrintEnginePropertyKey key ) const
   case  QPrintEngine::PPK_Resolution:
     return QVariant(m_resolution);
 
-  case  QPrintEngine::PPK_CopyCount:
+  // case  QPrintEngine::PPK_CopyCount:
   case  QPrintEngine::PPK_NumberOfCopies:
     return QVariant(1);
 
