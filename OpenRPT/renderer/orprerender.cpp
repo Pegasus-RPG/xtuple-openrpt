@@ -637,7 +637,7 @@ qreal ORPreRenderPrivate::renderSectionSize(const ORSectionData & sectionData, b
   {
     elemThis = sectionData.objects.at(it);
     // TODO: See if this can be simplified anymore than it already is.
-    //       All we need to know is how much strech we are going to get.
+    //       All we need to know is how much stretch we are going to get.
     if (elemThis->isText())
     {
       orData       dataThis;
@@ -657,65 +657,51 @@ qreal ORPreRenderPrivate::renderSectionSize(const ORSectionData & sectionData, b
       qreal   intStretch      = trf.top() - _yOffset;
       qreal   intRectHeight   = trf.height();
 
-      QFont f = t->font;
-
       qstrValue = dataThis.getValue();
       if (qstrValue.length())
       {
-        int pos = 0;
-        int idx;
-        QChar separator;
-        QRegExp re("\\s");
-        //QPrinter prnt(QPrinter::HighResolution);
-        //QPixmap prnt(10, 10); => not safe outside of main thread, using QImage instead
         QImage prnt(1, 1, QImage::Format_RGB32);
-        QFontMetrics fm(f, &prnt);
+        QFontMetrics fm(t->font, &prnt);
 
         int intRectWidth = (int)(trf.width() * prnt.logicalDpiX()) - CLIPMARGIN;
 
-        while(qstrValue.length())
-        {
-          idx = re.indexIn(qstrValue, pos);
-          if(idx == -1)
-          {
-            idx = qstrValue.length();
-            separator = QChar('\n');
-          }
-          else
-            separator = qstrValue.at(idx);
+        QRectF rect = trf;
+#ifdef Q_WS_MAC // bug 13284, 15118
+        if(t->align & Qt::AlignRight)
+          rect.setLeft(rect.left() - CLIPMARGIN / 100.0);
+        else
+          rect.setRight(rect.right() + CLIPMARGIN / 100.0);
+#endif
+        // insert spaces into qstrValue to allow it to wrap
+        rect.setWidth((qreal)intRectWidth / (qreal)prnt.logicalDpiX());
 
-          if(fm.boundingRect(qstrValue.left(idx)).width() < intRectWidth || pos == 0)
-          {
-            pos = idx + 1;
-            if(separator == '\n')
-            {
-              qstrValue = qstrValue.mid(idx+1,qstrValue.length());
-              pos = 0;
+        QPainter imagepainter(&prnt);
+        OROTextBox tmpbox(elemThis);
+        tmpbox.setPosition(rect.topLeft());
+        tmpbox.setSize(rect.size());
+        tmpbox.setFont(t->font);
+        tmpbox.setText(qstrValue);
+        tmpbox.setFlags(t->align | Qt::TextWordWrap);
+        tmpbox.setRotation(t->rotation());
+        qstrValue = tmpbox.textForcedToWrap(&imagepainter);
 
-              intStretch += intRectHeight;
-            }
-          }
-          else
-          {
-            qstrValue = qstrValue.mid(pos,qstrValue.length());
-            pos = 0;
-
-            intStretch += intRectHeight;
-          }
-        }
-
+        QRectF brect = imagepainter.boundingRect(rect,
+                                                 t->align | Qt::TextWordWrap,
+                                                 qstrValue);
+        qreal actHeight = intRectHeight * brect.height() / fm.leading(); // is this right?
+        intStretch += actHeight;
         intStretch += (t->bottompad / 100.0);
 
         if (intStretch > intHeight)
           intHeight = intStretch;
       }
     }
+#ifdef DEBUG
     else
     {
-      // we don't need to show this since we know there are a lot of other entities
-      // that will fall into this category.
-      //qDebug("Encountered and unknown element while calculating the section size.");
+      qDebug("Encountered an unknown element while calculating the section size.");
     }
+#endif
   }
 
   return intHeight;
@@ -1060,7 +1046,7 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
     }
     else
     {
-      qDebug("Encountered and unknown element while rendering a section.");
+      qDebug("Encountered an unknown element while rendering a section.");
     }
   }
   // this may not work so well if there are multiple text area's in a single section and they cross pages
@@ -1090,8 +1076,6 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
         qreal   intBaseTop      = trf.top();
         qreal   intRectHeight   = trf.height();
 
-        QFont f = t->font;
-
         qstrValue = dataThis.getValue();
         if (qstrValue.length())
         {
@@ -1107,11 +1091,9 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
           int idx;
           QChar separator;
           QRegExp re("\\s");
-          //QPrinter prnt(QPrinter::HighResolution);
-          //QPixmap prnt(10, 10); => not safe outside of main thread, using QImage instead
           QImage prnt(1, 1, QImage::Format_RGB32);
 
-          QFontMetrics fm(f, &prnt);
+          QFontMetrics fm(t->font, &prnt);
 
           int intRectWidth = (int)(trf.width() * prnt.logicalDpiX()) - CLIPMARGIN;
           int l = (_detailQuery ? _detailQuery->at() : 0);
@@ -1119,6 +1101,19 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
           int sizeLimit = _maxHeight - _bottomMargin;
           if(!_subtotContextPageFooter)
             sizeLimit = _maxHeight - _bottomMargin - finishCurPageSize((l+1 == qs));
+
+          // insert spaces into qstrValue to allow it to wrap
+          rect.setWidth((qreal)intRectWidth / (qreal)prnt.logicalDpiX());
+
+          QPainter imagepainter(&prnt);
+          OROTextBox tmpbox(elemThis);
+          tmpbox.setPosition(rect.topLeft());
+          tmpbox.setSize(rect.size());
+          tmpbox.setFont(t->font);
+          tmpbox.setText(qstrValue);
+          tmpbox.setFlags(t->align | Qt::TextWordWrap);
+          tmpbox.setRotation(t->rotation());
+          qstrValue = tmpbox.textForcedToWrap(&imagepainter);
 
           while(qstrValue.length())
           {

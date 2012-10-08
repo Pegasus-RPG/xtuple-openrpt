@@ -168,10 +168,10 @@ class OROPrimitive
     QBrush brush() const {return _brush;}
     void setBrush(QBrush b) {_brush = b;}
 
-	qreal rotation() const { return _rotation; }
-	void setRotation(qreal angle) { _rotation = angle;}
-	QPointF rotationAxis() const { return _rotationAxis;}
-	void setRotationAxis(const QPointF p);
+    qreal rotation() const { return _rotation; }
+    void setRotation(qreal angle) { _rotation = angle;}
+    QPointF rotationAxis() const { return _rotationAxis;}
+    void setRotationAxis(const QPointF p);
 
     void drawRect(QRectF rc, QPainter* painter, int printResolution);
 
@@ -185,8 +185,8 @@ class OROPrimitive
     QPen    _pen;
     QPen    _border;
     QBrush  _brush;
-	qreal	_rotation;
-	QPointF _rotationAxis;
+    qreal	_rotation;
+    QPointF _rotationAxis;
 };
 
 //
@@ -206,6 +206,7 @@ class OROTextBox : public OROPrimitive
 
     QString text() const { return _text; };
     void setText(const QString &);
+    QString textForcedToWrap(QPainter *p);
 
     QFont font() const { return _font; };
     void setFont(const QFont &);

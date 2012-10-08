@@ -108,7 +108,7 @@ bool ORPrintRender::render(ORODocument * pDocument)
   {
     deleteWhenComplete = true;
     _painter = &localPainter;
-  } 
+  }
 
   if(!_painter->isActive())
   {
@@ -361,20 +361,20 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
     painter->setPen(pen);
     painter->setBrush(prim->brush());
 
-	QPointF ps = prim->position();
+    QPointF ps = prim->position();
     if(prim->rotationAxis().isNull())
     {
-		painter->translate(ps.x() * xDpi, ps.y() * yDpi); 
-		painter->rotate(prim->rotation()); // rotation around the origin of the primitive (not the center)
-	}
+      painter->translate(ps.x() * xDpi, ps.y() * yDpi);
+      painter->rotate(prim->rotation()); // rotation around the origin of the primitive (not the center)
+    }
     else
     { // rotation around the defined axis
-		qreal xRot = prim->rotationAxis().x();
-		qreal yRot = prim->rotationAxis().y();
-		painter->translate(xRot * xDpi, yRot * yDpi); 
-		painter->rotate(prim->rotation());
-		painter->translate((ps.x() - xRot) * xDpi, (ps.y() - yRot) * yDpi); 
-	}
+      qreal xRot = prim->rotationAxis().x();
+      qreal yRot = prim->rotationAxis().y();
+      painter->translate(xRot * xDpi, yRot * yDpi);
+      painter->rotate(prim->rotation());
+      painter->translate((ps.x() - xRot) * xDpi, (ps.y() - yRot) * yDpi);
+    }
 
     if(prim->type() == OROTextBox::TextBox)
     {
@@ -385,7 +385,7 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
 
       prim->drawRect(rc, painter, printResolution);
 
-	  painter->setFont(tb->font());
+      painter->setFont(tb->font());
       QString text = tb->text();
       QString url;
 

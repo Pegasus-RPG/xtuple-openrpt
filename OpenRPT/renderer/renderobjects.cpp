@@ -18,6 +18,7 @@
  * Please contact info@openmfg.com with any questions on this license.
  */
 
+#include <QDebug>
 #include <QPainter>
 
 #include "renderobjects.h"
@@ -245,6 +246,50 @@ void OROTextBox::setText(const QString & s)
   _text = s;
 }
 
+// insert spaces into long stretches of non-whitespace to allow wrapping
+// TODO: why doesn't Qt::TextWrapAnywhere work?
+// TODO: why do some lines not fill more when it looks like there's room?
+QString OROTextBox::textForcedToWrap(QPainter *p)
+{
+  QRectF  tbrect(0.0, 0.0,
+                 size().width()  * p->device()->logicalDpiX(),
+                 size().height() * p->device()->logicalDpiY());
+  QString result = text();
+  QFont   origfont = p->font();
+
+  p->setFont(_font);
+
+  if (p->boundingRect(tbrect, _flags, result).width() >= tbrect.width())
+  {
+    QRegExp wordre("(\\S+)");
+    QFontMetrics fm = p->fontMetrics();
+
+    int wordstart = 0;
+    while (wordre.indexIn(result, wordstart) != -1)
+    {
+      if (fm.width(wordre.cap(1)) <= tbrect.width())
+        wordstart += wordre.matchedLength();
+      else
+      {
+        QString longword = wordre.cap(1);
+        int i = longword.length() * (double)tbrect.width() / fm.width(longword);
+        while (i > 2 &&
+               fm.width(longword.left(i)) >= tbrect.width())
+           i--;
+        while (i < longword.length() &&
+               fm.width(longword.left(i)) < tbrect.width())
+           i++;
+        // i now points to the char that overflows
+        result.insert(wordstart + i - 1, " ");
+        wordstart += i - 1;
+      }
+    }
+  }
+
+  p->setFont(origfont);
+  return result;
+}
+
 void OROTextBox::setFont(const QFont & f)
 {
   _font = f;
@@ -263,7 +308,7 @@ const int OROLine::Line = 2;
 OROLine::OROLine(ORObject *o)
   : OROPrimitive(o, OROLine::Line)
 {
-} 
+}
 
 OROLine::~OROLine()
 {
