@@ -677,8 +677,7 @@ qreal ORPreRenderPrivate::renderSectionSize(const ORSectionData & sectionData, b
           rect.setRight(rect.right() + CLIPMARGIN / 100.0);
 #endif
         // insert spaces into qstrValue to allow it to wrap
-        // TODO: why is width in textForcedToWrap off by 2x that found by fm?
-        rect.setWidth(intRectWidth * 2.0 / prnt.logicalDpiX());
+        rect.setWidth((qreal)intRectWidth / (qreal)prnt.logicalDpiX());
 
         QPainter imagepainter(&prnt);
         OROTextBox tmpbox(elemThis);
