@@ -269,12 +269,12 @@ void renderCode128(QPainter *painter, int dpi, const QRectF &r, const QString &_
   str.push_back(checksum);
 
   // lets determine some core attributes about this barcode
-  qreal bar_width = bc->narrowBarWidth();
+  qreal bar_width = bc->narrowBarWidth() * dpi;
 
   // this is are mandatory minimum quiet zone
   qreal quiet_zone = bar_width * 10;
-  if(quiet_zone < 0.1)
-    quiet_zone = 0.1;
+  if(quiet_zone < 0.1 * dpi)
+    quiet_zone = 0.1 * dpi;
 
   // what kind of area do we have to work with
   qreal draw_width = r.width();
@@ -338,7 +338,7 @@ void renderCode128(QPainter *painter, int dpi, const QRectF &r, const QString &_
     space = false;
     for(b = 0; b < 6; b++, space = !space)
     {
-      w = _128codes[idx].values[b] * bar_width * dpi;
+      w = _128codes[idx].values[b] * bar_width;
       if(!space)
       {
         painter->drawRect(QRectF(pos,top, w,draw_height));
@@ -353,7 +353,7 @@ void renderCode128(QPainter *painter, int dpi, const QRectF &r, const QString &_
   space = false;
   for(b = 0; b < 7; b++, space = !space)
   {
-    w = STOP_CHARACTER[b] * bar_width * dpi;
+    w = STOP_CHARACTER[b] * bar_width;
     if(!space)
     {
       painter->drawRect(QRectF(pos,top, w,draw_height));
