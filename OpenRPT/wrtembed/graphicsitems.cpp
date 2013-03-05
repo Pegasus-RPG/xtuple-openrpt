@@ -149,6 +149,7 @@ void ORResizeHandle::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
   ORGraphicsRectItem * ri = 0;
   QGraphicsLineItem * li = 0;
   QRectF rect;
+  QRectF sceneRect;
   QLineF line;
   QTransform transform;
   qreal rotation = 0;
@@ -159,6 +160,7 @@ void ORResizeHandle::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
     if(ri)
     {
       rect = ri->rect();
+	  sceneRect = ri->sceneBoundingRect();
       transform = ri->transform();
       rotation = ri->rotation();
     }
@@ -174,6 +176,9 @@ void ORResizeHandle::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 
   QPointF scenePos = event->scenePos();
   QPointF lastScenePos = event->lastScenePos();
+  bool scal = false;
+  qreal scalX = 1;
+  qreal scalY = 1;
   if(scene() && scene()->inherits("DocumentScene"))
   {
     ReportGridOptions * rgo = 0;
@@ -184,6 +189,9 @@ void ORResizeHandle::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
       if(rgo) {
         scenePos = rgo->snapPoint(scenePos);
         lastScenePos = rgo->snapPoint(lastScenePos);
+		scalX = 100 * rgo->xInterval();
+		scalY = 100 * rgo->yInterval();
+		scal = true;
       }
     }
   }
@@ -204,28 +212,52 @@ void ORResizeHandle::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
   switch(_role)
   {
     case TopLeft:
-      rect.adjust(dX,dY,0,0);
+      if(!scal)
+        rect.adjust(dX,dY,0,0);
+	  else
+        rect.setTopLeft(QPointF(scalX * qRound((sceneRect.left() + dX) / scalX) + rect.left() - sceneRect.left(), scalY * qRound((sceneRect.top() + dY) / scalY) + rect.top() - sceneRect.top()));
       break;
     case Top:
-      rect.adjust(0,dY,0,0);
+	  if(!scal)
+        rect.adjust(0,dY,0,0);
+	  else
+	    rect.setTop(scalY * qRound((sceneRect.top() + dY) / scalY) + rect.top() - sceneRect.top());
       break;
     case TopRight:
-      rect.adjust(0,dY,dX,0);
+      if(!scal)
+        rect.adjust(0,dY,dX,0);
+	  else
+        rect.setTopRight(QPointF(scalX * qRound((sceneRect.right() + dX) / scalX) + rect.right() - sceneRect.right(), scalY * qRound((sceneRect.top() + dY) / scalY) + rect.top() - sceneRect.top()));
       break;
     case Right:
-      rect.adjust(0,0,dX,0);
+      if(!scal)
+        rect.adjust(0,0,dX,0);
+	  else
+        rect.setRight(scalX * qRound((sceneRect.right() + dX) / scalX) + rect.right() - sceneRect.right());
       break;
     case BottomRight:
-      rect.adjust(0,0,dX,dY);
+      if(!scal)
+        rect.adjust(0,0,dX,dY);
+	  else
+        rect.setBottomRight(QPointF(scalX * qRound((sceneRect.right() + dX) / scalX) + rect.right() - sceneRect.right(), scalY * qRound((sceneRect.bottom() + dY) / scalY) + rect.bottom() - sceneRect.bottom()));
       break;
     case Bottom:
-      rect.adjust(0,0,0,dY);
+      if(!scal)
+        rect.adjust(0,0,0,dY);
+	  else
+        rect.setBottom(scalY * qRound((sceneRect.bottom() + dY) / scalY) + rect.bottom() - sceneRect.bottom());
       break;
     case BottomLeft:
-      rect.adjust(dX,0,0,dY);
+      if(!scal)
+        rect.adjust(dX,0,0,dY);
+	  else
+        rect.setBottomLeft(QPointF(scalX * qRound((sceneRect.left() + dX) / scalX) + rect.left() - sceneRect.left(), scalY * qRound((sceneRect.bottom() + dY) / scalY) + rect.bottom() - sceneRect.bottom()));
       break;
     case Left:
-      rect.adjust(dX,0,0,0);
+      if(!scal)
+        rect.adjust(dX,0,0,0);
+	  else
+        rect.setLeft(scalX * qRound((sceneRect.left() + dX) / scalX) + rect.left() - sceneRect.left());
       break;
     case StartLine:
 	  line.setP1(p1 + QPointF(dX, dY));

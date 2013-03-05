@@ -145,7 +145,10 @@ void DocumentView::moveSelectedItems (int x, int y, Qt::KeyboardModifiers keyMod
 				firstItem = item;
 				lastPos = item->scenePos();
 			}
-			item->moveBy(xfactor * x, yfactor * y);
+			QPointF p = item->pos();
+			QRectF sceneRec = item->sceneBoundingRect();
+			item->setPos(	xfactor * qRound((sceneRec.left() + xfactor * x) / xfactor) + p.x() - sceneRec.left(),
+							yfactor * qRound((sceneRec.top() + yfactor * y) / yfactor) + p.y() - sceneRec.top());
 		}
     }
 
