@@ -1123,7 +1123,7 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
           int intRectWidth = (int)(trf.width() * prnt.logicalDpiX()) - CLIPMARGIN;
           int l = (_detailQuery ? _detailQuery->at() : 0);
           int qs = (_detailQuery ? _detailQuery->size() : 1);
-          int sizeLimit = _maxHeight - _bottomMargin;
+          qreal sizeLimit = _maxHeight - _bottomMargin;
           if(!_subtotContextPageFooter)
             sizeLimit = _maxHeight - _bottomMargin - finishCurPageSize((l+1 == qs));
 
