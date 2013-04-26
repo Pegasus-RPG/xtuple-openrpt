@@ -186,7 +186,7 @@ void ORResizeHandle::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
     if(ds)
     {
       rgo = ds->gridOptions();
-      if(rgo) {
+      if(rgo && rgo->isSnap()) {
         scenePos = rgo->snapPoint(scenePos);
         lastScenePos = rgo->snapPoint(lastScenePos);
 		scalX = 100 * rgo->xInterval();
