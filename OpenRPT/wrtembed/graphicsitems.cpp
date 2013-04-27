@@ -174,11 +174,8 @@ void ORResizeHandle::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
     }
   }
 
-  QPointF scenePos = event->scenePos();
-  QPointF lastScenePos = event->lastScenePos();
-  bool scal = false;
-  qreal scalX = 1;
-  qreal scalY = 1;
+  QPointF snapPos = event->pos();
+  bool snap = false;
   if(scene() && scene()->inherits("DocumentScene"))
   {
     ReportGridOptions * rgo = 0;
@@ -187,20 +184,14 @@ void ORResizeHandle::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
     {
       rgo = ds->gridOptions();
       if(rgo && rgo->isSnap()) {
-        scenePos = rgo->snapPoint(scenePos);
-        lastScenePos = rgo->snapPoint(lastScenePos);
-		scalX = 100 * rgo->xInterval();
-		scalY = 100 * rgo->yInterval();
-		scal = true;
+        snapPos = rgo->snapPoint(snapPos);
+        snap = true;
       }
     }
   }
-  
 
-  QPointF p1, p2;
-  p1 = line.p1();
-  p2 = line.p2();
-
+  QPointF scenePos = event->scenePos();
+  QPointF lastScenePos = event->lastScenePos();
   if(rotation != 0) {
       transform = transform.inverted();
       scenePos = transform.map(scenePos);
@@ -212,62 +203,68 @@ void ORResizeHandle::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
   switch(_role)
   {
     case TopLeft:
-      if(!scal)
+      if(!snap)
         rect.adjust(dX,dY,0,0);
 	  else
-        rect.setTopLeft(QPointF(scalX * qRound((sceneRect.left() + dX) / scalX) + rect.left() - sceneRect.left(), scalY * qRound((sceneRect.top() + dY) / scalY) + rect.top() - sceneRect.top()));
+        rect.setTopLeft(snapPos);
       break;
     case Top:
-	  if(!scal)
+      if(!snap)
         rect.adjust(0,dY,0,0);
 	  else
-	    rect.setTop(scalY * qRound((sceneRect.top() + dY) / scalY) + rect.top() - sceneRect.top());
+        rect.setTop(snapPos.y());
       break;
     case TopRight:
-      if(!scal)
+      if(!snap)
         rect.adjust(0,dY,dX,0);
 	  else
-        rect.setTopRight(QPointF(scalX * qRound((sceneRect.right() + dX) / scalX) + rect.right() - sceneRect.right(), scalY * qRound((sceneRect.top() + dY) / scalY) + rect.top() - sceneRect.top()));
+        rect.setTopRight(snapPos);
       break;
     case Right:
-      if(!scal)
+      if(!snap)
         rect.adjust(0,0,dX,0);
 	  else
-        rect.setRight(scalX * qRound((sceneRect.right() + dX) / scalX) + rect.right() - sceneRect.right());
+        rect.setRight(snapPos.x());
       break;
     case BottomRight:
-      if(!scal)
+      if(!snap)
         rect.adjust(0,0,dX,dY);
 	  else
-        rect.setBottomRight(QPointF(scalX * qRound((sceneRect.right() + dX) / scalX) + rect.right() - sceneRect.right(), scalY * qRound((sceneRect.bottom() + dY) / scalY) + rect.bottom() - sceneRect.bottom()));
+        rect.setBottomRight(snapPos);
       break;
     case Bottom:
-      if(!scal)
+      if(!snap)
         rect.adjust(0,0,0,dY);
 	  else
-        rect.setBottom(scalY * qRound((sceneRect.bottom() + dY) / scalY) + rect.bottom() - sceneRect.bottom());
+        rect.setBottom(snapPos.y());
       break;
     case BottomLeft:
-      if(!scal)
+      if(!snap)
         rect.adjust(dX,0,0,dY);
 	  else
-        rect.setBottomLeft(QPointF(scalX * qRound((sceneRect.left() + dX) / scalX) + rect.left() - sceneRect.left(), scalY * qRound((sceneRect.bottom() + dY) / scalY) + rect.bottom() - sceneRect.bottom()));
+        rect.setBottomLeft(snapPos);
       break;
     case Left:
-      if(!scal)
+      if(!snap)
         rect.adjust(dX,0,0,0);
 	  else
-        rect.setLeft(scalX * qRound((sceneRect.left() + dX) / scalX) + rect.left() - sceneRect.left());
+        rect.setLeft(snapPos.x());
       break;
     case StartLine:
-	  line.setP1(p1 + QPointF(dX, dY));
+      if(!snap)
+        line.setP1(line.p1() + QPointF(dX, dY));
+      else
+        line.setP1(snapPos);
       if((event->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier)
-		line.setP1(QPointF(line.p1().x(), line.p2().y()));
+        line.setP1(QPointF(line.p1().x(), line.p2().y()));
       else if((event->modifiers() & Qt::AltModifier) == Qt::AltModifier)
 		line.setP1(QPointF(line.p2().x(), line.p1().y()));
       break;
     case EndLine:
-	  line.setP2(p2 + QPointF(dX, dY));
+      if(!snap)
+        line.setP2(line.p2() + QPointF(dX, dY));
+      else
+        line.setP2(snapPos);
       if((event->modifiers() & Qt::ShiftModifier) == Qt::ShiftModifier)
 		line.setP2(QPointF(line.p1().x(), line.p2().y()));
       else if((event->modifiers() & Qt::AltModifier) == Qt::AltModifier)

@@ -75,10 +75,11 @@ QPointF ReportGridOptions::snapPoint(const QPointF & pos) {
     x = pos.x();
     y = pos.y();
 
-    double xpx = 100 * xInterval();
-    double ypx = 100 * yInterval();
-
     if(isSnap()) {
+
+        double xpx = 100 * xInterval();
+        double ypx = 100 * yInterval();
+
         int mx = (int)(x / xpx);
         int my = (int)(y / ypx);
         double dx = x - (mx * xpx);
