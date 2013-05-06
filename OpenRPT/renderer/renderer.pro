@@ -48,6 +48,7 @@ HEADERS = openreports.h \
           zebrapaintengine.h \
           zebraprintengine.h \
           reportprinter.h \
+          textelementsplitter.h \
           ../../MetaSQL/metasql.h \
           ../../MetaSQL/metasqlqueryparser.h \
           ../common/builtinformatfunctions.h \
@@ -74,6 +75,7 @@ SOURCES = openreports.cpp \
           zebrapaintengine.cpp \
           zebraprintengine.cpp \
           reportprinter.cpp \
+          textelementsplitter.cpp \
           ../../MetaSQL/metasql.cpp \
           ../../MetaSQL/metasqlqueryparser.cpp \
           ../../MetaSQL/regex/regex.c \
