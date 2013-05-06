@@ -181,7 +181,7 @@ void SectionEditor::brnMoveDown_clicked()
 {
   // get the selectged item and move it down in the list
   int idx = lbSections->currentRow();
-  if(idx == (int)(lbSections->count() - 1))
+  if(idx < 0 || idx == (int)(lbSections->count() - 1))
     return;
   QString s = lbSections->item(idx)->text();
   lbSections->takeItem(idx);
