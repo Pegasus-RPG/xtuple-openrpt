@@ -67,8 +67,14 @@ void TextElementSplitter::nextLine()
   {
     int idx = re.indexIn(_text, currentPos);
     bool endOfText = (idx == -1);
-
-    endOfLine = _fm->boundingRect(_text.left(idx)).width() > _lineClipWidth;
+    if(idx >=0 && _text[idx] == '\n')
+    {
+      currentPos = idx + 1;
+      endOfLine = true;
+    }
+    else {
+      endOfLine = _fm->boundingRect(_text.left(idx)).width() > _lineClipWidth;
+    }
     if(endOfText && !endOfLine)
     {
       currentPos = _text.length() + 1;
