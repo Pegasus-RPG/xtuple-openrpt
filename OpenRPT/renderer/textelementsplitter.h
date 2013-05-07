@@ -26,7 +26,7 @@ private:
     QString _currentLine;
     ORTextData * _element;
     QRectF _baseElementRect;
-    int    _elementWidthInPix;
+    int    _lineClipWidth;
     qreal _leftMargin;
     qreal _yOffset;
     qreal _pageBottom;

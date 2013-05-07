@@ -24,7 +24,7 @@ TextElementSplitter::TextElementSplitter(ORObject *textelem, QString text, qreal
   }
 
   QPointF pos = _element->rect.topLeft();
-  QSizeF size(_element->rect.width() - CLIPMARGIN, _element->rect.height());
+  QSizeF size(_element->rect.width(), _element->rect.height());
   pos /= 100.0;
   pos += QPointF(_leftMargin, 0);
   size /= 100.0;
@@ -40,7 +40,7 @@ TextElementSplitter::TextElementSplitter(ORObject *textelem, QString text, qreal
     _baseElementRect.setRight(_baseElementRect.right() + CLIPMARGIN / 100.0);
 #endif
 
-  _elementWidthInPix = (int)(_baseElementRect.width() * prnt.logicalDpiX());
+  _lineClipWidth = (int)(_baseElementRect.width() * prnt.logicalDpiX()) - CLIPMARGIN;
 
   _fm = QSharedPointer<QFontMetrics>(new QFontMetrics(_element->font, &prnt));
 
@@ -68,7 +68,7 @@ void TextElementSplitter::nextLine()
     int idx = re.indexIn(_text, currentPos);
     bool endOfText = (idx == -1);
 
-    endOfLine = _fm->boundingRect(_text.left(idx)).width() > _elementWidthInPix;
+    endOfLine = _fm->boundingRect(_text.left(idx)).width() > _lineClipWidth;
     if(endOfText && !endOfLine)
     {
       currentPos = _text.length() + 1;
