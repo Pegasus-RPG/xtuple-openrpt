@@ -24,25 +24,27 @@ TextElementSplitter::TextElementSplitter(ORObject *textelem, QString text, qreal
   }
 
   QPointF pos = _element->rect.topLeft();
-  QSizeF size = _element->rect.size();
+  QSizeF size(_element->rect.width() - CLIPMARGIN, _element->rect.height());
   pos /= 100.0;
   pos += QPointF(_leftMargin, 0);
   size /= 100.0;
 
+  QImage prnt(1, 1, QImage::Format_RGB32);
+
   _baseElementRect = QRectF(pos, size);
 
 #ifdef Q_WS_MAC // bug 13284, 15118
-  if(t->align & Qt::AlignRight)
+  if(_element->align & Qt::AlignRight)
     _baseElementRect.setLeft(_baseElementRect.left() - CLIPMARGIN / 100.0);
   else
     _baseElementRect.setRight(_baseElementRect.right() + CLIPMARGIN / 100.0);
 #endif
 
-  // insert spaces into text to allow it to wrap
+  _elementWidthInPix = (int)(_baseElementRect.width() * prnt.logicalDpiX());
 
-  QImage prnt(1, 1, QImage::Format_RGB32);
-  _elementWidthInPix = (int)(size.width() * prnt.logicalDpiX()) - CLIPMARGIN;
-  _baseElementRect.setWidth((qreal)_elementWidthInPix / (qreal)prnt.logicalDpiX());
+  _fm = QSharedPointer<QFontMetrics>(new QFontMetrics(_element->font, &prnt));
+
+  // insert spaces into text to allow it to wrap
   QPainter imagepainter(&prnt);
   OROTextBox tmpbox(textelem);
   tmpbox.setPosition(_baseElementRect.topLeft());
@@ -52,8 +54,6 @@ TextElementSplitter::TextElementSplitter(ORObject *textelem, QString text, qreal
   tmpbox.setFlags(_element->align | Qt::TextWordWrap);
   tmpbox.setRotation(_element->rotation());
   _text = tmpbox.textForcedToWrap(&imagepainter);
-
-  _fm = QSharedPointer<QFontMetrics>(new QFontMetrics(_element->font, &prnt));
 }
 
 void TextElementSplitter::nextLine()
