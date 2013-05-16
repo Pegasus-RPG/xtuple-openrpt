@@ -22,6 +22,8 @@
 #define __GRAPHICSSECTION_H__
 
 #include <QtGui>
+#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsRectItem>
 #include <QDomDocument>
 #include <QList>
 

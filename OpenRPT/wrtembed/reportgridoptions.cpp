@@ -96,10 +96,10 @@ QPointF ReportGridOptions::snapPoint(const QPointF & pos) {
 
 
 void ReportGridOptions::show() {
-    setVisible(TRUE);
+    setVisible(true);
 }
 void ReportGridOptions::hide() {
-    setVisible(FALSE);
+    setVisible(false);
 }
 
 void ReportGridOptions::setXInterval(double i) {

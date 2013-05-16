@@ -22,6 +22,7 @@
 #define __GRAPHICSITEMS_H__
 
 #include <QtGui>
+#include <QGraphicsRectItem>
 #include <QDomDocument>
 
 #include <parsexmlutils.h>

@@ -22,6 +22,7 @@
 #define __DOCUMENTSCENE_H__
 
 #include <QtGui>
+#include <QGraphicsScene>
 #include <QDomDocument>
 
 #include "querylist.h" 

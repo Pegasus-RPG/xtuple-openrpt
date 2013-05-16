@@ -39,6 +39,7 @@
 #include <builtinformatfunctions.h>
 
 #include <QRegExp>
+#include <QMenu>
 
 int defaultZvalue = 10;
 bool __dosnap = true;
@@ -312,8 +313,9 @@ void ORResizeHandle::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
 //ORGraphicsRectItem
 //
 ORGraphicsRectItem::ORGraphicsRectItem(QGraphicsItem * parent)
-  : QGraphicsRectItem(0, 0, 100, 25, parent), _rotation(0), _moved(false)
+  : QGraphicsRectItem(0, 0, 100, 25, parent), _rotation(0), _border(QPen(Qt::black, 0)), _moved(false)
 {
+  setPen(QPen(Qt::black, 0));
   setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges);
   setZValue(defaultZvalue-2); 
 
@@ -342,6 +344,7 @@ ORGraphicsRectItem::ORGraphicsRectItem(QGraphicsItem * parent)
 ORGraphicsRectItem::ORGraphicsRectItem(const QDomNode & entity, QGraphicsItem * parent)
   : QGraphicsRectItem(0, 0, 100, 25, parent), _rotation(0), _moved(false)
 {
+  setPen(QPen(Qt::black, 0));
   setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
   setZValue(defaultZvalue-2); 
 
@@ -983,7 +986,7 @@ QVariant ORGraphicsLineItem::itemChange(GraphicsItemChange change, const QVarian
 ORGraphicsLabelItem::ORGraphicsLabelItem(QGraphicsItem * parent)
   : ORGraphicsRectItem(parent)
 {
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
   _font = getDefaultEntityFont();
   _txt = QObject::tr("Label");
   _flags = 0;
@@ -1032,11 +1035,11 @@ ORGraphicsLabelItem::ORGraphicsLabelItem(const QDomNode & element, QGraphicsItem
           _font.setPointSize(node.firstChild().nodeValue().toInt());
         } else if(n == "weight") {
           QString v = node.firstChild().nodeValue();
-          if(v == "bold") _font.setBold(TRUE);
-          else if(v == "normal") _font.setBold(FALSE);
+          if(v == "bold") _font.setBold(true);
+          else if(v == "normal") _font.setBold(false);
           else _font.setWeight(node.firstChild().nodeValue().toInt());
 		} else if(n == "italic") {
-		  _font.setItalic(TRUE);
+		  _font.setItalic(true);
         } else {
           qDebug("while parsing font encountered unknown element: %s", n.toLatin1().constData());
         }
@@ -1181,9 +1184,9 @@ ORGraphicsFieldItem::ORGraphicsFieldItem(QGraphicsItem * parent)
   _flags = 0;
   setZValue(defaultZvalue); 
   _font = getDefaultEntityFont();
-  _trackTotal = FALSE;
-  _trackBuiltinFormat = FALSE;
-  _useSubTotal = FALSE;
+  _trackTotal = false;
+  _trackBuiltinFormat = false;
+  _useSubTotal = false;
   _lines = 1;
   _columns = 1;
   _xSpacing = 0;
@@ -1198,9 +1201,9 @@ ORGraphicsFieldItem::ORGraphicsFieldItem(const QDomNode & element, QGraphicsItem
   _flags = 0;
   setZValue(defaultZvalue); 
   _font = getDefaultEntityFont();
-  _trackTotal = FALSE;
-  _trackBuiltinFormat = FALSE;
-  _useSubTotal = FALSE;
+  _trackTotal = false;
+  _trackBuiltinFormat = false;
+  _useSubTotal = false;
   _lines = 1;
   _columns = 1;
   _xSpacing = 0;
@@ -1268,26 +1271,26 @@ ORGraphicsFieldItem::ORGraphicsFieldItem(const QDomNode & element, QGraphicsItem
           _font.setPointSize(node.firstChild().nodeValue().toInt());
         } else if(n == "weight") {
           QString v = node.firstChild().nodeValue();
-          if(v == "bold") _font.setBold(TRUE);
-          else if(v == "normal") _font.setBold(FALSE);
+          if(v == "bold") _font.setBold(true);
+          else if(v == "normal") _font.setBold(false);
           else _font.setWeight(node.firstChild().nodeValue().toInt());
 		} else if(n == "italic") {
-			_font.setItalic(TRUE);
+			_font.setItalic(true);
         } else {
           qDebug("while parsing font encountered unknown element: %s", n.toLatin1().constData());
         }
       }
     } else if(n == "format") {
-      _trackBuiltinFormat = (node.toElement().attribute("builtin")=="true"?TRUE:FALSE);
+      _trackBuiltinFormat = (node.toElement().attribute("builtin")=="true"?true:false);
       _format = node.firstChild().nodeValue();
     } else if(n == "tracktotal") {
         // NB for compatibility with reports V <= 3.0 format info is also read from the total tag
                 if(!_trackBuiltinFormat)
-          _trackBuiltinFormat = (node.toElement().attribute("builtin")=="true"?TRUE:FALSE);
-        _useSubTotal = (node.toElement().attribute("subtotal")=="true"?TRUE:FALSE);
+          _trackBuiltinFormat = (node.toElement().attribute("builtin")=="true"?true:false);
+        _useSubTotal = (node.toElement().attribute("subtotal")=="true"?true:false);
         if(!node.firstChild().nodeValue().isEmpty())
             _format = node.firstChild().nodeValue();
-        if(_format.length() > 0) _trackTotal = TRUE;
+        if(_format.length() > 0) _trackTotal = true;
     } else {
       qDebug("while parsing field element encountered unknow element: %s",n.toLatin1().data());
     }
@@ -1465,12 +1468,12 @@ void ORGraphicsFieldItem::properties(QWidget * parent)
       setUseSubTotal(le->_cbSubTotal->isChecked());
     }
     if(le->_rbStringFormat->isChecked()) {
-        setFormat(le->_leRTotalFormat->text(), FALSE);
+        setFormat(le->_leRTotalFormat->text(), false);
         if(format().isEmpty() && (trackTotal() || useSubTotal())) {
             setFormat("%0.2f"); // a default format is necessary to correctly handle the totalization
         }
     } else {
-        setFormat(getTagFromName(le->_cbBuiltinFormat->currentText()), TRUE);
+        setFormat(getTagFromName(le->_cbBuiltinFormat->currentText()), true);
     }
     if(le->labelPreview->wordWrap())
       setTextFlags(le->labelPreview->alignment() | Qt::TextWordWrap);
@@ -1662,11 +1665,11 @@ ORGraphicsTextItem::ORGraphicsTextItem(const QDomNode & element, QGraphicsItem *
           _font.setPointSize(node.firstChild().nodeValue().toInt());
         } else if(n == "weight") {
           QString v = node.firstChild().nodeValue();
-          if(v == "bold") _font.setBold(TRUE);
-          else if(v == "normal") _font.setBold(FALSE);
+          if(v == "bold") _font.setBold(true);
+          else if(v == "normal") _font.setBold(false);
           else _font.setWeight(node.firstChild().nodeValue().toInt());
 		} else if(n == "italic") {
-			_font.setItalic(TRUE);
+			_font.setItalic(true);
         } else {
           qDebug("while parsing font encountered unknown element: %s", n.toLatin1().constData());
         }
@@ -1976,11 +1979,11 @@ void ORGraphicsBarcodeItem::properties(QWidget * parent)
     le->cbQuery->init(ds->qsList,query());
 
   if(alignment() < 1)
-      le->rbAlignLeft->setChecked(TRUE);
+      le->rbAlignLeft->setChecked(true);
   else if(alignment() == 1)
-      le->rbAlignCenter->setChecked(TRUE);
+      le->rbAlignCenter->setChecked(true);
   else //if(alignment > 1)
-      le->rbAlignRight->setChecked(TRUE);
+      le->rbAlignRight->setChecked(true);
 
   le->tbColumn->setText(column());
 
@@ -2205,7 +2208,7 @@ ORGraphicsImageItem::ORGraphicsImageItem(const QDomNode & element, QGraphicsItem
   QDomNodeList nl = element.childNodes();
   QString n;
   QDomNode node;
-  _img_inline = FALSE;
+  _img_inline = false;
   for(int i = 0; i < nl.count(); i++) {
     node = nl.item(i);
     n = node.nodeName();
@@ -2223,14 +2226,14 @@ ORGraphicsImageItem::ORGraphicsImageItem(const QDomNode & element, QGraphicsItem
           qDebug("while parsing field data encountered and unknown element: %s", n.toLatin1().constData());
         }
       }
-      _img_inline = FALSE;
+      _img_inline = false;
     } else if(n == "mode") {
       _mode = node.firstChild().nodeValue();
     } else if(n == "map") {
       // should read the format in but it will just be reset by the setImageData
       // method
       setInlineImageData(node.firstChild().nodeValue());
-      _img_inline = TRUE;
+      _img_inline = true;
     } else if(n == "rect") {
       parseRect(node);
     } else {
@@ -2305,12 +2308,12 @@ void ORGraphicsImageItem::properties(QWidget * parent)
   le->tbColumn->setText(column());
   if(isInline())
   {
-    le->setInline(TRUE);
+    le->setInline(true);
     le->setImageData(inlineImageData());
   }
   else
   {
-    le->setInline(FALSE);
+    le->setInline(false);
   }
   le->setMode(mode());
   double dx = pos().x() / 100.0;
@@ -2330,10 +2333,10 @@ void ORGraphicsImageItem::properties(QWidget * parent)
     setMode(le->getMode());
 
     if(le->isInline()) {
-      setInline(TRUE);
+      setInline(true);
       setInlineImageData(le->getImageData());
     } else {
-      setInline(FALSE);
+      setInline(false);
     }
 
     double dt;
@@ -2426,17 +2429,17 @@ ORGraphicsGraphItem::ORGraphicsGraphItem(QGraphicsItem * parent)
   _graphData.data.query = QString::null;
   _graphData.data.column = QString::null;
   _graphData.title.string = QString::null;
-  _graphData.title.font_defined = FALSE;
+  _graphData.title.font_defined = false;
   _graphData.dataaxis.column = QString::null;
-  _graphData.dataaxis.font_defined = FALSE;
+  _graphData.dataaxis.font_defined = false;
   _graphData.dataaxis.title.string = QString::null;
-  _graphData.dataaxis.title.font_defined = FALSE;
+  _graphData.dataaxis.title.font_defined = false;
   _graphData.valueaxis.min = 0;
   _graphData.valueaxis.max = 100;
-  _graphData.valueaxis.autominmax = TRUE;
-  _graphData.valueaxis.font_defined = FALSE;
+  _graphData.valueaxis.autominmax = true;
+  _graphData.valueaxis.font_defined = false;
   _graphData.valueaxis.title.string = QString::null;
-  _graphData.valueaxis.title.font_defined = FALSE;
+  _graphData.valueaxis.title.font_defined = false;
 }
 
 ORGraphicsGraphItem::ORGraphicsGraphItem(const QDomNode & element, QGraphicsItem * parent)
@@ -2512,7 +2515,7 @@ void ORGraphicsGraphItem::buildXML(QDomDocument & doc, QDomElement & parent)
 
   if(_graphData.valueaxis.font_defined || _graphData.valueaxis.title.string.length() > 0 ||
      _graphData.valueaxis.min != 0 || _graphData.valueaxis.max != 100 ||
-     _graphData.valueaxis.autominmax != TRUE) {
+     _graphData.valueaxis.autominmax != true) {
     QDomElement valueaxis = doc.createElement("valueaxis");
 
     if(_graphData.valueaxis.title.string.length() > 0) {
@@ -2613,35 +2616,35 @@ void ORGraphicsGraphItem::properties(QWidget * parent)
 
   le->setBaseFont(_graphData.font);
   le->setTitleFont(_graphData.font);
-  le->setUseTitleFont(FALSE);
+  le->setUseTitleFont(false);
   le->setDataTitleFont(_graphData.font);
-  le->setUseDataTitleFont(FALSE);
+  le->setUseDataTitleFont(false);
   le->setDataFont(_graphData.font);
-  le->setUseDataFont(FALSE);
+  le->setUseDataFont(false);
   le->setValueTitleFont(_graphData.font);
-  le->setUseValueTitleFont(FALSE);
+  le->setUseValueTitleFont(false);
   le->setValueFont(_graphData.font);
-  le->setUseValueFont(FALSE);
+  le->setUseValueFont(false);
 
   le->setTitle(_graphData.title.string);
   if(_graphData.title.font_defined)
   {
     le->setTitleFont(_graphData.title.font);
-    le->setUseTitleFont(TRUE);
+    le->setUseTitleFont(true);
   }
 
   le->setDataColumn(_graphData.dataaxis.column);
   if(_graphData.dataaxis.font_defined)
   {
     le->setDataFont(_graphData.dataaxis.font);
-    le->setUseDataFont(TRUE);
+    le->setUseDataFont(true);
   }
 
   le->setDataTitle(_graphData.dataaxis.title.string);
   if(_graphData.dataaxis.title.font_defined)
   {
     le->setDataTitleFont(_graphData.dataaxis.title.font);
-    le->setUseDataTitleFont(TRUE);
+    le->setUseDataTitleFont(true);
   }
 
   le->setMinValue(_graphData.valueaxis.min);
@@ -2650,13 +2653,13 @@ void ORGraphicsGraphItem::properties(QWidget * parent)
   if(_graphData.valueaxis.font_defined)
   {
     le->setValueFont(_graphData.valueaxis.font);
-    le->setUseValueFont(TRUE);
+    le->setUseValueFont(true);
   }
   le->setValueTitle(_graphData.valueaxis.title.string);
   if(_graphData.valueaxis.title.font_defined)
   {
     le->setValueTitleFont(_graphData.valueaxis.title.font);
-    le->setUseValueTitleFont(TRUE);
+    le->setUseValueTitleFont(true);
   }
 
   ORSeriesData * sd1 = 0;
@@ -2854,11 +2857,11 @@ ORGraphicsCrossTabItem::ORGraphicsCrossTabItem(const QDomNode & element, QGraphi
           QString v = node.firstChild().nodeValue();
           if(v == "bold")
           {
-            savedFont.setBold(TRUE);
+            savedFont.setBold(true);
           }
           else if(v == "normal")
           {
-            savedFont.setBold(FALSE);
+            savedFont.setBold(false);
           }
           else
           {
@@ -2866,7 +2869,7 @@ ORGraphicsCrossTabItem::ORGraphicsCrossTabItem(const QDomNode & element, QGraphi
           }
         }
 	    else if(n == "italic") {
-		  savedFont.setItalic(TRUE);
+		  savedFont.setItalic(true);
 		}
         else
         {

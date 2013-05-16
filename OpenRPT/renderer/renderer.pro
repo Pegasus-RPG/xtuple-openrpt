@@ -88,7 +88,7 @@ SOURCES = openreports.cpp \
 INCLUDEPATH += ../common ../../common
 
 
-QT += xml sql gui network
+QT += xml sql gui network printsupport
 
 TRANSLATIONS    = renderer_fr.ts renderer_it.ts renderer_ru.ts renderer_es.ts
 

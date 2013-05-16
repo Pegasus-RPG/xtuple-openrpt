@@ -31,6 +31,7 @@
 
 // qt
 #include <QtGui>
+#include <QScrollBar>
 #include <QSqlError>
 #include <QWheelEvent>
 
