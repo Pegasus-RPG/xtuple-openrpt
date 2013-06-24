@@ -1486,10 +1486,9 @@ ORODocument* ORPreRender::generate()
         _internal->renderDetailSection(*(_internal->_reportData->sections.at(i)));
 
     qreal rptfootSize = (_internal->_reportData->rptfoot != 0) ? _internal->renderSectionSize(*(_internal->_reportData->rptfoot), true) : 0;
-    qreal pgfootLastSize = (_internal->_reportData->pgfoot_last != 0) ? _internal->renderSectionSize(*(_internal->_reportData->pgfoot_last), true) : 0;
-    if(rptfootSize + pgfootLastSize + _internal->finishCurPageSize(true) + _internal->_bottomMargin + _internal->_yOffset >= _internal->_maxHeight)
+    if(rptfootSize + _internal->finishCurPageSize(true) + _internal->_bottomMargin + _internal->_yOffset >= _internal->_maxHeight)
       _internal->createNewPage();
-	if(_internal->_reportData->rptfoot != 0)
+    if(_internal->_reportData->rptfoot != 0)
       _internal->renderSection(*(_internal->_reportData->rptfoot));
   }
   _internal->finishCurPage(true);

@@ -1,14 +1,14 @@
 <!DOCTYPE openRPTDef>
 <report>
- <title>Purchase Order</title>
- <name>PurchaseOrder</name>
+ <title>test_2pages_footer</title>
+ <name>test_2pages_footer</name>
  <description>Selecting an Alt Address on the PO will cause the printed PO to display that address as the Ship To on the printed document.</description>
  <parameter default="999" active="true" listtype="static" type="string" name="pohead_id">
   <description></description>
  </parameter>
  <watermark>
   <data>
-   <query>Head</query>
+   <query>Context Query</query>
    <column>title</column>
   </data>
   <opacity>0</opacity>
@@ -42,7 +42,7 @@
    <rect>
     <x>50</x>
     <y>80</y>
-    <width>840</width>
+    <width>895</width>
     <height>145</height>
     <color>
      <red>85</red>
@@ -63,24 +63,7 @@
    <rect>
     <x>160</x>
     <y>10</y>
-    <width>440</width>
-    <height>35</height>
-   </rect>
-   <font>
-    <face>Helvetica</face>
-    <size>24</size>
-    <weight>normal</weight>
-    <italic/>
-   </font>
-   <right/>
-   <vcenter/>
-   <string>This document must print on</string>
-  </label>
-  <label>
-   <rect>
-    <x>600</x>
-    <y>10</y>
-    <width>70</width>
+    <width>660</width>
     <height>35</height>
    </rect>
    <font>
@@ -91,24 +74,7 @@
    </font>
    <hcenter/>
    <vcenter/>
-   <string>one</string>
-  </label>
-  <label>
-   <rect>
-    <x>670</x>
-    <y>10</y>
-    <width>120</width>
-    <height>35</height>
-   </rect>
-   <font>
-    <face>Helvetica</face>
-    <size>24</size>
-    <weight>normal</weight>
-    <italic/>
-   </font>
-   <left/>
-   <vcenter/>
-   <string>page.</string>
+   <string>This document must print on two pages</string>
   </label>
  </pghead>
  <section>
@@ -117,7 +83,7 @@
    <key>
     <query>Detail</query>
    </key>
-   <height>50</height>
+   <height>60</height>
    <field>
     <rect>
      <x>5</x>
@@ -131,7 +97,7 @@
      <weight>normal</weight>
     </font>
     <left/>
-    <top/>
+    <vcenter/>
     <data>
      <query>Detail</query>
      <column>item_number</column>
@@ -150,14 +116,14 @@
      <weight>normal</weight>
     </font>
     <left/>
-    <top/>
+    <vcenter/>
     <string>Detail</string>
    </label>
    <line>
     <xstart>0.445996</xstart>
-    <ystart>47.8903</ystart>
+    <ystart>57.8903</ystart>
     <xend>1000.44</xend>
-    <yend>47.8903</yend>
+    <yend>57.8903</yend>
     <weight>4</weight>
     <style>3</style>
    </line>
@@ -177,7 +143,7 @@
    <rect>
     <x>55</x>
     <y>25</y>
-    <width>840</width>
+    <width>875</width>
     <height>145</height>
     <color>
      <red>85</red>
