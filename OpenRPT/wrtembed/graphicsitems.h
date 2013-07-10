@@ -205,7 +205,7 @@ class ORGraphicsFieldItem : public ORGraphicsRectItem
     void setFont(const QFont&);
     void setTextFlags(int);
     void setTrackTotal(bool);
-    void setFormat(const QString &, bool=FALSE);
+    void setFormat(const QString &, bool=false);
     void setUseSubTotal(bool);
     void setArray(int lines, int columns, double xSpacing, double ySpacing, bool pageBreak, bool leftToRight);
 

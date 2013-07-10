@@ -100,8 +100,8 @@ class ORGraphicsSectionDetailGroup : public QObject
 
     void setTitle(const QString & s);
     void setColumn(const QString &);
-    void showGroupHead(bool yes = TRUE);
-    void showGroupFoot(bool yes = TRUE);
+    void showGroupHead(bool yes = true);
+    void showGroupFoot(bool yes = true);
     void setPageBreak(int);
 
     QString getTitle() const { return _name; }
@@ -158,7 +158,7 @@ class ORGraphicsSectionDetail : public QObject
     ORGraphicsSectionDetailGroup * getSection(int i);
     void insertSection(int idx, ORGraphicsSectionDetailGroup * rsd);
     int findSection(const QString & name);
-    void removeSection(int idx, bool del = FALSE);
+    void removeSection(int idx, bool del = false);
 
     void adjustSize();
 
