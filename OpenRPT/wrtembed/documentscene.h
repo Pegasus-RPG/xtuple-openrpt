@@ -112,7 +112,7 @@ class DocumentScene : public QGraphicsScene
     ORGraphicsSectionDetail * getSection(int i);
     void insertSection(int idx, ORGraphicsSectionDetail * rsd);
     int findSection(const QString & name);
-    void removeSection(int idx, bool del = FALSE);
+    void removeSection(int idx, bool del = false);
 
     void setReportTitle(const QString &);
     void setReportDescription(const QString &);
