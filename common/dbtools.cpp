@@ -76,14 +76,17 @@ QSqlDatabase databaseFromURL( const QString& databaseURL )
     db = QSqlDatabase::addDatabase("QMYSQL");
   else if ( "oracle" == protocol )
     db = QSqlDatabase::addDatabase("QOCI");
-  else if ( "sqlite" == protocol || "qsqlite" == protocol )
+  else if ( "sqlite" == protocol )
     db = QSqlDatabase::addDatabase("QSQLITE");
-  else if ( "sqlite2" == protocol || "qsqlite2" == protocol )
+  else if ( "sqlite2" == protocol )
     db = QSqlDatabase::addDatabase("QSQLITE2");
   else if ( "sybase" == protocol )
     db = QSqlDatabase::addDatabase("QTDS");
   else
+  {
+    protocol = protocol.toUpper();
     db = QSqlDatabase::addDatabase( protocol ); // third-party or custom qt SQL drivers
+  }
   if ( db.isValid() )
   {
     db.setDatabaseName(dbName);
