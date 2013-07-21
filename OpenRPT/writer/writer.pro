@@ -59,4 +59,4 @@ QT += xml sql network widgets printsupport
 
 RESOURCES += writer.qrc
 
-TRANSLATIONS = writer_fr.ts writer_it.ts writer_ru.ts writer_es.ts
+TRANSLATIONS = writer_fr.ts writer_it.ts writer_ru.ts writer_es.ts writer_ar.ts

@@ -75,3 +75,5 @@ FORMS   =  parameterproperties.ui \
            parameteredit.ui
 
 RESOURCES += ../OpenRPT/images/OpenRPTCommon.qrc
+
+TRANSLATIONS += common_es.ts common_fr.ts common_it.ts common_ru.ts common_ar.ts

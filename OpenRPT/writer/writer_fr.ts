@@ -18,22 +18,22 @@
         <translation>&amp;Fenêtres</translation>
     </message>
     <message>
-        <location filename="reportwriterwindow.cpp" line="157"/>
+        <location filename="reportwriterwindow.cpp" line="155"/>
         <source>Version</source>
         <translation>Version</translation>
     </message>
     <message>
-        <location filename="reportwriterwindow.cpp" line="176"/>
+        <location filename="reportwriterwindow.cpp" line="174"/>
         <source>%1 - %2 on %3/%4 AS %5</source>
         <translation>%1 - %2 sur %3/%4 en tant que %5</translation>
     </message>
     <message>
-        <location filename="reportwriterwindow.cpp" line="192"/>
+        <location filename="reportwriterwindow.cpp" line="190"/>
         <source>&amp;Cascade</source>
         <translation>&amp;Cascade</translation>
     </message>
     <message>
-        <location filename="reportwriterwindow.cpp" line="193"/>
+        <location filename="reportwriterwindow.cpp" line="191"/>
         <source>&amp;Tile</source>
         <translation>&amp;Mosaique</translation>
     </message>

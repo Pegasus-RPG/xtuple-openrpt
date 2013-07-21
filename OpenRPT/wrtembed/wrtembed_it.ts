@@ -67,100 +67,107 @@
         <translation type="obsolete">5</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="158"/>
+        <location filename="barcodeeditor.ui" line="163"/>
         <source>Alignment</source>
         <translation>Allineamento</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="170"/>
+        <location filename="barcodeeditor.ui" line="175"/>
         <source>Left</source>
         <translation>Sinistra</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="180"/>
+        <location filename="barcodeeditor.ui" line="185"/>
         <source>Center</source>
         <translation>Centro</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="187"/>
+        <location filename="barcodeeditor.ui" line="192"/>
         <source>Right</source>
         <translation>Destra</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="197"/>
+        <location filename="barcodeeditor.ui" line="202"/>
         <source>Position/Size</source>
         <translation>Posizione/Dimensione</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="224"/>
-        <location filename="barcodeeditor.ui" line="252"/>
+        <location filename="barcodeeditor.ui" line="229"/>
+        <location filename="barcodeeditor.ui" line="257"/>
         <source>0.01</source>
         <translation>0.01</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="231"/>
+        <location filename="barcodeeditor.ui" line="236"/>
         <source>Y:</source>
         <translation>Y:</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="245"/>
+        <location filename="barcodeeditor.ui" line="250"/>
         <source>Height:</source>
         <translation>Altezza:</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="203"/>
+        <location filename="barcodeeditor.ui" line="208"/>
         <source>X:</source>
         <translation>X:</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="217"/>
+        <location filename="barcodeeditor.ui" line="222"/>
         <source>Width:</source>
         <translation>Larghezza:</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="287"/>
+        <location filename="barcodeeditor.ui" line="292"/>
         <source>in inches</source>
         <translation>in pollici</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="210"/>
-        <location filename="barcodeeditor.ui" line="238"/>
-        <location filename="barcodeeditor.ui" line="269"/>
+        <location filename="barcodeeditor.ui" line="215"/>
+        <location filename="barcodeeditor.ui" line="243"/>
+        <location filename="barcodeeditor.ui" line="274"/>
         <source>0.00</source>
         <translation>0.00</translation>
     </message>
     <message>
         <location filename="barcodeeditor.ui" line="140"/>
-        <source>Datamatrix square</source>
+        <source>i2of5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="barcodeeditor.ui" line="145"/>
+        <location filename="barcodeeditor.cpp" line="64"/>
+        <source>Datamatrix square</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="barcodeeditor.ui" line="150"/>
+        <location filename="barcodeeditor.cpp" line="65"/>
         <source>Datamatrix rectangle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="313"/>
+        <location filename="barcodeeditor.ui" line="318"/>
         <source>&amp;OK</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="316"/>
+        <location filename="barcodeeditor.ui" line="321"/>
         <source>Alt+O</source>
         <translation>Alt+O</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="329"/>
+        <location filename="barcodeeditor.ui" line="334"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annulla</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="332"/>
+        <location filename="barcodeeditor.ui" line="337"/>
         <source>Alt+C</source>
         <translation>Alt+A</translation>
     </message>
     <message>
-        <location filename="barcodeeditor.ui" line="259"/>
+        <location filename="barcodeeditor.ui" line="264"/>
         <source>Narrow bar width:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -801,82 +808,82 @@ Per favore specifica un nome UNIVOCO per questo colore.</translation>
 <context>
     <name>DocumentScene</name>
     <message>
-        <location filename="documentscene.cpp" line="377"/>
+        <location filename="documentscene.cpp" line="380"/>
         <source>No Section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="378"/>
+        <location filename="documentscene.cpp" line="381"/>
         <source>You must place an object inside a section on the report.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="679"/>
+        <location filename="documentscene.cpp" line="682"/>
         <source>Report Header</source>
         <translation type="unfinished">Intestazione Report</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="704"/>
+        <location filename="documentscene.cpp" line="707"/>
         <source>Report Footer</source>
         <translation type="unfinished">Piede del Report</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="729"/>
+        <location filename="documentscene.cpp" line="732"/>
         <source>Page Header (First)</source>
         <translation type="unfinished">Intestazione Pagina (Prima)</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="754"/>
+        <location filename="documentscene.cpp" line="757"/>
         <source>Page Header (Odd)</source>
         <translation type="unfinished">Intestazione Pagina (Dispari)</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="779"/>
+        <location filename="documentscene.cpp" line="782"/>
         <source>Page Header (Even)</source>
         <translation type="unfinished">Intestazione Pagina (Pari)</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="804"/>
+        <location filename="documentscene.cpp" line="807"/>
         <source>Page Header (Last)</source>
         <translation type="unfinished">Intestazione Pagina (Ultima)</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="829"/>
+        <location filename="documentscene.cpp" line="832"/>
         <source>Page Header (Any)</source>
         <translation type="unfinished">Intestazione Pagina (Tutte)</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="854"/>
+        <location filename="documentscene.cpp" line="857"/>
         <source>Page Footer (First)</source>
         <translation type="unfinished">Piede Pagina (Prima)</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="879"/>
+        <location filename="documentscene.cpp" line="882"/>
         <source>Page Footer (Odd)</source>
         <translation type="unfinished">Piede Pagina (Dispari)</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="904"/>
+        <location filename="documentscene.cpp" line="907"/>
         <source>Page Footer (Even)</source>
         <translation type="unfinished">Piede Pagina (Pari)</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="929"/>
+        <location filename="documentscene.cpp" line="932"/>
         <source>Page Footer (Last)</source>
         <translation type="unfinished">Piede Pagina (Ultima)</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="954"/>
+        <location filename="documentscene.cpp" line="957"/>
         <source>Page Footer (Any)</source>
         <translation type="unfinished">Piede Pagina (Tutte)</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="1070"/>
+        <location filename="documentscene.cpp" line="1073"/>
         <source>Report Writer</source>
         <translation type="unfinished">Report Writer</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="1071"/>
+        <location filename="documentscene.cpp" line="1074"/>
         <source>Unable to open/create file for writing!
 Save Failed! Check to make sure that you have
 permissions to the file you are trying to save to.</source>
@@ -885,37 +892,37 @@ Salvataggio non riuscito! Controlla di avere i permessi
 necessari sul file che stai provando a salvare.</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="1074"/>
+        <location filename="documentscene.cpp" line="1077"/>
         <source>Ok</source>
         <translation type="unfinished">Ok</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="1084"/>
+        <location filename="documentscene.cpp" line="1087"/>
         <source>Choose filename to save</source>
         <translation type="unfinished">Scegli il nome del file da salvare</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="1084"/>
+        <location filename="documentscene.cpp" line="1087"/>
         <source>XML (*.xml)</source>
         <translation type="unfinished">XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="1105"/>
+        <location filename="documentscene.cpp" line="1108"/>
         <source>Save Report to Database</source>
         <translation type="unfinished">Salva Report nel Database</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="1168"/>
+        <location filename="documentscene.cpp" line="1171"/>
         <source>Error saving to database</source>
         <translation type="unfinished">Impossibile salvare nel database</translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="2360"/>
+        <location filename="documentscene.cpp" line="2363"/>
         <source>Invalid Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="documentscene.cpp" line="2361"/>
+        <location filename="documentscene.cpp" line="2364"/>
         <source>The detail section %1 is not valid because no query is specified.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -923,39 +930,39 @@ necessari sul file che stai provando a salvare.</translation>
 <context>
     <name>DocumentWindow</name>
     <message>
-        <location filename="documentwindow.cpp" line="65"/>
+        <location filename="documentwindow.cpp" line="66"/>
         <source>Untitled Document</source>
         <translation type="unfinished">Documento senza titolo</translation>
     </message>
     <message>
-        <location filename="documentwindow.cpp" line="73"/>
+        <location filename="documentwindow.cpp" line="74"/>
         <source> *</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="documentwindow.cpp" line="81"/>
+        <location filename="documentwindow.cpp" line="82"/>
         <source>Report Writer</source>
         <translation type="unfinished">Report Writer</translation>
     </message>
     <message>
-        <location filename="documentwindow.cpp" line="81"/>
+        <location filename="documentwindow.cpp" line="82"/>
         <source>The document &apos;%1&apos; contains unsaved changes.
 Do you want to save the changes before closing?</source>
         <translation type="unfinished">Il documento &apos;%1&apos; contiene modifiche non salvate.
 Vuoi salvare le modifiche prima di uscire?</translation>
     </message>
     <message>
-        <location filename="documentwindow.cpp" line="81"/>
+        <location filename="documentwindow.cpp" line="82"/>
         <source>Save</source>
         <translation type="unfinished">Salva</translation>
     </message>
     <message>
-        <location filename="documentwindow.cpp" line="81"/>
+        <location filename="documentwindow.cpp" line="82"/>
         <source>Discard</source>
         <translation type="unfinished">Non salvare</translation>
     </message>
     <message>
-        <location filename="documentwindow.cpp" line="81"/>
+        <location filename="documentwindow.cpp" line="82"/>
         <source>Cancel</source>
         <translation type="unfinished">Annulla</translation>
     </message>
@@ -2060,35 +2067,35 @@ Vuoi salvare le modifiche prima di uscire?</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="reporthandler.cpp" line="1737"/>
+        <location filename="reporthandler.cpp" line="1722"/>
         <source>OpenRPT Report Writer for Windows</source>
         <translation>OpenRPT - Editor dei report per Windows</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1739"/>
+        <location filename="reporthandler.cpp" line="1724"/>
         <source>OpenRPT Report Writer for Linux</source>
         <translation>OpenRPT - Editor dei report per Linux</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1741"/>
+        <location filename="reporthandler.cpp" line="1726"/>
         <source>OpenRPT Report Writer for OS X</source>
         <translation>OpenRPT - Editor dei report per OS X</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1743"/>
+        <location filename="reporthandler.cpp" line="1728"/>
         <source>OpenRPT Report Writer</source>
         <translation>OpenRPT - Editor dei report</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="944"/>
+        <location filename="graphicsitems.cpp" line="991"/>
         <source>Label</source>
         <translation>Etichetta</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1349"/>
-        <location filename="graphicsitems.cpp" line="1690"/>
-        <location filename="graphicsitems.cpp" line="1922"/>
-        <location filename="graphicsitems.cpp" line="2243"/>
+        <location filename="graphicsitems.cpp" line="1396"/>
+        <location filename="graphicsitems.cpp" line="1737"/>
+        <location filename="graphicsitems.cpp" line="1969"/>
+        <location filename="graphicsitems.cpp" line="2294"/>
         <source>:</source>
         <translation>:</translation>
     </message>
@@ -2098,58 +2105,56 @@ Vuoi salvare le modifiche prima di uscire?</translation>
         <translation>-- Seleziona Query --</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1690"/>
+        <location filename="graphicsitems.cpp" line="1737"/>
         <source> textarea</source>
         <translation> area di testo</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="872"/>
         <source>Line width</source>
-        <translation>Larghezza linea</translation>
+        <translation type="obsolete">Larghezza linea</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="872"/>
         <source>Width</source>
-        <translation>Larghezza</translation>
+        <translation type="obsolete">Larghezza</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1806"/>
-        <location filename="graphicsitems.cpp" line="1817"/>
+        <location filename="graphicsitems.cpp" line="1853"/>
+        <location filename="graphicsitems.cpp" line="1864"/>
         <source>3of9</source>
         <translation>3su9</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1922"/>
+        <location filename="graphicsitems.cpp" line="1969"/>
         <source> barcode</source>
         <translation> Codice a barre</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="2243"/>
+        <location filename="graphicsitems.cpp" line="2294"/>
         <source> image</source>
         <translation> immagine</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="2540"/>
+        <location filename="graphicsitems.cpp" line="2591"/>
         <source> graph</source>
         <translation> grafico</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="210"/>
+        <location filename="reporthandler.cpp" line="211"/>
         <source>Connect to Database</source>
         <translation>Connetti al Database</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="211"/>
+        <location filename="reporthandler.cpp" line="212"/>
         <source>Disconnect from Database</source>
         <translation>Disconnetti dal Database</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1349"/>
+        <location filename="graphicsitems.cpp" line="1396"/>
         <source> field total</source>
         <translation> totale</translation>
     </message>
     <message>
-        <location filename="graphicsitems.cpp" line="1349"/>
+        <location filename="graphicsitems.cpp" line="1396"/>
         <source> field</source>
         <translation> campo</translation>
     </message>
@@ -2286,475 +2291,475 @@ Vuoi salvare le modifiche prima di uscire?</translation>
 <context>
     <name>ReportHandler</name>
     <message>
-        <location filename="reporthandler.cpp" line="224"/>
+        <location filename="reporthandler.cpp" line="225"/>
         <source>&amp;New File</source>
         <translation>&amp;Nuovo file</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="227"/>
+        <location filename="reporthandler.cpp" line="228"/>
         <source>&amp;Open File...</source>
         <translation>&amp;Apri file...</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="230"/>
+        <location filename="reporthandler.cpp" line="231"/>
         <source>&amp;Save File</source>
         <translation>&amp;Salva file</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="232"/>
+        <location filename="reporthandler.cpp" line="233"/>
         <source>Save &amp;As...</source>
         <translation>S&amp;alva come...</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="233"/>
+        <location filename="reporthandler.cpp" line="234"/>
         <source>&amp;Close</source>
         <translation>&amp;Chiudi</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="240"/>
+        <location filename="reporthandler.cpp" line="241"/>
         <source>E&amp;xit</source>
         <translation>&amp;Esci</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="246"/>
-        <location filename="reporthandler.cpp" line="843"/>
+        <location filename="reporthandler.cpp" line="247"/>
+        <location filename="reporthandler.cpp" line="844"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="248"/>
-        <location filename="reporthandler.cpp" line="853"/>
+        <location filename="reporthandler.cpp" line="249"/>
+        <location filename="reporthandler.cpp" line="854"/>
         <source>Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="252"/>
+        <location filename="reporthandler.cpp" line="253"/>
         <source>Cu&amp;t</source>
         <translation>&amp;Taglia</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="255"/>
+        <location filename="reporthandler.cpp" line="256"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copia</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="258"/>
+        <location filename="reporthandler.cpp" line="259"/>
         <source>&amp;Paste</source>
         <translation>&amp;Incolla</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="261"/>
+        <location filename="reporthandler.cpp" line="262"/>
         <source>&amp;Delete</source>
         <translation>&amp;Elimina</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="264"/>
+        <location filename="reporthandler.cpp" line="265"/>
         <source>Preferences</source>
         <translation>Preferenze</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="268"/>
+        <location filename="reporthandler.cpp" line="269"/>
         <source>Zoom In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="270"/>
+        <location filename="reporthandler.cpp" line="271"/>
         <source>Zoom Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="281"/>
+        <location filename="reporthandler.cpp" line="282"/>
         <source>Snap to Grid</source>
         <translation>Allinea alla griglia</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="288"/>
+        <location filename="reporthandler.cpp" line="289"/>
         <source>Insert Label</source>
         <translation>Inserisci etichetta</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="290"/>
+        <location filename="reporthandler.cpp" line="291"/>
         <source>Insert Field</source>
         <translation>Inserisci campo</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="292"/>
+        <location filename="reporthandler.cpp" line="293"/>
         <source>Insert Text</source>
         <translation>Inserisci Testo</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="294"/>
+        <location filename="reporthandler.cpp" line="295"/>
         <source>Insert Line</source>
         <translation>Inserisci Linea</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="300"/>
+        <location filename="reporthandler.cpp" line="301"/>
         <source>Insert Bar Code</source>
         <translation>Inserisci Codice a Barre</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="302"/>
+        <location filename="reporthandler.cpp" line="303"/>
         <source>Insert Image</source>
         <translation>Inserisci immagine</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="304"/>
+        <location filename="reporthandler.cpp" line="305"/>
         <source>Insert Chart/Graph</source>
         <translation>Inserisci Grafico</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="311"/>
+        <location filename="reporthandler.cpp" line="312"/>
         <source>Load from Database</source>
         <translation>Carica dal Database</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="313"/>
+        <location filename="reporthandler.cpp" line="314"/>
         <source>Save to Database</source>
         <translation>Salva nel Database</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="323"/>
+        <location filename="reporthandler.cpp" line="324"/>
         <source>Label Definitions...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="332"/>
+        <location filename="reporthandler.cpp" line="333"/>
         <source>Even Horizontal Spacing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="333"/>
+        <location filename="reporthandler.cpp" line="334"/>
         <source>Even Vertical Spacing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="367"/>
+        <location filename="reporthandler.cpp" line="368"/>
         <source>Border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="368"/>
-        <location filename="reporthandler.cpp" line="2396"/>
+        <location filename="reporthandler.cpp" line="369"/>
+        <location filename="reporthandler.cpp" line="2402"/>
         <source>Rotation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="440"/>
+        <location filename="reporthandler.cpp" line="441"/>
         <source>File Operations</source>
         <translation>Operazioni File</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="449"/>
+        <location filename="reporthandler.cpp" line="450"/>
         <source>Database Operations</source>
         <translation>Operazioni Database</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="456"/>
+        <location filename="reporthandler.cpp" line="457"/>
         <source>Edit Operations</source>
         <translation>Modifica operazioni</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="464"/>
+        <location filename="reporthandler.cpp" line="465"/>
         <source>Layout Options</source>
         <translation>Opzioni Layout</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="471"/>
+        <location filename="reporthandler.cpp" line="472"/>
         <source>Report Elements</source>
         <translation>Elementi del Report</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="529"/>
+        <location filename="reporthandler.cpp" line="530"/>
         <source>&amp;File</source>
         <translation>&amp;File</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="549"/>
+        <location filename="reporthandler.cpp" line="550"/>
         <source>Data&amp;base</source>
         <translation>Data&amp;base</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="560"/>
+        <location filename="reporthandler.cpp" line="561"/>
         <source>&amp;Edit</source>
         <translation>&amp;Modifica</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="576"/>
+        <location filename="reporthandler.cpp" line="577"/>
         <source>&amp;Insert</source>
         <translation>&amp;Inserisci</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="587"/>
+        <location filename="reporthandler.cpp" line="588"/>
         <source>&amp;Document</source>
         <translation>&amp;Documento</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1319"/>
+        <location filename="reporthandler.cpp" line="1320"/>
         <source>Warning</source>
         <translation type="unfinished">Attenzione</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1319"/>
+        <location filename="reporthandler.cpp" line="1320"/>
         <source>You must connect to a database with a &apos;labeldef&apos; table to edit label definitions.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1859"/>
+        <location filename="reporthandler.cpp" line="1844"/>
         <source>Section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="2397"/>
+        <location filename="reporthandler.cpp" line="2403"/>
         <source>Angle (0-360) :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="315"/>
+        <location filename="reporthandler.cpp" line="316"/>
         <source>Properties...</source>
         <translation>Proprietà...</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="316"/>
+        <location filename="reporthandler.cpp" line="317"/>
         <source>&amp;Page Setup...</source>
         <translation>&amp;Impostazioni pagina...</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="317"/>
+        <location filename="reporthandler.cpp" line="318"/>
         <source>Query &amp;Sources...</source>
         <translation>&amp;Sorgenti Query...</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="318"/>
+        <location filename="reporthandler.cpp" line="319"/>
         <source>Section Editor...</source>
         <translation>Editor di sezione...</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="319"/>
+        <location filename="reporthandler.cpp" line="320"/>
         <source>Color Definitions...</source>
         <translation>Definizioni colore...</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="320"/>
+        <location filename="reporthandler.cpp" line="321"/>
         <source>Defined Parameters...</source>
         <translation>Parametri definiti...</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="601"/>
+        <location filename="reporthandler.cpp" line="602"/>
         <source>&amp;Help</source>
         <translation>&amp;Aiuto</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="266"/>
+        <location filename="reporthandler.cpp" line="267"/>
         <source>Properties</source>
         <translation>Proprietà</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="647"/>
+        <location filename="reporthandler.cpp" line="648"/>
         <source>Position [X: %1, Y: %2]    Size [W: %3, H: %4]</source>
         <translation>Posizione [X: %1, Y: %2]    Dimensione [L: %3, H: %4]</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="662"/>
+        <location filename="reporthandler.cpp" line="663"/>
         <source>Start Point [X: %1, Y: %2]    End Point [X: %3, Y: %4]</source>
         <translation>Punto di partenza [X: %1, Y: %2]    Punto di arrivo [X: %3, Y: %4]</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="669"/>
+        <location filename="reporthandler.cpp" line="670"/>
         <source>Unknown Entity Type</source>
         <translation>Tipo Entità sconosciuto</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="673"/>
+        <location filename="reporthandler.cpp" line="674"/>
         <source>Group Selection</source>
         <translation>Gruppo Selezioni</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="728"/>
+        <location filename="reporthandler.cpp" line="729"/>
         <source>Open File</source>
         <translation>Apri file</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="729"/>
+        <location filename="reporthandler.cpp" line="730"/>
         <source>XML (*.xml)</source>
         <translation>XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="756"/>
+        <location filename="reporthandler.cpp" line="757"/>
         <source>Failed read on Open File</source>
         <translation>Impossibile leggere su Apertura File</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="757"/>
+        <location filename="reporthandler.cpp" line="758"/>
         <source>Encountered and error while parsing %s
 
 	%s (Line %d Column %d)</source>
         <translation>Errore riscontrato duranre la lettura di %s	%s (Riga %d Colonna %d)</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="843"/>
+        <location filename="reporthandler.cpp" line="844"/>
         <source>Nothing to undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="853"/>
+        <location filename="reporthandler.cpp" line="854"/>
         <source>Nothing to redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1483"/>
+        <location filename="reporthandler.cpp" line="1484"/>
         <source>Load Report from Database</source>
         <translation>Carica Report dal Database</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1501"/>
+        <location filename="reporthandler.cpp" line="1502"/>
         <source>Error Loading Report</source>
         <translation>Impossibile Caricare il Report</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1502"/>
+        <location filename="reporthandler.cpp" line="1503"/>
         <source>ReportWriterWindow::dbLoadDoc() : ERROR on setContent()
 	%s (Line %d Column %d)</source>
         <translation>ReportWriterWindow::dbLoadDoc() : ERRORE in setContent()
 	%s (Riga %d Colonna %d)</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1506"/>
-        <location filename="reporthandler.cpp" line="1525"/>
+        <location filename="reporthandler.cpp" line="1507"/>
+        <location filename="reporthandler.cpp" line="1526"/>
         <source>No Database Connection</source>
         <translation>Nessuna connessione al Database</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1507"/>
+        <location filename="reporthandler.cpp" line="1508"/>
         <source>There is no database connection that can be used to load a document.</source>
         <translation>Non esiste alcuna connessione al database che possa essere utilizzata per caricare il documento.</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1526"/>
+        <location filename="reporthandler.cpp" line="1527"/>
         <source>There is no database connection that can be used to save this document.</source>
         <translation>Non esiste alcuna connessione al database che possa essere utilizzata per salvare questo documento.</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="276"/>
+        <location filename="reporthandler.cpp" line="277"/>
         <source>Show Grid</source>
         <translation>Mostra griglia</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1215"/>
+        <location filename="reporthandler.cpp" line="1216"/>
         <source>Language: %1</source>
         <translation>Lingua: %1</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1215"/>
+        <location filename="reporthandler.cpp" line="1216"/>
         <source>The language change will take effect the next time the report writer will be run.</source>
         <translation>Il cambio della Lingua sarà attiva al prossimo riavvio del programma.</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="236"/>
+        <location filename="reporthandler.cpp" line="237"/>
         <source>Print Preview...</source>
         <translation>Anteprima...</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="237"/>
+        <location filename="reporthandler.cpp" line="238"/>
         <source>Print...</source>
         <translation>Stampa...</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="239"/>
+        <location filename="reporthandler.cpp" line="240"/>
         <source>Print to PDF...</source>
         <translation>Stampa in PDF...</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1685"/>
+        <location filename="reporthandler.cpp" line="1670"/>
         <source>Choose filename to save</source>
         <translation>Scegli il nome del file da salvare</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1685"/>
+        <location filename="reporthandler.cpp" line="1670"/>
         <source>print.pdf</source>
         <translation>stampa.pdf</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1685"/>
+        <location filename="reporthandler.cpp" line="1670"/>
         <source>Pdf (*.pdf)</source>
         <translation>Pdf (*.pdf)</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="296"/>
+        <location filename="reporthandler.cpp" line="297"/>
         <source>Insert Rectangle</source>
         <translation>Inserisci Rettangolo</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="265"/>
+        <location filename="reporthandler.cpp" line="266"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="298"/>
+        <location filename="reporthandler.cpp" line="299"/>
         <source>Insert CrossTab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="326"/>
+        <location filename="reporthandler.cpp" line="327"/>
         <source>Align Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="327"/>
+        <location filename="reporthandler.cpp" line="328"/>
         <source>Align V. Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="328"/>
+        <location filename="reporthandler.cpp" line="329"/>
         <source>Align Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="329"/>
+        <location filename="reporthandler.cpp" line="330"/>
         <source>Align Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="330"/>
+        <location filename="reporthandler.cpp" line="331"/>
         <source>Align H. Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="331"/>
+        <location filename="reporthandler.cpp" line="332"/>
         <source>Align Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="497"/>
+        <location filename="reporthandler.cpp" line="498"/>
         <source>B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="505"/>
+        <location filename="reporthandler.cpp" line="506"/>
         <source>i</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="365"/>
+        <location filename="reporthandler.cpp" line="366"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="366"/>
+        <location filename="reporthandler.cpp" line="367"/>
         <source>Fill</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="518"/>
+        <location filename="reporthandler.cpp" line="519"/>
         <source>Font</source>
         <translation type="unfinished">Carattere</translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1064"/>
+        <location filename="reporthandler.cpp" line="1065"/>
         <source>No Section Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="reporthandler.cpp" line="1064"/>
+        <location filename="reporthandler.cpp" line="1065"/>
         <source>Items must be pasted into a section.</source>
         <translation type="unfinished"></translation>
     </message>

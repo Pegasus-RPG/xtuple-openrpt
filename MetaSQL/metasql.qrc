@@ -19,4 +19,8 @@
     <file alias="common.qm">../common/common_es.qm</file>
     <file alias="metasql.qm">metasql_es.qm</file>
   </qresource>
+  <qresource lang="ar">
+    <file alias="common.qm">../common/common_ar.qm</file>
+    <file alias="metasql.qm">metasql_ar.qm</file>
+  </qresource>
 </RCC>
