@@ -83,10 +83,7 @@ QSqlDatabase databaseFromURL( const QString& databaseURL )
   else if ( "sybase" == protocol )
     db = QSqlDatabase::addDatabase("QTDS");
   else
-  {
-    protocol = protocol.toUpper();
-    db = QSqlDatabase::addDatabase( protocol ); // third-party or custom qt SQL drivers
-  }
+    db = QSqlDatabase::addDatabase( protocol.toUpper() ); // third-party or custom qt SQL drivers
   if ( db.isValid() )
   {
     db.setDatabaseName(dbName);
