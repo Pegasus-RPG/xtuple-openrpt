@@ -32,4 +32,10 @@
     <file alias="renderer.qm">../renderer/renderer_es.qm</file>
     <file alias="writer.qm">writer_es.qm</file>
   </qresource>
+  <qresource lang="ar">
+    <file alias="common.qm">../../common/common_ar.qm</file>
+    <file alias="wrtembed.qm">../wrtembed/wrtembed_ar.qm</file>
+    <file alias="renderer.qm">../renderer/renderer_ar.qm</file>
+    <file alias="writer.qm">writer_ar.qm</file>
+  </qresource>
 </RCC>

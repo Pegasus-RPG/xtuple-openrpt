@@ -468,7 +468,7 @@ Le noeud racine n&apos;est pas &apos;report&apos;.</translation>
     <message>
         <location filename="parameterproperties.ui" line="20"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Type:</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="34"/>
@@ -477,7 +477,7 @@ Le noeud racine n&apos;est pas &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="274"/>
         <location filename="parameterproperties.cpp" line="301"/>
         <source>String</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chaîne</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="39"/>
@@ -486,7 +486,7 @@ Le noeud racine n&apos;est pas &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="280"/>
         <location filename="parameterproperties.cpp" line="307"/>
         <source>Bool</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Booléen</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="44"/>
@@ -495,7 +495,7 @@ Le noeud racine n&apos;est pas &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="276"/>
         <location filename="parameterproperties.cpp" line="303"/>
         <source>Int</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Entier</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="49"/>
@@ -504,7 +504,7 @@ Le noeud racine n&apos;est pas &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="278"/>
         <location filename="parameterproperties.cpp" line="305"/>
         <source>Double</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Double</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="54"/>
@@ -513,12 +513,12 @@ Le noeud racine n&apos;est pas &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="282"/>
         <location filename="parameterproperties.cpp" line="309"/>
         <source>List</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Liste</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="72"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nom:</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="95"/>
@@ -526,84 +526,84 @@ Le noeud racine n&apos;est pas &apos;report&apos;.</translation>
         <location filename="parameterproperties.ui" line="155"/>
         <location filename="parameterproperties.ui" line="175"/>
         <source>Value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Valeur:</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="135"/>
         <source>False</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Faux</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="140"/>
         <source>True</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vrai</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="192"/>
         <source>Values:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Valeurs:</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="210"/>
         <source>&amp;New</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nouveau</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="213"/>
         <source>Alt+N</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alt+N</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="230"/>
         <source>Move &amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Monter</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="233"/>
         <source>Alt+U</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alt+U</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="240"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Editer</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="243"/>
         <source>Alt+E</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alt+E</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="250"/>
         <source>Move &amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Descendre</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="253"/>
         <source>Alt+D</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alt+D</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="270"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Supprimer</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="299"/>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activé</translation>
     </message>
     <message>
         <location filename="parameterproperties.cpp" line="115"/>
         <location filename="parameterproperties.cpp" line="188"/>
         <location filename="parameterproperties.cpp" line="213"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Avertissement</translation>
     </message>
     <message>
         <location filename="parameterproperties.cpp" line="116"/>
         <source>I do not know how to edit QVariant type %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Je ne sais pas éditer le type de QVariant %1.</translation>
     </message>
     <message>
         <location filename="parameterproperties.cpp" line="189"/>
@@ -615,13 +615,13 @@ Le noeud racine n&apos;est pas &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="285"/>
         <location filename="parameterproperties.cpp" line="312"/>
         <source>Unknown Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Type inconnu</translation>
     </message>
     <message>
         <location filename="parameterproperties.cpp" line="286"/>
         <location filename="parameterproperties.cpp" line="313"/>
         <source>I do not understand the type %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Je ne comprends pas le type %1.</translation>
     </message>
 </context>
 <context>
@@ -633,13 +633,14 @@ Le noeud racine n&apos;est pas &apos;report&apos;.</translation>
     </message>
     <message>
         <location filename="data.cpp" line="26"/>
-        <source>Copyright (c) 2002-2011, OpenMFG, LLC.</source>
+        <source>Copyright (c) 2002-2012, OpenMFG, LLC.</source>
+        <oldsource>Copyright (c) 2002-2011, OpenMFG, LLC.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="data.cpp" line="28"/>
-        <source>3.3.1</source>
-        <oldsource>3.3.1Beta</oldsource>
+        <source>3.3.4</source>
+        <oldsource>3.3.1</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -468,7 +468,7 @@ La nodo radice non è &apos;report&apos;.</translation>
     <message>
         <location filename="parameterproperties.ui" line="20"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tipo:</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="34"/>
@@ -477,7 +477,7 @@ La nodo radice non è &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="274"/>
         <location filename="parameterproperties.cpp" line="301"/>
         <source>String</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stringa</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="39"/>
@@ -486,7 +486,7 @@ La nodo radice non è &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="280"/>
         <location filename="parameterproperties.cpp" line="307"/>
         <source>Bool</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Booleano</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="44"/>
@@ -495,7 +495,7 @@ La nodo radice non è &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="276"/>
         <location filename="parameterproperties.cpp" line="303"/>
         <source>Int</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Intero</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="49"/>
@@ -504,7 +504,7 @@ La nodo radice non è &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="278"/>
         <location filename="parameterproperties.cpp" line="305"/>
         <source>Double</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Reale</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="54"/>
@@ -513,12 +513,12 @@ La nodo radice non è &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="282"/>
         <location filename="parameterproperties.cpp" line="309"/>
         <source>List</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lista</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="72"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nome:</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="95"/>
@@ -526,84 +526,84 @@ La nodo radice non è &apos;report&apos;.</translation>
         <location filename="parameterproperties.ui" line="155"/>
         <location filename="parameterproperties.ui" line="175"/>
         <source>Value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Valore:</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="135"/>
         <source>False</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Falso</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="140"/>
         <source>True</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vero</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="192"/>
         <source>Values:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Valori:</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="210"/>
         <source>&amp;New</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nuovo</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="213"/>
         <source>Alt+N</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alt+N</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="230"/>
         <source>Move &amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Sposta Sù</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="233"/>
         <source>Alt+U</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alt+S</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="240"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Modifica</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="243"/>
         <source>Alt+E</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alt+M</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="250"/>
         <source>Move &amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sposta &amp;Giù</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="253"/>
         <source>Alt+D</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alt+G</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="270"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Elimina</translation>
     </message>
     <message>
         <location filename="parameterproperties.ui" line="299"/>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Attivo</translation>
     </message>
     <message>
         <location filename="parameterproperties.cpp" line="115"/>
         <location filename="parameterproperties.cpp" line="188"/>
         <location filename="parameterproperties.cpp" line="213"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Attenzione</translation>
     </message>
     <message>
         <location filename="parameterproperties.cpp" line="116"/>
         <source>I do not know how to edit QVariant type %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Non so come modificare il tipo QVariant %1.</translation>
     </message>
     <message>
         <location filename="parameterproperties.cpp" line="189"/>
@@ -615,13 +615,13 @@ La nodo radice non è &apos;report&apos;.</translation>
         <location filename="parameterproperties.cpp" line="285"/>
         <location filename="parameterproperties.cpp" line="312"/>
         <source>Unknown Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tipo sconosciuto</translation>
     </message>
     <message>
         <location filename="parameterproperties.cpp" line="286"/>
         <location filename="parameterproperties.cpp" line="313"/>
         <source>I do not understand the type %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Non riconosco il tipo %1.</translation>
     </message>
 </context>
 <context>
@@ -633,13 +633,14 @@ La nodo radice non è &apos;report&apos;.</translation>
     </message>
     <message>
         <location filename="data.cpp" line="26"/>
-        <source>Copyright (c) 2002-2011, OpenMFG, LLC.</source>
+        <source>Copyright (c) 2002-2012, OpenMFG, LLC.</source>
+        <oldsource>Copyright (c) 2002-2011, OpenMFG, LLC.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="data.cpp" line="28"/>
-        <source>3.3.1</source>
-        <oldsource>3.3.1Beta</oldsource>
+        <source>3.3.4</source>
+        <oldsource>3.3.1</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

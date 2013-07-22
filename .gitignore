@@ -1,0 +1,15 @@
+*.o
+*.exe
+*Makefile
+*Makefile*
+*.Debug
+*.Release
+*moc_*.cpp
+*ui_*.h
+*qrc_*.cpp
+*.so
+*.so.*
+*.a
+*.qm
+*.pro.user*
+bin
