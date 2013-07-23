@@ -10,6 +10,5 @@
 *.so
 *.so.*
 *.a
-*.qm
 *.pro.user*
 bin
