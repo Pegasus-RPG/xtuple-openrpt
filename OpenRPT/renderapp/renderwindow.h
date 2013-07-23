@@ -24,7 +24,7 @@
 #include <QMainWindow>
 #include <QMap>
 
-#include "ui_renderwindow.h"
+#include "tmp/ui_renderwindow.h"
 
 class RenderWindow : public QMainWindow, public Ui::RenderWindow
 {
