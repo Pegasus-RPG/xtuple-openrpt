@@ -148,7 +148,7 @@ void ZebraPaintEngine::drawBarcode ( const QPointF & p, const QString &format, i
   else if(format.contains("datamatrix"))
   {
     DmtxInfos dmtxInfos = extractInfosDtmx(format);
-    int eltSize = qRound (qBound(2.0, (qreal)height / (qreal)dmtxInfos.ySize, 20.0));
+    int eltSize = qRound (qBound((qreal)2.0, (qreal)height / (qreal)dmtxInfos.ySize, (qreal)20.0));
     barcodeFont = QString("BX,%1,200,%2,%3").arg(eltSize).arg(dmtxInfos.xSize).arg(dmtxInfos.ySize);
   }
   else {
@@ -166,7 +166,7 @@ void ZebraPaintEngine::drawBarcode ( const QPointF & p, const QString &format, i
   }
   else if(rotation == rotation180Cmd()) {
     yInDots -= height;
-    // we can't calculate the printed barcode width, so we can't print 180° and 270° correctly! Well done Zebra!
+    // we can't calculate the printed barcode width, so we can't print 180ï¿½ and 270ï¿½ correctly! Well done Zebra!
     // we use the TextItem's width instead as a fallback
     xInDots -= width;
   }
