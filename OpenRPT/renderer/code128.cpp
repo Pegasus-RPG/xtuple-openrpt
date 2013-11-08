@@ -30,7 +30,6 @@
 #include <QPen>
 #include <QBrush>
 
-#include "parsexmlutils.h"
 #include "renderobjects.h"
 #include "barcodes.h"
 
@@ -177,12 +176,39 @@ static const struct code128 _128codes[] = {
 // STOP CHARACTER { 2 3 3 1 1 1 2 }
 
 int code128Index(QChar code, int set) {
+    char codechar = code.toLatin1();
     for(int idx = 0; _128codes[idx]._null == false; idx++) {
-        if(set == SETA && _128codes[idx].codea == code.toLatin1()) return idx;
-        if(set == SETB && _128codes[idx].codeb == code.toLatin1()) return idx;
-        if(set == SETC && _128codes[idx].codec == code.toLatin1()) return idx;
+        if(set == SETA && _128codes[idx].codea == codechar) return idx;
+        if(set == SETB && _128codes[idx].codeb == codechar) return idx;
+        if(set == SETC && _128codes[idx].codec == codechar) return idx;
     }
     return -1;  // couldn't find it
+}
+
+void switchTo (QVector<int> *str, int* currentMode, int newMode)
+{
+  if(*currentMode == newMode)
+    return;
+
+  switch (newMode)
+  {
+    case SETA : str->push_back(101); break;
+    case SETB : str->push_back(100); break;
+    case SETC : str->push_back(99); break;
+    default: break;
+  }
+
+  *currentMode = newMode;
+}
+
+int digitsSpan(const QString &str, int i)
+{
+  int nbCarNum = 0;
+  for ( ; i < str.size() && str[i].isDigit(); i++)
+  {
+    nbCarNum ++;
+  }
+  return nbCarNum;
 }
 
 void renderCode128(QPainter *painter, int dpi, const QRectF &r, const QString &_str, OROBarcode *bc)
@@ -197,7 +223,6 @@ void renderCode128(QPainter *painter, int dpi, const QRectF &r, const QString &_
   {
     int rank_a = 0;
     int rank_b = 0;
-    int rank_c = 0;
 
     QChar c;
     for(i = 0; i < _str.length(); i++)
@@ -205,58 +230,65 @@ void renderCode128(QPainter *painter, int dpi, const QRectF &r, const QString &_
       c = _str.at(i);
       rank_a += (code128Index(c, SETA) != -1 ? 1 : 0);
       rank_b += (code128Index(c, SETB) != -1 ? 1 : 0);
-      rank_c += (c >= '0' && c <= '9' ? 1 : 0);
     }
-    if(rank_c == _str.length() && ((rank_c % 2) == 0 || rank_c > 4))
+
+    // start in the mode that had the higher number of hits...
+    int currentMode = rank_a > rank_b ? SETA : SETB;
+    int defaultMode = currentMode;
+    //... or in C mode
+    if (digitsSpan(_str, 0) >= 4)
     {
-      // every value in the is a digit so we are going to go with mode C
-      // and we have an even number or we have more than 4 values
-      i = 0;
-      if((rank_c % 2) == 1)
+      currentMode = SETC;
+    }
+
+    // write start character
+    switch (currentMode)
+    {
+      case SETA : str.push_back(103); break;
+      case SETB : str.push_back(104); break;
+      case SETC : str.push_back(105); break;
+      default: return;
+    }
+
+    for(i = 0; i < _str.length(); )
+    {
+      int nbOfDigits = digitsSpan(_str, i);
+      if(nbOfDigits >=4)
       {
-        str.push_back(104); // START B
-        c = _str.at(0);
-        str.push_back(code128Index(c, SETB));
-        str.push_back(99); // MODE C
-        i = 1;
+        switchTo(&str, &currentMode, SETC);
+        for( int iterNb = nbOfDigits/2; iterNb > 0; i+=2, iterNb--)
+        {
+          char a, b;
+          c = _str.at(i);
+          a = c.toLatin1();
+          a -= 48;
+          c = _str.at(i+1);
+          b = c.toLatin1();
+          b -= 48;
+          str.push_back(int((a * 10) + b));
+        }
       }
       else
-        str.push_back(105); // START C
-
-      for(i = i; i < _str.length(); i+=2)
-      {
-        char a, b;
-        c = _str.at(i);
-        a = c.toLatin1();
-        a -= 48;
-        c = _str.at(i+1);
-        b = c.toLatin1();
-        b -= 48;
-        str.push_back(int((a * 10) + b));
-      }
-    }
-    else
-    {
-      // start in the mode that had the higher number of hits and then
-      // just shift into the opposite mode as needed
-      int set = ( rank_a > rank_b ? SETA : SETB );
-      str.push_back(( rank_a > rank_b ? 103 : 104 ));
-      int v = -1;
-      for(i = 0; i < _str.length(); i++)
       {
         c = _str.at(i);
-        v = code128Index(c, set);
+        int testMode = defaultMode;
+        int v = code128Index(c, testMode);
         if(v == -1)
         {
-          v = code128Index(c, (set == SETA ? SETB : SETA));
+          testMode = (testMode == SETA ? SETB : SETA);
+          v = code128Index(c, testMode);
           if(v != -1)
           {
-            str.push_back(98); // SHIFT
+            switchTo(&str, &currentMode, testMode);
             str.push_back(v);
           }
         }
         else
+        {
+          switchTo(&str, &currentMode, testMode);
           str.push_back(v);
+        }
+        i++;
       }
     }
   }
