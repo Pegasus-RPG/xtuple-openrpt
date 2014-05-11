@@ -3245,7 +3245,7 @@ void ORGraphicsCrossTabItem::properties(QWidget * parent)
   // Populate Table query properties
   {
     // Margins
-    qreal l, r, t, b;
+    double l, r, t, b;
     cellMargins(l, r, t, b);
     le->m_cellLeftMarginDoubleSpinBox->setValue(l);
     le->m_cellRightMarginDoubleSpinBox->setValue(r);
