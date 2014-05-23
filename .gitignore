@@ -9,6 +9,11 @@
 *qrc_*.cpp
 *.so
 *.so.*
+*.sw?
 *.a
 *.pro.user*
+*.pdf
 bin
+macx.pri
+unix.pri
+win32.pri

@@ -64,12 +64,6 @@ bool ORPrintRender::setupPrinter(ORODocument * pDocument, QPrinter * pPrinter)
   PageSizeInfo psi = PageSizeInfo::getByName(pDocument->pageOptions().getPageSize());
   if(psi.isNull())
   {
-    // TODO:
-    //psi = PageSizeInfo::findNearest((int)(pDocument->pageOptions().getCustomWidth() * 100), (int)(pDocument->pageOptions().getCustomHeight() * 100));
-    //if(psi.isNull())
-    //  pPrinter->setPageSize(QPrinter::Custom);
-    //else
-    //  pPrinter->setPageSize((QPrinter::PageSize)psi.qpValue());
     pPrinter->setPaperSize(QSizeF(pDocument->pageOptions().getCustomWidth(), pDocument->pageOptions().getCustomHeight()), QPrinter::Inch);
   }
   else 
@@ -77,7 +71,8 @@ bool ORPrintRender::setupPrinter(ORODocument * pDocument, QPrinter * pPrinter)
     #if defined(Q_WS_MAC) && (QT_VERSION < 0x040801) // QTBUG-20882
       pPrinter->setPageSize((QPrinter::PageSize)psi.qpValue());
     #else
-      pPrinter->setPaperSize(QSizeF(psi.width()/100,psi.height()/100), QPrinter::Inch);
+      pPrinter->setPaperSize(QSizeF(psi.width()  / 100.0,
+                                    psi.height() / 100.0), QPrinter::Inch);
     #endif
   }
 
