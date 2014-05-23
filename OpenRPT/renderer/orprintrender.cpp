@@ -71,8 +71,9 @@ bool ORPrintRender::setupPrinter(ORODocument * pDocument, QPrinter * pPrinter)
     #if defined(Q_WS_MAC) && (QT_VERSION < 0x040801) // QTBUG-20882
       pPrinter->setPageSize((QPrinter::PageSize)psi.qpValue());
     #else
-      pPrinter->setPaperSize(QSizeF(psi.width()  / 100.0,
-                                    psi.height() / 100.0), QPrinter::Inch);
+      if (pDocument->pageOptions().getPageSize() == "Custom")
+        pPrinter->setPaperSize(QSizeF(psi.width()  / 100.0,
+                                      psi.height() / 100.0), QPrinter::Inch);
     #endif
   }
 
