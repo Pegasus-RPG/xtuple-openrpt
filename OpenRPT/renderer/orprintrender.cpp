@@ -207,20 +207,18 @@ void renderBackground(QImage & dest, const QImage & bgImage, const QRect & bgRec
 #include <math.h>
 #include <QFontDatabase>
 
-void renderWatermark(QImage & image, const QString & wmText, const QFont & wmFont, const unsigned int wmOpacity, double pA, double pB, double pC, double pD)
+// margin is in the same units as the image
+void renderWatermark(QImage & image, const QString & wmText, const QFont & wmFont, const unsigned int wmOpacity, double leftMargin, double rightMargin, double topMargin, double bottomMargin)
 {
   const double pi = 3.14159265358979323846;
 
-  double w = ((double)image.width() - pA);
-  double h = ((double)image.height() - pB);
+  double w = (double)image.width() - (leftMargin + rightMargin);
+  double h = (double)image.height() - (topMargin + bottomMargin);
   double theta = (pi/-2.0) + atan(w / h);
   double l = sqrt((w * w) + (h * h));
 
   const double sintheta = sin(theta);
   const double costheta = cos(theta);
-
-  double margin_width = pC;
-  double margin_height = pD;
 
   int offset = (int)(l * 0.05);
   int l2 = (int)(l * 0.9);
@@ -252,7 +250,7 @@ void renderWatermark(QImage & image, const QString & wmText, const QFont & wmFon
   QPainter pPainter;
   pPainter.begin(&wm);
   pPainter.setFont(fnt);
-  pPainter.translate(margin_width, margin_height);
+  pPainter.translate(leftMargin, topMargin);
   pPainter.rotate((theta/pi)*180);
   pPainter.drawText(x, y, l2, fh, Qt::AlignCenter, wmText);
   pPainter.end();
@@ -338,9 +336,10 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
     {
       doBgWm = true;
       renderWatermark(image, p->watermarkText(), p->watermarkFont(), p->watermarkOpacity(),
-        ((pDocument->pageOptions().getMarginLeft() + pDocument->pageOptions().getMarginRight()) * resolution),
-        ((pDocument->pageOptions().getMarginTop() + pDocument->pageOptions().getMarginBottom()) * resolution),
-        pDocument->pageOptions().getMarginLeft() * resolution, pDocument->pageOptions().getMarginTop() * resolution);
+                      pDocument->pageOptions().getMarginLeft()   * resolution,
+                      pDocument->pageOptions().getMarginRight()  * resolution,
+                      pDocument->pageOptions().getMarginTop()    * resolution,
+                      pDocument->pageOptions().getMarginBottom() * resolution);
     }
 
     if(doBgWm)
