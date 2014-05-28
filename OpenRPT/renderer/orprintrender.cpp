@@ -282,8 +282,8 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
     // Do some simple processing used by both Background and Watermark
     const int resolution = 100;
     bool doBgWm = false;
-    int printMarginWidth = margins.width();
-    int printMarginHeight = margins.height();
+    int printMarginWidth  = margins.width()  < 0 ? 0 : margins.width();
+    int printMarginHeight = margins.height() < 0 ? 0 : margins.height();
 
     QString pageSize = pDocument->pageOptions().getPageSize();
     int pageWidth = 0;
@@ -344,9 +344,12 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
 
     if(doBgWm)
     {
-      QRectF target(-printMarginWidth, -printMarginHeight, (painter->viewport().width() + printMarginWidth + printMarginWidth), (painter->viewport().height() + printMarginHeight + printMarginHeight));
+      QRectF target(0, 0, pageWidth, pageHeight);
+      painter->save();
+      painter->scale(xDpi / resolution, yDpi / resolution);
       QRectF source(0, 0, image.width(), image.height());
       painter->drawImage(target, image, source);
+      painter->restore();
     }
   }
 
