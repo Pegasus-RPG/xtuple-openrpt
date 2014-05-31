@@ -18,6 +18,8 @@
 # Please contact info@openmfg.com with any questions on this license.
 #
 
+include( global.pri )
+
 TEMPLATE = subdirs
 SUBDIRS = common \
           graph \
