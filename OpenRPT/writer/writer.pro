@@ -32,7 +32,7 @@ UI_DIR      = tmp
 OBJECTS_DIR = tmp
 
 INCLUDEPATH += ../../common ../common ../images
-LIBS += -L../../lib -lwrtembed -lcommon -lrenderer $$LIBDMTX
+LIBS += -L../../lib -lwrtembed $$LIBCOMMON -lrenderer $$LIBDMTX
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/wrtembed.lib \
@@ -45,7 +45,7 @@ win32-msvc* {
                       ../../lib/librenderer.a
   } else {
     PRE_TARGETDEPS += ../../lib/libwrtembed.so \
-                      ../../lib/libcommon.so   \
+                      ../../lib/libopenrptcommon.so   \
                       ../../lib/librenderer.so
   }
 }

@@ -36,7 +36,7 @@ SOURCES += main.cpp \
            ../common/builtinSqlFunctions.cpp	# MANU
 
 INCLUDEPATH += ../../common ../common
-LIBS += -L../../lib -lcommon
+LIBS += -L../../lib $$LIBCOMMON
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/common.lib
@@ -44,7 +44,7 @@ win32-msvc* {
   staticlib {
     PRE_TARGETDEPS += ../../lib/libcommon.a
   } else {
-    PRE_TARGETDEPS += ../../lib/libcommon.so
+    PRE_TARGETDEPS += ../../lib/libopenrptcommon.so
   }
 }
 

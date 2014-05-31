@@ -33,7 +33,7 @@ UI_DIR = tmp
 MOC_DIR = tmp
 OBJECTS_DIR = tmp
 
-LIBS += -L../../lib -lMetaSQL -lcommon
+LIBS += -L../../lib -lMetaSQL $$LIBCOMMON
 
 # Input
 
@@ -50,6 +50,6 @@ win32-msvc* {
                       ../../lib/libcommon.a
   } else {
     PRE_TARGETDEPS += ../../lib/libMetaSQL.so \
-                      ../../lib/libcommon.so
+                      ../../lib/libopenrptcommon.so
   }
 }

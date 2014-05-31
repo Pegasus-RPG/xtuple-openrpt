@@ -30,7 +30,7 @@ OBJECTS_DIR = tmp
 MOC_DIR     = tmp
 UI_DIR      = tmp
 
-LIBS += -L../../lib -lMetaSQL -lcommon
+LIBS += -L../../lib -lMetaSQL $$LIBCOMMON
 
 DESTDIR = ../../bin
 

@@ -30,7 +30,7 @@ OBJECTS_DIR = tmp
 MOC_DIR     = tmp
 UI_DIR      = tmp
 
-LIBS += -L../../lib -lcommon
+LIBS += -L../../lib $$LIBCOMMON
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/common.lib

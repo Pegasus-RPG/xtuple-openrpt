@@ -31,7 +31,7 @@ OBJECTS_DIR = tmp
 MOC_DIR     = tmp
 UI_DIR      = tmp
 
-LIBS += -L../../lib -lrenderer -lcommon $$LIBDMTX
+LIBS += -L../../lib -lrenderer $$LIBCOMMON $$LIBDMTX
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/common.lib   \
@@ -41,7 +41,7 @@ win32-msvc* {
     PRE_TARGETDEPS += ../../lib/libcommon.a   \
                       ../../lib/librenderer.a
   } else {
-    PRE_TARGETDEPS += ../../lib/libcommon.so   \
+    PRE_TARGETDEPS += ../../lib/libopenrptcommon.so   \
                       ../../lib/librenderer.so
   }
 }

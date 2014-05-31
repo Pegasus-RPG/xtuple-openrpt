@@ -36,6 +36,6 @@ INCLUDES += ../common/builtinSqlFunctions.h
 SOURCES += bldtbls.cpp ../common/builtinSqlFunctions.cpp
 
 INCLUDEPATH += ../../common ../common
-LIBS += -L../../lib -lcommon
+LIBS += -L../../lib $$LIBCOMMON
 
 QT += sql

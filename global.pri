@@ -61,7 +61,9 @@ isEmpty( USE_SYSTEM_DMTX ) {
 BUILD_SHARED_LIBS = $$(BUILD_SHARED_LIBS)
 isEmpty( BUILD_SHARED_LIBS ) {
   CONFIG += staticlib
+  LIBCOMMON = -lcommon
 } else {
   CONFIG += dll
+  LIBCOMMON = -lopenrptcommon
 }
 
