@@ -29,7 +29,7 @@ MOC_DIR = tmp
 OBJECTS_DIR = tmp
 UI_DIR = tmp
 
-LIBS += -L../../lib -lDmtx_Library
+LIBS += -L../../lib $$LIBDMTX
 
 HEADERS = openreports.h \
           barcodes.h \
@@ -92,4 +92,7 @@ QT += xml sql gui network printsupport
 
 TRANSLATIONS    = renderer_fr.ts renderer_it.ts renderer_ru.ts renderer_es.ts renderer_ar.ts
 
-INCLUDEPATH += ../Dmtx_Library
+bundled_dmtx {
+  INCLUDEPATH += ../Dmtx_Library
+}
+ 

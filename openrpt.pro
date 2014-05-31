@@ -20,13 +20,17 @@
 
 include( global.pri )
 
+bundled_dmtx {
+  DMTX_SRC = OpenRPT/Dmtx_Library
+}
+
 TEMPLATE = subdirs
 SUBDIRS = common \
           graph \
           MetaSQL \
           MetaSQL/metasql_gui \
           MetaSQL/importmql_gui \
-          OpenRPT/Dmtx_Library \
+          $$DMTX_SRC \
           OpenRPT/renderer \
           OpenRPT/wrtembed \
           OpenRPT/writer \
@@ -34,7 +38,6 @@ SUBDIRS = common \
           OpenRPT/import \
           OpenRPT/import_gui \
           OpenRPT/export
-
 
 CONFIG += ordered
 

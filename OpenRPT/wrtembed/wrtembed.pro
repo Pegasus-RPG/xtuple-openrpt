@@ -32,7 +32,7 @@ OBJECTS_DIR = tmp
 QT += xml sql widgets printsupport
 #VERSION = 0.1.0
 
-LIBS += -L../../lib -lDmtx_Library
+LIBS += -L../../lib $$LIBDMTX
 
 #The following line was changed from FORMS to FORMS3 by qt3to4
 FORMS   += labeleditor.ui \
@@ -153,4 +153,7 @@ RESOURCES += ../images/OpenRPTWrtembed.qrc \
 
 TRANSLATIONS    = wrtembed_fr.ts wrtembed_it.ts wrtembed_ru.ts wrtembed_es.ts wrtembed_ar.ts
 
-INCLUDEPATH += ../Dmtx_Library
+bundled_dmtx {
+  INCLUDEPATH += ../Dmtx_Library
+}
+
