@@ -21,7 +21,7 @@
 include( ../global.pri )
 
 TEMPLATE = lib
-CONFIG  += qt warn_on staticlib
+CONFIG  += qt warn_on
 QT      +=  sql xml widgets printsupport
 DEFINES += MAKELIB
 

@@ -53,3 +53,15 @@ isEmpty( USE_SYSTEM_DMTX ) {
   LIBDMTX = -ldmtx
 }
 
+# OpenRPT builds static libraries by default.
+# People using Linux, especially those build packages, usually want
+# shared libraries.
+# Setting the environment variable BUILD_SHARED_LIBS when running
+# qmake and make comments will build the shared libraries.
+BUILD_SHARED_LIBS = $$(BUILD_SHARED_LIBS)
+isEmpty( BUILD_SHARED_LIBS ) {
+  CONFIG += staticlib
+} else {
+  CONFIG += dll
+}
+
