@@ -1,7 +1,7 @@
 /*
  * OpenRPT report writer and rendering engine
  * This file:
- * Copyright (C) 2014 Paladin Logic, Ltd.
+ * Copyright (C) 2012 Paladin Logic, Ltd.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
