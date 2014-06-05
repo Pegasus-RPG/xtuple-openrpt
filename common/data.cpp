@@ -1,6 +1,6 @@
 /*
  * OpenRPT report writer and rendering engine
- * Copyright (C) 2001-2012 by OpenMFG, LLC
+ * Copyright (C) 2001-2014 by OpenMFG, LLC
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,7 +23,7 @@
 #include <QObject>
 
 QString OpenRPT::build     = QObject::tr("%1 %2").arg(__DATE__, __TIME__);
-QString OpenRPT::copyright = QObject::tr("Copyright (c) 2002-2012, OpenMFG, LLC.");
+QString OpenRPT::copyright = QObject::tr("Copyright (c) 2002-2014, OpenMFG, LLC.");
 bool    OpenRPT::loggedIn  = false;
 QString OpenRPT::version   = QObject::tr("3.3.4");
 
