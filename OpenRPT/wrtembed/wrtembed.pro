@@ -32,7 +32,8 @@ OBJECTS_DIR = tmp
 QT += xml sql widgets printsupport
 #VERSION = 0.1.0
 
-LIBS += -L../../lib -lDmtx_Library
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += -lDmtx_Library
 
 #The following line was changed from FORMS to FORMS3 by qt3to4
 FORMS   += labeleditor.ui \

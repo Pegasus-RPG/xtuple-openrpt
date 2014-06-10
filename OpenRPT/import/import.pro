@@ -34,7 +34,8 @@ HEADERS += ../common/builtinSqlFunctions.h				# MANU
 SOURCES += main.cpp ../common/builtinSqlFunctions.cpp				# MANU
 
 INCLUDEPATH += ../../common ../common
-LIBS += -L../../lib -lcommon
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += -lcommon
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/common.lib

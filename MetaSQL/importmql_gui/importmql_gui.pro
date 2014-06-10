@@ -30,7 +30,8 @@ OBJECTS_DIR = tmp
 MOC_DIR     = tmp
 UI_DIR      = tmp
 
-LIBS += -L../../lib -lMetaSQL -lcommon
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += -lMetaSQL -lcommon
 
 DESTDIR = ../../bin
 
