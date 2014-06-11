@@ -36,6 +36,7 @@ INCLUDES += ../common/builtinSqlFunctions.h
 SOURCES += bldtbls.cpp ../common/builtinSqlFunctions.cpp
 
 INCLUDEPATH += ../../common ../common
-LIBS += -L../../lib -lcommon
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += -lcommon
 
 QT += sql

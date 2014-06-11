@@ -29,7 +29,8 @@ MOC_DIR = tmp
 OBJECTS_DIR = tmp
 UI_DIR = tmp
 
-LIBS += -L../../lib -lDmtx_Library
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += -lDmtx_Library
 
 HEADERS = openreports.h \
           barcodes.h \

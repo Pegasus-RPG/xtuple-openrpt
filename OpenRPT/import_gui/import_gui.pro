@@ -30,7 +30,8 @@ OBJECTS_DIR = tmp
 MOC_DIR     = tmp
 UI_DIR      = tmp
 
-LIBS += -L../../lib -lcommon
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += -lcommon
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/common.lib
