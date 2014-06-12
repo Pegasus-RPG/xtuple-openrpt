@@ -40,8 +40,6 @@ LIBS += -lMetaSQL -lcommon
 
 SOURCES += main.cpp
 
-RESOURCES += ../../OpenRPT/images/OpenRPTMetaSQL.qrc \
-
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/MetaSQL.lib \
                     ../../lib/common.lib
