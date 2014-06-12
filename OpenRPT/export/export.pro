@@ -37,12 +37,16 @@ SOURCES += main.cpp \
 
 INCLUDEPATH += ../../common ../common
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += -lcommon
+LIBS += $$LIBCOMMON
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/common.lib
 } else {
-  PRE_TARGETDEPS += ../../lib/libcommon.a
+  staticlib {
+    PRE_TARGETDEPS += ../../lib/libcommon.a
+  } else {
+    PRE_TARGETDEPS += ../../lib/libopenrptcommon.so
+  }
 }
 
 QT += xml sql

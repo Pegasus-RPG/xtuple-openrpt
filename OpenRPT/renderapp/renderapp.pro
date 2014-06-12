@@ -32,14 +32,19 @@ MOC_DIR     = tmp
 UI_DIR      = tmp
 
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += -lrenderer -lcommon -lDmtx_Library
+LIBS += -lrenderer $$LIBCOMMON $$LIBDMTX
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/common.lib   \
                     ../../lib/renderer.lib
 } else {
-  PRE_TARGETDEPS += ../../lib/libcommon.a   \
-                    ../../lib/librenderer.a
+  staticlib {
+    PRE_TARGETDEPS += ../../lib/libcommon.a   \
+                      ../../lib/librenderer.a
+  } else {
+    PRE_TARGETDEPS += ../../lib/libopenrptcommon.so   \
+                      ../../lib/librenderer.so
+  }
 }
 
 DESTDIR = ../../bin

@@ -33,16 +33,22 @@ OBJECTS_DIR = tmp
 
 INCLUDEPATH += ../../common ../common ../images
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += -lwrtembed -lcommon -lrenderer -lDmtx_Library
+LIBS += -lwrtembed $$LIBCOMMON -lrenderer $$LIBDMTX
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/wrtembed.lib \
                     ../../lib/common.lib   \
                     ../../lib/renderer.lib
 } else {
-  PRE_TARGETDEPS += ../../lib/libwrtembed.a \
-                    ../../lib/libcommon.a   \
-                    ../../lib/librenderer.a
+  staticlib {
+    PRE_TARGETDEPS += ../../lib/libwrtembed.a \
+                      ../../lib/libcommon.a   \
+                      ../../lib/librenderer.a
+  } else {
+    PRE_TARGETDEPS += ../../lib/libwrtembed.so \
+                      ../../lib/libopenrptcommon.so   \
+                      ../../lib/librenderer.so
+  }
 }
 
 RC_FILE = writer.rc

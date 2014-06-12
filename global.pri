@@ -39,3 +39,31 @@ win32:exists(win32.pri) {
 unix:exists(unix.pri) {
   include(unix.pri)
 }
+
+# OpenRPT includes an embedded copy of libdmtx for convenience on platforms
+# where this library is not available as a package.
+# Linux users would normally want to use the version supplied by their package
+# manager and can do so by setting the environment variable USE_SYSTEM_DMTX
+# when building.
+USE_SYSTEM_DMTX = $$(USE_SYSTEM_DMTX)
+isEmpty( USE_SYSTEM_DMTX ) {
+  CONFIG += bundled_dmtx
+  LIBDMTX = -lDmtx_Library
+} else {
+  LIBDMTX = -ldmtx
+}
+
+# OpenRPT builds static libraries by default.
+# People using Linux, especially those build packages, usually want
+# shared libraries.
+# Setting the environment variable BUILD_SHARED_LIBS when running
+# qmake and make comments will build the shared libraries.
+BUILD_SHARED_LIBS = $$(BUILD_SHARED_LIBS)
+isEmpty( BUILD_SHARED_LIBS ) {
+  CONFIG += staticlib
+  LIBCOMMON = -lcommon
+} else {
+  CONFIG += dll
+  LIBCOMMON = -lopenrptcommon
+}
+

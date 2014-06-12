@@ -21,7 +21,7 @@
 include( ../../global.pri )
 
 TEMPLATE = lib
-CONFIG += qt warn_on staticlib
+CONFIG += qt warn_on
 
 INCLUDEPATH = ../../common ../common ../../../openrpt-build-desktop/common ../renderer ../images .
 
@@ -33,7 +33,7 @@ QT += xml sql widgets printsupport
 #VERSION = 0.1.0
 
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += -lDmtx_Library
+LIBS += $$LIBDMTX
 
 #The following line was changed from FORMS to FORMS3 by qt3to4
 FORMS   += labeleditor.ui \
@@ -154,4 +154,7 @@ RESOURCES += ../images/OpenRPTWrtembed.qrc \
 
 TRANSLATIONS    = wrtembed_fr.ts wrtembed_it.ts wrtembed_ru.ts wrtembed_es.ts wrtembed_ar.ts
 
-INCLUDEPATH += ../Dmtx_Library
+bundled_dmtx {
+  INCLUDEPATH += ../Dmtx_Library
+}
+

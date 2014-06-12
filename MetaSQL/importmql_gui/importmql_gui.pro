@@ -31,7 +31,7 @@ MOC_DIR     = tmp
 UI_DIR      = tmp
 
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += -lMetaSQL -lcommon
+LIBS += -lMetaSQL $$LIBCOMMON
 
 DESTDIR = ../../bin
 

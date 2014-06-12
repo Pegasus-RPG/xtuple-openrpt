@@ -24,7 +24,7 @@ QT      -= gui
 
 TARGET   = Dmtx_Library
 TEMPLATE = lib
-CONFIG  += qt warn_on staticlib
+CONFIG  += qt warn_on
 
 DEFINES += DMTX_LIBRARY_LIBRARY
 DESTDIR  = ../../lib

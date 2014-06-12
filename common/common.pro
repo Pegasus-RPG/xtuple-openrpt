@@ -21,9 +21,16 @@
 include( ../global.pri )
 
 TEMPLATE    = lib
-CONFIG      += qt warn_on staticlib
+CONFIG      += qt warn_on
 QT          += xml sql widgets
 DEFINES     += MAKELIB
+
+# When build a static library, it will just be libcommon.a
+# When building a shared library (which will potentially be installed
+# to a system location) we use a more specific name, libopenrptcommon.so
+dll {
+  TARGET = openrptcommon
+}
 
 INCLUDEPATH = .
 

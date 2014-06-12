@@ -21,7 +21,7 @@
 include( ../../global.pri )
 
 TEMPLATE = lib
-CONFIG  += qt warn_on staticlib
+CONFIG  += qt warn_on
 DEFINES += MAKELIB
 
 DESTDIR = ../../lib
@@ -30,7 +30,7 @@ OBJECTS_DIR = tmp
 UI_DIR = tmp
 
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += -lDmtx_Library
+LIBS += $$LIBDMTX
 
 HEADERS = openreports.h \
           barcodes.h \
@@ -93,4 +93,7 @@ QT += xml sql gui network printsupport
 
 TRANSLATIONS    = renderer_fr.ts renderer_it.ts renderer_ru.ts renderer_es.ts renderer_ar.ts
 
-INCLUDEPATH += ../Dmtx_Library
+bundled_dmtx {
+  INCLUDEPATH += ../Dmtx_Library
+}
+ 
