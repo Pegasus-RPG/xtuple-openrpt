@@ -1,6 +1,6 @@
 #
 # OpenRPT report writer and rendering engine
-# Copyright (C) 2001-2012 by OpenMFG, LLC
+# Copyright (C) 2001-2014 by OpenMFG, LLC
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -32,7 +32,8 @@ UI_DIR      = tmp
 OBJECTS_DIR = tmp
 
 INCLUDEPATH += ../../common ../common ../images
-LIBS += -L../../lib -lwrtembed $$LIBCOMMON -lrenderer $$LIBDMTX
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += -lwrtembed $$LIBCOMMON -lrenderer $$LIBDMTX
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/wrtembed.lib \

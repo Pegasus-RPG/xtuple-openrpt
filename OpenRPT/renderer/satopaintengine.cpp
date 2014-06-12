@@ -1,6 +1,6 @@
 /*
  * OpenRPT report writer and rendering engine
- * Copyright (C) 2001-2012 by OpenMFG, LLC
+ * Copyright (C) 2001-2014 by OpenMFG, LLC
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -221,7 +221,7 @@ void SatoPaintEngine::drawBarcode ( const QPointF & p, const QString &format, in
   else if(format.contains("datamatrix"))
   {
     DmtxInfos dmtxInfos = extractInfosDtmx(format);
-    int eltSize = qRound (qBound(2.0, (qreal)height / (qreal)dmtxInfos.ySize, 20.0));
+    int eltSize = qRound (qBound((qreal)2.0, (qreal)height / (qreal)dmtxInfos.ySize, (qreal)20.0));
     barcodeFont = QString("BX0620%1%2%3%4")
         .arg(eltSize,2,10,QLatin1Char('0'))
         .arg(eltSize,2,10,QLatin1Char('0'))

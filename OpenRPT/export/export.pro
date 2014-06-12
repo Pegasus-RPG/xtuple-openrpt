@@ -1,6 +1,6 @@
 #
 # OpenRPT report writer and rendering engine
-# Copyright (C) 2001-2012 by OpenMFG, LLC
+# Copyright (C) 2001-2014 by OpenMFG, LLC
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -36,7 +36,8 @@ SOURCES += main.cpp \
            ../common/builtinSqlFunctions.cpp	# MANU
 
 INCLUDEPATH += ../../common ../common
-LIBS += -L../../lib $$LIBCOMMON
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += $$LIBCOMMON
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/common.lib
