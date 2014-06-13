@@ -32,7 +32,7 @@ MOC_DIR     = tmp
 UI_DIR      = tmp
 
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += -lrenderer $$LIBCOMMON $$LIBDMTX
+LIBS += -lrenderer $$LIBCOMMON -ldmtx
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/common.lib   \

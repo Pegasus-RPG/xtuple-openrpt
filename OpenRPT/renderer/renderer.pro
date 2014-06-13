@@ -30,7 +30,7 @@ OBJECTS_DIR = tmp
 UI_DIR = tmp
 
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += $$LIBDMTX
+LIBS += -ldmtx
 
 HEADERS = openreports.h \
           barcodes.h \

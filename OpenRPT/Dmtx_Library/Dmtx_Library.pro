@@ -22,7 +22,7 @@ include( ../../global.pri )
 
 QT      -= gui
 
-TARGET   = Dmtx_Library
+TARGET   = dmtx
 TEMPLATE = lib
 CONFIG  += qt warn_on
 
@@ -64,7 +64,7 @@ symbian {
     TARGET.UID3 = 0xE6F5730D
     TARGET.CAPABILITY = 
     TARGET.EPOCALLOWDLLDATA = 1
-    addFiles.sources = Dmtx_Library.dll
+    addFiles.sources = dmtx.dll
     addFiles.path = !:/sys/bin
     DEPLOYMENT += addFiles
 }

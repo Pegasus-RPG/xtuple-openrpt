@@ -48,9 +48,6 @@ unix:exists(unix.pri) {
 USE_SYSTEM_DMTX = $$(USE_SYSTEM_DMTX)
 isEmpty( USE_SYSTEM_DMTX ) {
   CONFIG += bundled_dmtx
-  LIBDMTX = -lDmtx_Library
-} else {
-  LIBDMTX = -ldmtx
 }
 
 # OpenRPT builds static libraries by default.
