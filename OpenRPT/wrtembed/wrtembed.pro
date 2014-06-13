@@ -97,10 +97,6 @@ HEADERS += reportgridoptions.h\
            crosstabeditor.h \
            querycombobox.h \
            fontutils.h \
-           ../common/labelsizeinfo.h \
-           ../common/pagesizeinfo.h \
-           ../common/builtinSqlFunctions.h \
-           ../common/builtinformatfunctions.h \
            dmatrixsquareconfig.h \
            dmatrixrectconfig.h \
            dbarcodeconfig.h \
@@ -139,18 +135,13 @@ SOURCES += reportgridoptions.cpp\
            crosstabeditor.cpp \
            querycombobox.cpp \
            fontutils.cpp \
-           ../common/labelsizeinfo.cpp \
-           ../common/pagesizeinfo.cpp \
-           ../common/builtinSqlFunctions.cpp \
-           ../common/builtinformatfunctions.cpp \
            dmatrixsquareconfig.cpp \
            dmatrixrectconfig.cpp \
            dbarcodeconfig.cpp \
            dmatrixpreview.cpp \
            patheditor.cpp
 
-RESOURCES += ../images/OpenRPTWrtembed.qrc \
-             ../images/OpenRPTCommon.qrc
+RESOURCES += ../images/OpenRPTWrtembed.qrc
 
 TRANSLATIONS    = wrtembed_fr.ts wrtembed_it.ts wrtembed_ru.ts wrtembed_es.ts wrtembed_ar.ts
 

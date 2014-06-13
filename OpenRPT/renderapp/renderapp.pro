@@ -56,12 +56,10 @@ macx:RC_FILE = ../images/OpenRPT.icns
 FORMS   += renderwindow.ui \
            ../wrtembed/dbfiledialog.ui
 
-HEADERS += ../common/builtinSqlFunctions.h \
-           ../wrtembed/dbfiledialog.h \
+HEADERS += ../wrtembed/dbfiledialog.h \
            renderwindow.h
 
-SOURCES += ../common/builtinSqlFunctions.cpp \
-           ../wrtembed/dbfiledialog.cpp \
+SOURCES += ../wrtembed/dbfiledialog.cpp \
            renderwindow.cpp \
            main.cpp
 

@@ -30,7 +30,6 @@ DEFINES += DMTX_LIBRARY_LIBRARY
 DESTDIR  = ../../lib
 
 SOURCES += \
-    simple_test.c \
     dmtxvector2.c \
     dmtxtime.c \
     dmtxsymbol.c \
@@ -53,6 +52,7 @@ SOURCES += \
     dmtxdecode.c \
     dmtxbytelist.c \
     dmtx.c
+#   simple_test.c \
 
 HEADERS +=\
     dmtxstatic.h \

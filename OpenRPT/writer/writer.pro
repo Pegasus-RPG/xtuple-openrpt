@@ -55,10 +55,8 @@ RC_FILE = writer.rc
 macx:RC_FILE = ../images/OpenRPT.icns
 
 HEADERS += reportwriterwindow.h \
-           ../common/builtinSqlFunctions.h	# MANU
 
 SOURCES += rptwrt.cpp\
-           ../common/builtinSqlFunctions.cpp \	# MANU
            reportwriterwindow.cpp
 
 QT += xml sql network widgets printsupport
