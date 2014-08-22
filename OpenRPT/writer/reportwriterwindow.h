@@ -19,7 +19,7 @@
  */
 
 #ifndef __REPORTWRITERWINDOW_H__
-#define __REPORTWRITERWINDOW_H_
+#define __REPORTWRITERWINDOW_H__
 
 #include <QMainWindow>
 #include <QTimerEvent>

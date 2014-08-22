@@ -32,7 +32,7 @@ UI_DIR      = tmp
 OBJECTS_DIR = tmp
 
 INCLUDEPATH += ../../common ../common ../images
-LIBS += -L../../lib -lwrtembed -lcommon -lrenderer -lDmtx_Library
+LIBS += -L../../lib -lwrtembed -lcommon -lrenderer -lDmtx_Library -lMetaSQL
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/wrtembed.lib \

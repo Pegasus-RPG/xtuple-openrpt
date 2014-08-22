@@ -66,6 +66,7 @@ ZebraPaintEngine::ZebraPaintEngine(ReportPrinter *parentPrinter) : LabelPaintEng
 
 bool 	ZebraPaintEngine::begin ( QPaintDevice * pdev )
 {
+  Q_UNUSED(pdev);
   QString init = m_CmdPrefix + "XA" + m_CmdPrefix + "LRY";
 
   if(!customInitString().isEmpty()) {
@@ -98,6 +99,7 @@ void 	ZebraPaintEngine::addEndMessage ()
 
 void ZebraPaintEngine::drawText ( const QPointF &p, const QString & text, const QFont &font )
 {
+  Q_UNUSED(p);
   QTransform transform = painter()->worldTransform();
 
   int xInDots = (int)(transform.dx());
@@ -183,6 +185,8 @@ void ZebraPaintEngine::drawBarcode ( const QPointF & p, const QString &format, i
 
 void ZebraPaintEngine::drawImage ( const QRectF & rectangle, const QImage & image, const QRectF & sr, Qt::ImageConversionFlags flags )
 {
+  Q_UNUSED(sr);
+  Q_UNUSED(flags);
   QImage monoImage = image.convertToFormat(QImage::Format_Mono);
 /*
   //PNG encoding (untested)

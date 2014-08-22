@@ -12,3 +12,8 @@
 *.a
 *.pro.user*
 bin
+.*.swp
+macx.pri
+win32.pri
+unix.pri
+.qmake.stash

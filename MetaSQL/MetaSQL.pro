@@ -33,6 +33,9 @@ UI_DIR      = tmp
 MOC_DIR     = tmp
 OBJECTS_DIR = tmp
 
+# override CONFIG warn_on for C files but not C++
+QMAKE_CFLAGS_WARN_ON  = -Wno-missing-braces
+
 FORMS   += logoutput.ui \
            metasqlsaveparameters.ui \
            mqledit.ui \

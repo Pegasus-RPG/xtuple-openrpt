@@ -29,7 +29,7 @@ MOC_DIR = tmp
 OBJECTS_DIR = tmp
 UI_DIR = tmp
 
-LIBS += -L../../lib -lDmtx_Library
+LIBS += -L../../lib -lDmtx_Library -lMetaSQL
 
 HEADERS = openreports.h \
           barcodes.h \
@@ -49,12 +49,10 @@ HEADERS = openreports.h \
           zebraprintengine.h \
           reportprinter.h \
           textelementsplitter.h \
-          ../../MetaSQL/metasql.h \
-          ../../MetaSQL/metasqlqueryparser.h \
           ../common/builtinformatfunctions.h \
-          ../common/builtinSqlFunctions.h \			# MANU
+          ../common/builtinSqlFunctions.h \
           ../common/labelsizeinfo.h \
-          ../common/pagesizeinfo.h 
+          ../common/pagesizeinfo.h
 SOURCES = openreports.cpp \
           3of9.cpp \
           ext3of9.cpp \
@@ -67,7 +65,7 @@ SOURCES = openreports.cpp \
           orprerender.cpp \
           orprintrender.cpp \
           renderobjects.cpp \
-          previewdialog.cpp \ 
+          previewdialog.cpp \
           labelpaintengine.cpp \
           labelprintengine.cpp \
           satopaintengine.cpp \
@@ -76,13 +74,10 @@ SOURCES = openreports.cpp \
           zebraprintengine.cpp \
           reportprinter.cpp \
           textelementsplitter.cpp \
-          ../../MetaSQL/metasql.cpp \
-          ../../MetaSQL/metasqlqueryparser.cpp \
-          ../../MetaSQL/regex/regex.c \
           ../common/builtinformatfunctions.cpp \
-          ../common/builtinSqlFunctions.cpp \		# MANU
+          ../common/builtinSqlFunctions.cpp \
           ../common/labelsizeinfo.cpp \
-          ../common/pagesizeinfo.cpp \ 
+          ../common/pagesizeinfo.cpp \
           datamatrix.cpp
 
 INCLUDEPATH += ../common ../../common
