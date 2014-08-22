@@ -1,6 +1,6 @@
 #
 # OpenRPT report writer and rendering engine
-# Copyright (C) 2001-2012 by OpenMFG, LLC
+# Copyright (C) 2001-2014 by OpenMFG, LLC
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -24,13 +24,12 @@ QT      -= gui
 
 TARGET   = Dmtx_Library
 TEMPLATE = lib
-CONFIG  += qt warn_on staticlib
+CONFIG  += qt warn_on
 
 DEFINES += DMTX_LIBRARY_LIBRARY
 DESTDIR  = ../../lib
 
 SOURCES += \
-    simple_test.c \
     dmtxvector2.c \
     dmtxtime.c \
     dmtxsymbol.c \
@@ -53,6 +52,7 @@ SOURCES += \
     dmtxdecode.c \
     dmtxbytelist.c \
     dmtx.c
+#   simple_test.c \
 
 HEADERS +=\
     dmtxstatic.h \

@@ -9,11 +9,13 @@
 *qrc_*.cpp
 *.so
 *.so.*
+*.sw?
 *.a
 *.pro.user*
-bin
+*.pdf
 .*.swp
-macx.pri
-win32.pri
-unix.pri
 .qmake.stash
+bin
+macx.pri
+unix.pri
+win32.pri

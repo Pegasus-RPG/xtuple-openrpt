@@ -1,6 +1,6 @@
 #
 # OpenRPT report writer and rendering engine
-# Copyright (C) 2001-2012 by OpenMFG, LLC
+# Copyright (C) 2001-2014 by OpenMFG, LLC
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -21,7 +21,7 @@
 include( ../../global.pri )
 
 TEMPLATE = lib
-CONFIG  += qt warn_on staticlib
+CONFIG  += qt warn_on
 DEFINES += MAKELIB
 
 DESTDIR = ../../lib
@@ -29,7 +29,8 @@ MOC_DIR = tmp
 OBJECTS_DIR = tmp
 UI_DIR = tmp
 
-LIBS += -L../../lib -lDmtx_Library -lMetaSQL
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += $$LIBDMTX -lMetaSQL
 
 HEADERS = openreports.h \
           barcodes.h \
@@ -50,9 +51,9 @@ HEADERS = openreports.h \
           reportprinter.h \
           textelementsplitter.h \
           ../common/builtinformatfunctions.h \
-          ../common/builtinSqlFunctions.h \
+          ../common/builtinSqlFunctions.h \			# MANU
           ../common/labelsizeinfo.h \
-          ../common/pagesizeinfo.h
+          ../common/pagesizeinfo.h 
 SOURCES = openreports.cpp \
           3of9.cpp \
           ext3of9.cpp \
@@ -65,7 +66,7 @@ SOURCES = openreports.cpp \
           orprerender.cpp \
           orprintrender.cpp \
           renderobjects.cpp \
-          previewdialog.cpp \
+          previewdialog.cpp \ 
           labelpaintengine.cpp \
           labelprintengine.cpp \
           satopaintengine.cpp \
@@ -75,9 +76,9 @@ SOURCES = openreports.cpp \
           reportprinter.cpp \
           textelementsplitter.cpp \
           ../common/builtinformatfunctions.cpp \
-          ../common/builtinSqlFunctions.cpp \
+          ../common/builtinSqlFunctions.cpp \		# MANU
           ../common/labelsizeinfo.cpp \
-          ../common/pagesizeinfo.cpp \
+          ../common/pagesizeinfo.cpp \ 
           datamatrix.cpp
 
 INCLUDEPATH += ../common ../../common
@@ -87,4 +88,6 @@ QT += xml sql gui network printsupport
 
 TRANSLATIONS    = renderer_fr.ts renderer_it.ts renderer_ru.ts renderer_es.ts renderer_ar.ts
 
-INCLUDEPATH += ../Dmtx_Library
+bundled_dmtx {
+  INCLUDEPATH += ../Dmtx_Library
+}

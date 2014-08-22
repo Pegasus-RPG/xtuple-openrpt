@@ -1,6 +1,6 @@
 #
 # OpenRPT report writer and rendering engine
-# Copyright (C) 2001-2012 by OpenMFG, LLC
+# Copyright (C) 2001-2014 by OpenMFG, LLC
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -21,9 +21,16 @@
 include( ../global.pri )
 
 TEMPLATE    = lib
-CONFIG      += qt warn_on staticlib
+CONFIG      += qt warn_on
 QT          += xml sql widgets
 DEFINES     += MAKELIB
+
+# When build a static library, it will just be libcommon.a
+# When building a shared library (which will potentially be installed
+# to a system location) we use a more specific name, libopenrptcommon.so
+dll {
+  TARGET = openrptcommon
+}
 
 INCLUDEPATH = .
 

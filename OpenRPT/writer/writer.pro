@@ -1,6 +1,6 @@
 #
 # OpenRPT report writer and rendering engine
-# Copyright (C) 2001-2012 by OpenMFG, LLC
+# Copyright (C) 2001-2014 by OpenMFG, LLC
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -32,30 +32,34 @@ UI_DIR      = tmp
 OBJECTS_DIR = tmp
 
 INCLUDEPATH += ../../common ../common ../images
-LIBS += -L../../lib -lwrtembed -lcommon -lrenderer -lDmtx_Library -lMetaSQL
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += -lwrtembed $$LIBCOMMON -lrenderer $$LIBDMTX -lMetaSQL
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/wrtembed.lib \
                     ../../lib/common.lib   \
                     ../../lib/renderer.lib
 } else {
-  PRE_TARGETDEPS += ../../lib/libwrtembed.a \
-                    ../../lib/libcommon.a   \
-                    ../../lib/librenderer.a
+  staticlib {
+    PRE_TARGETDEPS += ../../lib/libwrtembed.a \
+                      ../../lib/libcommon.a   \
+                      ../../lib/librenderer.a
+  } else {
+    PRE_TARGETDEPS += ../../lib/libwrtembed.so \
+                      ../../lib/libopenrptcommon.so   \
+                      ../../lib/librenderer.so
+  }
 }
 
 RC_FILE = writer.rc
 macx:RC_FILE = ../images/OpenRPT.icns
 
 HEADERS += reportwriterwindow.h \
-           ../common/builtinSqlFunctions.h	# MANU
 
 SOURCES += rptwrt.cpp\
-           ../common/builtinSqlFunctions.cpp \	# MANU
            reportwriterwindow.cpp
 
 QT += xml sql network widgets printsupport
-#QT += qt3support
 
 RESOURCES += writer.qrc
 
