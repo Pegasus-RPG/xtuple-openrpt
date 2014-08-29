@@ -35,16 +35,12 @@ SOURCES += main.cpp ../common/builtinSqlFunctions.cpp				# MANU
 
 INCLUDEPATH += ../../common ../common
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += $$LIBCOMMON
+LIBS += -lopenrptcommon
 
 win32-msvc* {
-  PRE_TARGETDEPS += ../../lib/common.lib
+  PRE_TARGETDEPS += ../../lib/openrptcommon.$${LIBEXT}
 } else {
-  staticlib {
-    PRE_TARGETDEPS += ../../lib/libcommon.a
-  } else {
-    PRE_TARGETDEPS += ../../lib/libopenrptcommon.so
-  }
+  PRE_TARGETDEPS += ../../lib/libopenrptcommon.$${LIBEXT}
 }
 
 QT += xml sql

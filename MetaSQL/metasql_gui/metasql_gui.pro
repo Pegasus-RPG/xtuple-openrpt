@@ -34,21 +34,16 @@ MOC_DIR = tmp
 OBJECTS_DIR = tmp
 
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += -lMetaSQL $$LIBCOMMON
+LIBS += -lMetaSQL -lopenrptcommon
 
 # Input
 
 SOURCES += main.cpp
 
 win32-msvc* {
-  PRE_TARGETDEPS += ../../lib/MetaSQL.lib \
-                    ../../lib/common.lib
+  PRE_TARGETDEPS += ../../lib/MetaSQL.$${LIBEXT}
+  PRE_TARGETDEPS += ../../lib/openrptcommon.$${LIBEXT}
 } else {
-  staticlib {
-    PRE_TARGETDEPS += ../../lib/libMetaSQL.a \
-                      ../../lib/libcommon.a
-  } else {
-    PRE_TARGETDEPS += ../../lib/libMetaSQL.so \
-                      ../../lib/libopenrptcommon.so
-  }
+  PRE_TARGETDEPS += ../../lib/libMetaSQL.$${LIBEXT}
+  PRE_TARGETDEPS += ../../lib/libopenrptcommon.$${LIBEXT}
 }

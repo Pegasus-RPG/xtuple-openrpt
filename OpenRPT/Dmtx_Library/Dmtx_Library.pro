@@ -22,7 +22,7 @@ include( ../../global.pri )
 
 QT      -= gui
 
-TARGET   = Dmtx_Library
+TARGET   = dmtx
 TEMPLATE = lib
 CONFIG  += qt warn_on
 
