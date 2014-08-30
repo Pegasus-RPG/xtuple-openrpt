@@ -27,7 +27,7 @@ static const int __fieldSql = 2;
 static const int __fieldCount = 3;
 
 
-static const char* __SqlTable[][3] = {
+static const char* __SqlTable[][__fieldCount] = {
 //{"tag",        "Driver",         "Sql Statement"}
 // fmt01
   {"fmt01",      "QPSQL",          "SELECT text('0') AS \"0\""},

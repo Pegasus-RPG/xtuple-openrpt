@@ -155,6 +155,7 @@ void 	SatoPaintEngine::addEndMessage ()
 
 void SatoPaintEngine::drawText ( const QPointF &p, const QString & text, const QFont &font )
 {
+  Q_UNUSED(p);
   QTransform transform = painter()->worldTransform();
 
   int xInDots = (int)(transform.dx());
@@ -248,6 +249,8 @@ void SatoPaintEngine::drawBarcode ( const QPointF & p, const QString &format, in
 
 void SatoPaintEngine::drawImage ( const QRectF & rectangle, const QImage & image, const QRectF & sr, Qt::ImageConversionFlags flags )
 {
+  Q_UNUSED(sr);
+  Q_UNUSED(flags);
   QTransform transform = painter()->worldTransform();
   int xInDots = (int)(rectangle.left() + transform.dx());
   int yInDots = (int)(rectangle.top() + transform.dy());

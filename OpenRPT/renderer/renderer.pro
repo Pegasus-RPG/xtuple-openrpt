@@ -30,7 +30,7 @@ OBJECTS_DIR = tmp
 UI_DIR = tmp
 
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += $$LIBDMTX -lopenrptcommon
+LIBS += $$LIBDMTX -lopenrptcommon -lMetaSQL
 
 HEADERS = openreports.h \
           barcodes.h \
@@ -50,10 +50,8 @@ HEADERS = openreports.h \
           zebraprintengine.h \
           reportprinter.h \
           textelementsplitter.h \
-          ../../MetaSQL/metasql.h \
-          ../../MetaSQL/metasqlqueryparser.h \
           ../common/builtinformatfunctions.h \
-          ../common/builtinSqlFunctions.h \			# MANU
+          ../common/builtinSqlFunctions.h \
           ../common/labelsizeinfo.h \
           ../common/pagesizeinfo.h 
 SOURCES = openreports.cpp \
@@ -77,11 +75,8 @@ SOURCES = openreports.cpp \
           zebraprintengine.cpp \
           reportprinter.cpp \
           textelementsplitter.cpp \
-          ../../MetaSQL/metasql.cpp \
-          ../../MetaSQL/metasqlqueryparser.cpp \
-          ../../MetaSQL/regex/regex.c \
           ../common/builtinformatfunctions.cpp \
-          ../common/builtinSqlFunctions.cpp \		# MANU
+          ../common/builtinSqlFunctions.cpp \
           ../common/labelsizeinfo.cpp \
           ../common/pagesizeinfo.cpp \ 
           datamatrix.cpp
@@ -96,4 +91,3 @@ TRANSLATIONS    = renderer_fr.ts renderer_it.ts renderer_ru.ts renderer_es.ts re
 bundled_dmtx {
   INCLUDEPATH += ../Dmtx_Library
 }
- 

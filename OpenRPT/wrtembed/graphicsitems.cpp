@@ -424,6 +424,8 @@ void ORGraphicsRectItem::parseRect(const QDomNode & entity)
 
 void ORGraphicsRectItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+  Q_UNUSED(option);
+  Q_UNUSED(widget)
   if(isSelected())
   {
     // Update the positions of the resize handles if we are selected
@@ -3157,7 +3159,6 @@ void ORGraphicsCrossTabItem::paint(QPainter * painter, const QStyleOptionGraphic
 
   QRect columnRect = QFontMetrics(font()).boundingRect(column("column"));
   QRect rowRect = QFontMetrics(font()).boundingRect(column("row"));
-  QRect valueRect = QFontMetrics(font()).boundingRect(column("value"));
 
   QRectF selectionRect = rect();
   // Paint rect

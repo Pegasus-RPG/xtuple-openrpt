@@ -33,7 +33,7 @@ OBJECTS_DIR = tmp
 
 INCLUDEPATH += ../../common ../common ../images
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += -lwrtembed -lopenrptcommon -lrenderer $$LIBDMTX
+LIBS += -lwrtembed -lopenrptcommon -lrenderer $$LIBDMTX -lMetaSQL
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/wrtembed.$${LIBEXT}       \
@@ -54,7 +54,6 @@ SOURCES += rptwrt.cpp\
            reportwriterwindow.cpp
 
 QT += xml sql network widgets printsupport
-#QT += qt3support
 
 RESOURCES += writer.qrc
 
