@@ -27,6 +27,8 @@ DEFINES += MAKELIB
 
 INCLUDEPATH += ../common ../../openrpt-build-desktop/common
 DEPENDPATH += ../common ../../openrpt-build-desktop/common
+QMAKE_LIBDIR += ../lib
+LIBS         += -lopenrptcommon
 
 DESTDIR     = ../lib
 UI_DIR      = tmp

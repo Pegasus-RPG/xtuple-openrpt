@@ -30,7 +30,7 @@ OBJECTS_DIR = tmp
 UI_DIR = tmp
 
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += $$LIBDMTX -lMetaSQL
+LIBS += $$LIBDMTX -lopenrptcommon -lMetaSQL
 
 HEADERS = openreports.h \
           barcodes.h \
@@ -51,7 +51,7 @@ HEADERS = openreports.h \
           reportprinter.h \
           textelementsplitter.h \
           ../common/builtinformatfunctions.h \
-          ../common/builtinSqlFunctions.h \			# MANU
+          ../common/builtinSqlFunctions.h \
           ../common/labelsizeinfo.h \
           ../common/pagesizeinfo.h 
 SOURCES = openreports.cpp \
@@ -76,7 +76,7 @@ SOURCES = openreports.cpp \
           reportprinter.cpp \
           textelementsplitter.cpp \
           ../common/builtinformatfunctions.cpp \
-          ../common/builtinSqlFunctions.cpp \		# MANU
+          ../common/builtinSqlFunctions.cpp \
           ../common/labelsizeinfo.cpp \
           ../common/pagesizeinfo.cpp \ 
           datamatrix.cpp
