@@ -19,7 +19,7 @@
  */
 
 #ifndef __REPORTGRIDOPTIONS_H__
-#define __REPORTGRIDOPTIONS_H_
+#define __REPORTGRIDOPTIONS_H__
 
 // qt
 #include <qobject.h>

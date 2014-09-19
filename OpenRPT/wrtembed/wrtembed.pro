@@ -21,7 +21,7 @@
 include( ../../global.pri )
 
 TEMPLATE = lib
-CONFIG += qt warn_on staticlib
+CONFIG += qt warn_on
 
 INCLUDEPATH = ../../common ../common ../../../openrpt-build-desktop/common ../renderer ../images .
 
@@ -32,7 +32,8 @@ OBJECTS_DIR = tmp
 QT += xml sql widgets printsupport
 #VERSION = 0.1.0
 
-LIBS += -L../../lib -lDmtx_Library
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += $$LIBDMTX -lopenrptcommon -lrenderer
 
 #The following line was changed from FORMS to FORMS3 by qt3to4
 FORMS   += labeleditor.ui \
@@ -96,10 +97,6 @@ HEADERS += reportgridoptions.h\
            crosstabeditor.h \
            querycombobox.h \
            fontutils.h \
-           ../common/labelsizeinfo.h \
-           ../common/pagesizeinfo.h \
-           ../common/builtinSqlFunctions.h \
-           ../common/builtinformatfunctions.h \
            dmatrixsquareconfig.h \
            dmatrixrectconfig.h \
            dbarcodeconfig.h \
@@ -138,19 +135,17 @@ SOURCES += reportgridoptions.cpp\
            crosstabeditor.cpp \
            querycombobox.cpp \
            fontutils.cpp \
-           ../common/labelsizeinfo.cpp \
-           ../common/pagesizeinfo.cpp \
-           ../common/builtinSqlFunctions.cpp \
-           ../common/builtinformatfunctions.cpp \
            dmatrixsquareconfig.cpp \
            dmatrixrectconfig.cpp \
            dbarcodeconfig.cpp \
            dmatrixpreview.cpp \
            patheditor.cpp
 
-RESOURCES += ../images/OpenRPTWrtembed.qrc \
-             ../images/OpenRPTCommon.qrc
+RESOURCES += ../images/OpenRPTWrtembed.qrc
 
 TRANSLATIONS    = wrtembed_fr.ts wrtembed_it.ts wrtembed_ru.ts wrtembed_es.ts wrtembed_ar.ts
 
-INCLUDEPATH += ../Dmtx_Library
+bundled_dmtx {
+  INCLUDEPATH += ../Dmtx_Library
+}
+

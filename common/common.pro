@@ -21,9 +21,11 @@
 include( ../global.pri )
 
 TEMPLATE    = lib
-CONFIG      += qt warn_on staticlib
+CONFIG      += qt warn_on
 QT          += xml sql widgets
 DEFINES     += MAKELIB
+
+TARGET = openrptcommon
 
 INCLUDEPATH = .
 

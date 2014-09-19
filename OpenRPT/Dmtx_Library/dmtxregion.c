@@ -1287,7 +1287,7 @@ FindBestSolidLine(DmtxDecode *dec, DmtxRegion *reg, int step0, int step1, int st
    char houghTest[DMTX_HOUGH_RES];
    int i;
    int step;
-   int sign;
+   int sign = 0;	// an invalid value
    int tripSteps;
    int angleBest;
    int hOffset, hOffsetBest;

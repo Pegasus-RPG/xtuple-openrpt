@@ -21,7 +21,7 @@
 include( ../../global.pri )
 
 TEMPLATE = lib
-CONFIG  += qt warn_on staticlib
+CONFIG  += qt warn_on
 DEFINES += MAKELIB
 
 DESTDIR = ../../lib
@@ -29,7 +29,8 @@ MOC_DIR = tmp
 OBJECTS_DIR = tmp
 UI_DIR = tmp
 
-LIBS += -L../../lib -lDmtx_Library
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += $$LIBDMTX -lopenrptcommon -lMetaSQL
 
 HEADERS = openreports.h \
           barcodes.h \
@@ -49,10 +50,8 @@ HEADERS = openreports.h \
           zebraprintengine.h \
           reportprinter.h \
           textelementsplitter.h \
-          ../../MetaSQL/metasql.h \
-          ../../MetaSQL/metasqlqueryparser.h \
           ../common/builtinformatfunctions.h \
-          ../common/builtinSqlFunctions.h \			# MANU
+          ../common/builtinSqlFunctions.h \
           ../common/labelsizeinfo.h \
           ../common/pagesizeinfo.h 
 SOURCES = openreports.cpp \
@@ -76,11 +75,8 @@ SOURCES = openreports.cpp \
           zebraprintengine.cpp \
           reportprinter.cpp \
           textelementsplitter.cpp \
-          ../../MetaSQL/metasql.cpp \
-          ../../MetaSQL/metasqlqueryparser.cpp \
-          ../../MetaSQL/regex/regex.c \
           ../common/builtinformatfunctions.cpp \
-          ../common/builtinSqlFunctions.cpp \		# MANU
+          ../common/builtinSqlFunctions.cpp \
           ../common/labelsizeinfo.cpp \
           ../common/pagesizeinfo.cpp \ 
           datamatrix.cpp
@@ -92,4 +88,6 @@ QT += xml sql gui network printsupport
 
 TRANSLATIONS    = renderer_fr.ts renderer_it.ts renderer_ru.ts renderer_es.ts renderer_ar.ts
 
-INCLUDEPATH += ../Dmtx_Library
+bundled_dmtx {
+  INCLUDEPATH += ../Dmtx_Library
+}

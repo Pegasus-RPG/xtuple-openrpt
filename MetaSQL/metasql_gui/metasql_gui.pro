@@ -33,18 +33,17 @@ UI_DIR = tmp
 MOC_DIR = tmp
 OBJECTS_DIR = tmp
 
-LIBS += -L../../lib -lMetaSQL -lcommon
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += -lMetaSQL -lopenrptcommon
 
 # Input
 
 SOURCES += main.cpp
 
-RESOURCES += ../../OpenRPT/images/OpenRPTMetaSQL.qrc \
-
 win32-msvc* {
-  PRE_TARGETDEPS += ../../lib/MetaSQL.lib \
-                    ../../lib/common.lib
+  PRE_TARGETDEPS += ../../lib/MetaSQL.$${LIBEXT}
+  PRE_TARGETDEPS += ../../lib/openrptcommon.$${LIBEXT}
 } else {
-  PRE_TARGETDEPS += ../../lib/libMetaSQL.a \
-                    ../../lib/libcommon.a
+  PRE_TARGETDEPS += ../../lib/libMetaSQL.$${LIBEXT}
+  PRE_TARGETDEPS += ../../lib/libopenrptcommon.$${LIBEXT}
 }

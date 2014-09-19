@@ -31,14 +31,15 @@ OBJECTS_DIR = tmp
 MOC_DIR     = tmp
 UI_DIR      = tmp
 
-LIBS += -L../../lib -lrenderer -lcommon -lDmtx_Library
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += -lrenderer -lopenrptcommon $$LIBDMTX -lMetaSQL
 
 win32-msvc* {
-  PRE_TARGETDEPS += ../../lib/common.lib   \
-                    ../../lib/renderer.lib
+  PRE_TARGETDEPS += ../../lib/renderer.$${LIBEXT} \
+                    ../../lib/openrptcommon.$${LIBEXT}
 } else {
-  PRE_TARGETDEPS += ../../lib/libcommon.a   \
-                    ../../lib/librenderer.a
+  PRE_TARGETDEPS += ../../lib/librenderer.$${LIBEXT} \
+                    ../../lib/libopenrptcommon.$${LIBEXT}
 }
 
 DESTDIR = ../../bin
@@ -50,12 +51,10 @@ macx:RC_FILE = ../images/OpenRPT.icns
 FORMS   += renderwindow.ui \
            ../wrtembed/dbfiledialog.ui
 
-HEADERS += ../common/builtinSqlFunctions.h \
-           ../wrtembed/dbfiledialog.h \
+HEADERS += ../wrtembed/dbfiledialog.h \
            renderwindow.h
 
-SOURCES += ../common/builtinSqlFunctions.cpp \
-           ../wrtembed/dbfiledialog.cpp \
+SOURCES += ../wrtembed/dbfiledialog.cpp \
            renderwindow.cpp \
            main.cpp
 

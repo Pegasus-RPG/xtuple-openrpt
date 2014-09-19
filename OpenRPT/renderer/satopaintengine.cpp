@@ -155,6 +155,7 @@ void 	SatoPaintEngine::addEndMessage ()
 
 void SatoPaintEngine::drawText ( const QPointF &p, const QString & text, const QFont &font )
 {
+  Q_UNUSED(p);
   QTransform transform = painter()->worldTransform();
 
   int xInDots = (int)(transform.dx());
@@ -221,7 +222,7 @@ void SatoPaintEngine::drawBarcode ( const QPointF & p, const QString &format, in
   else if(format.contains("datamatrix"))
   {
     DmtxInfos dmtxInfos = extractInfosDtmx(format);
-    int eltSize = qRound (qBound(2.0, (qreal)height / (qreal)dmtxInfos.ySize, 20.0));
+    int eltSize = qRound (qBound((qreal)2.0, (qreal)height / (qreal)dmtxInfos.ySize, (qreal)20.0));
     barcodeFont = QString("BX0620%1%2%3%4")
         .arg(eltSize,2,10,QLatin1Char('0'))
         .arg(eltSize,2,10,QLatin1Char('0'))
@@ -248,6 +249,8 @@ void SatoPaintEngine::drawBarcode ( const QPointF & p, const QString &format, in
 
 void SatoPaintEngine::drawImage ( const QRectF & rectangle, const QImage & image, const QRectF & sr, Qt::ImageConversionFlags flags )
 {
+  Q_UNUSED(sr);
+  Q_UNUSED(flags);
   QTransform transform = painter()->worldTransform();
   int xInDots = (int)(rectangle.left() + transform.dx());
   int yInDots = (int)(rectangle.top() + transform.dy());

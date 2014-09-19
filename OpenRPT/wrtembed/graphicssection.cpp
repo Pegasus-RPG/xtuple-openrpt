@@ -51,7 +51,7 @@ void ORSectionHandle::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
     }
   }
 
-  setPos(pos().x(), qMax(mapToParent(mapFromScene(scenePos)).y(), 0.0));
+  setPos(pos().x(), qMax(mapToParent(mapFromScene(scenePos)).y(), (qreal)0.0));
 }
 
 void ORSectionHandle::mousePressEvent(QGraphicsSceneMouseEvent * /*event*/)
@@ -67,8 +67,8 @@ void ORSectionHandle::mouseReleaseEvent(QGraphicsSceneMouseEvent * /*event*/)
   // When the mouse is released we want to resize our parent to have
   // a new height according to the position we ended up at
   ORGraphicsSectionItem * sec = static_cast<ORGraphicsSectionItem*>(parentItem());
-  bool changed = (sec->rect().height() != qMax(pos().y(), 0.0));
-  sec->setRect(0, 0, sec->rect().width(), qMax(pos().y(), 0.0));
+  bool changed = (sec->rect().height() != qMax(pos().y(), (qreal)0.0));
+  sec->setRect(0, 0, sec->rect().width(), qMax(pos().y(), (qreal)0.0));
   DocumentScene * ds = static_cast<DocumentScene*>(sec->scene());
   if(ds)
   {

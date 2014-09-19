@@ -32,30 +32,28 @@ UI_DIR      = tmp
 OBJECTS_DIR = tmp
 
 INCLUDEPATH += ../../common ../common ../images
-LIBS += -L../../lib -lwrtembed -lcommon -lrenderer -lDmtx_Library
+QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
+LIBS += -lwrtembed -lopenrptcommon -lrenderer $$LIBDMTX -lMetaSQL
 
 win32-msvc* {
-  PRE_TARGETDEPS += ../../lib/wrtembed.lib \
-                    ../../lib/common.lib   \
-                    ../../lib/renderer.lib
+  PRE_TARGETDEPS += ../../lib/wrtembed.$${LIBEXT}       \
+                    ../../lib/openrptcommon.$${LIBEXT}  \
+                    ../../lib/renderer.$${LIBEXT}
 } else {
-  PRE_TARGETDEPS += ../../lib/libwrtembed.a \
-                    ../../lib/libcommon.a   \
-                    ../../lib/librenderer.a
+  PRE_TARGETDEPS += ../../lib/libwrtembed.$${LIBEXT}            \
+                    ../../lib/libopenrptcommon.$${LIBEXT}       \
+                    ../../lib/librenderer.$${LIBEXT}
 }
 
 RC_FILE = writer.rc
 macx:RC_FILE = ../images/OpenRPT.icns
 
 HEADERS += reportwriterwindow.h \
-           ../common/builtinSqlFunctions.h	# MANU
 
 SOURCES += rptwrt.cpp\
-           ../common/builtinSqlFunctions.cpp \	# MANU
            reportwriterwindow.cpp
 
 QT += xml sql network widgets printsupport
-#QT += qt3support
 
 RESOURCES += writer.qrc
 

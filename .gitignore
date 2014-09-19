@@ -13,7 +13,10 @@
 *.a
 *.pro.user*
 *.pdf
+.*.swp
+.qmake.stash
 bin
 macx.pri
 unix.pri
 win32.pri
+lib/
