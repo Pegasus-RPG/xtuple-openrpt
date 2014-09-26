@@ -25,11 +25,19 @@
 #
 
 CONFIG += release dll
+# TEMPORARY HACK
+win32 {
+  CONFIG -= dll
+  CONFIG += staticlib
+}
 
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
 
 LIBEXT = $${QMAKE_EXTENSION_SHLIB}
-isEmpty( LIBEXT ) { LIBEXT = so }
+isEmpty( LIBEXT ) {
+  win32:LIBEXT = a
+  unix:LIBEXT  = so
+}
 
 LIBDMTX = -ldmtx
 
