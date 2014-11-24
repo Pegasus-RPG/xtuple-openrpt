@@ -19,9 +19,11 @@
  */
 
 #include <QApplication>
-#include <QSqlDatabase>
-#include <QMessageBox>
+#include <QDebug>
 #include <QFile>
+#include <QMessageBox>
+#include <QSqlDatabase>
+#include <QSqlError>
 #include <QTextStream>
 #include <xsqlquery.h>
 
@@ -38,13 +40,55 @@
 
 typedef QPair<bool, QVariant> ParamPair;
 
+void usage()
+{
+  QStringList m;
+  m << "rptrender -help"
+    << ""
+    << "rptrender [options]"
+    << "-databaseURL=drv://host:port/dbname"
+    << "             log in to database dbname on the given host and port"
+    << "             using the Qt driver drv"
+    << "-d dbname    log in to database dbname"
+    << "-h addr      look for the database server on host addr"
+    << "-p #         look for the database server on port #"
+    <<  "-P drv       use the Qt database driver drv"
+    <<  "-U x         log in as user x"
+    <<  "-username=x  log in as user x"
+    <<  "-passwd=w    log in with password w"
+    <<  "-noauth      try to run without a password (ignored)"
+    <<  "-numCopies=# produce # copies of the report"
+    <<  "-print"
+    <<  "-printpreview "
+    <<  "-close       close the program when finished generating the report"
+    <<  "-printerName= the name of the system printer to use"
+    <<  "-param=      pass a MetaSQL parameter"
+    <<  "             general format is name=value:type"
+    <<  "             if name starts with '-' then the parameter is inactive"
+    <<  "-pdf         generate PDF output"
+    <<  "-outpdf=     output filename for PDF output files"
+    <<  "-loadfromdb= name the report to load from the database"
+    <<  "-e           replace <? value('x') ?> with 'Missing' for unpassed parameters"
+    <<  "-autoprint   automatically open the printer dialog"
+    <<  "-fromStdin=codec read and parse arguments from the standard input instead"
+    <<  "         of the command line, using the named codec, one argument per line."
+    <<  "         Stop reading when the line starts with -launch"
+    ;
+  qDebug() << m.join("\n");
+}
+
 int main(int argc, char *argv[])
 {
   QMap<QString,ParamPair> paramList;
-  QString username  = "";
+  QString username = "";
   QString filename;
   QString printerName;
-  bool    haveUsername    = false;
+  QString hostName;
+  QString dbName;
+  QString port;
+  QString protocol("QPSQL");
+  QSqlDatabase db;
+
   bool    haveDatabaseURL = false;
   bool    loggedIn        = false;
   bool    print           = false;
@@ -52,11 +96,8 @@ int main(int argc, char *argv[])
   bool    close           = false;
   bool    autoPrint       = false;                      //AUTOPRINT
   int     numCopies       = 1;
-  // BVI::Sednacom
-  // new options
   bool    pdfOutput = false;
   QString pdfFileName;
-  // BVI::Sednacom
 
   QString databaseURL = "";
   QString loadFromDB = "";
@@ -72,9 +113,7 @@ int main(int argc, char *argv[])
 
   if (argc > 1)
   {
-    haveUsername        = false;
-    bool    havePasswd          = false;
-    QString passwd              = "";
+    QString passwd;
 
     QStringList arguments;
     QString firstArgument = QString( argv[ 1 ] );
@@ -100,24 +139,51 @@ int main(int argc, char *argv[])
     for ( QStringList::Iterator it = arguments.begin(); it != arguments.end(); ++it ) {
       QString argument( *it );
 
-      if (argument.startsWith("-databaseURL=", Qt::CaseInsensitive)) {
+      if (argument.startsWith("-help") || argument.startsWith("--help"))
+      {
+        usage();
+        QApplication::exit(0);
+      }
+      else if (argument.startsWith("-databaseURL=", Qt::CaseInsensitive)) {
         haveDatabaseURL = true;
-        databaseURL    = argument.right(argument.length() - 13);
+        databaseURL     = argument.right(argument.length() - 13);
+      }
+      else if (argument == "-d")
+      {
+        it++;
+        dbName = QString(*it);
+      }
+      else if (argument == "-h")
+      {
+        it++;
+        hostName = QString(*it);
+      }
+      else if (argument == "-p")
+      {
+        it++;
+        port = QString(*it);
+      }
+      else if (argument == "-P")
+      {
+        it++;
+        protocol = normalizeProtocol(QString(*it));
+      }
+      else if (argument == "-U")
+      {
+        it++;
+        username = QString(*it);
       }
       else if (argument.startsWith("-username=", Qt::CaseInsensitive))
       {
-        haveUsername = true;
-        username     = argument.right(argument.length() - 10);
+        username = argument.right(argument.length() - 10);
       }
       else if (argument.startsWith("-passwd=", Qt::CaseInsensitive))
       {
-        havePasswd = true;
-        passwd     = argument.right(argument.length() - 8);
+        passwd = argument.right(argument.length() - 8);
       }
       else if (argument.toLower() == "-noauth")
       {
-        haveUsername = true;
-        havePasswd   = true;
+        ; // havePasswd   = true;
       }
       else if (argument.startsWith("-numCopies=", Qt::CaseInsensitive)){
         numCopies = argument.right( argument.length() - 11).toInt();
@@ -164,54 +230,60 @@ int main(int argc, char *argv[])
           var = XVariant::decode(type, value);
         paramList[name] = ParamPair(active, var);
       }
-      // BVI::Sednacom
-      // manage new arguments for CLI
       else if (argument.startsWith("-pdf", Qt::CaseInsensitive)) {
         pdfOutput = true ;
       }
       else if (argument.startsWith("-outpdf=", Qt::CaseInsensitive)) {
         pdfFileName = argument.right(argument.length() - 8 ) ;
       }
-      // BVI::Sednacom
       else if (argument.startsWith("-loadfromdb=", Qt::CaseInsensitive))
         loadFromDB = argument.right(argument.length() - 12);
       else if (argument.toLower() == "-e")
         XSqlQuery::setNameErrorValue("Missing");
-      else if (argument.toLower() == "-autoprint"){            //AUTOPRINT
-          print=true;                                          //Auto print means they want to print.
-          autoPrint=true;
+      else if (argument.toLower() == "-autoprint")
+      {
+        print=true;
+        autoPrint=true;
       }
-      else if(!argument.startsWith("-"))
+      else if (argument == "-launch")
+        ; // ignore
+      else if (argument.startsWith("-"))
+        qDebug() << "Ignoring unknown argument" << argument;
+      else
         filename = argument;
     }
 
-    if ( (haveDatabaseURL) && (haveUsername) && (havePasswd) )
+    if (haveDatabaseURL)
     {
-      QSqlDatabase db;
-      QString      protocol;
-      QString      hostName;
-      QString      dbName;
-      QString      port;
-
       db = databaseFromURL( databaseURL );
       if (!db.isValid())
       {
         QMessageBox::critical(0, QObject::tr("Can not load database driver"), QObject::tr("Unable to load the database driver. Please contact your systems administrator."));
         QApplication::exit(-1);
       }
-
-      db.setUserName(username);
-      db.setPassword(passwd);
-
-      if (!db.open())
-      {
-        QMessageBox::critical(0, QObject::tr("Unable to connect to database"), QObject::tr("Unable to connect to the database with the given information."));
-        QApplication::exit(-1);
-      }
-      else
-        loggedIn = true;
+    }
+    else
+    {
+      db = QSqlDatabase::addDatabase(protocol);
+      db.setHostName(hostName);
+      if (! port.isEmpty())
+        db.setPort(port.toInt());
+      if (! dbName.isEmpty())
+          db.setDatabaseName(dbName);
     }
 
+    db.setUserName(username);
+    if (! passwd.isNull())
+      db.setPassword(passwd);
+
+    loggedIn = db.open();
+
+    if (! loggedIn && haveDatabaseURL)
+    {
+      QMessageBox::critical(0, QObject::tr("Unable to connect to database"),
+                            db.lastError().databaseText());
+      QApplication::exit(-1);
+    }
   }
 
   if(!loggedIn)
@@ -222,7 +294,7 @@ int main(int argc, char *argv[])
     params.append("version",   OpenRPT::version);
     params.append("build",     OpenRPT::build);
 
-    if (haveUsername)
+    if (! username.isEmpty())
       params.append("username", username);
 
     if (haveDatabaseURL)

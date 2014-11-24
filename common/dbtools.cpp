@@ -54,6 +54,33 @@ void buildDatabaseURL(QString &pTarget, const QString & pProtocol, const QString
   pTarget = pProtocol + "://" + pServer + ":" + pPort + "/" + pDatabase;
 }
 
+QString normalizeProtocol(QString protocol)
+{
+  QString result;
+  if( "odbc" == protocol )
+    result = "QODBC";
+  else if ( "pgsql" == protocol || "psql" == protocol )
+    result = "QPSQL";
+  else if ( "db2" == protocol )
+    result = "QDB2";
+  else if ( "ibase" == protocol )
+    result = "QIBASE";
+  else if ( "mysql" == protocol )
+    result = "QMYSQL";
+  else if ( "oracle" == protocol )
+    result = "QOCI";
+  else if ( "sqlite" == protocol )
+    result = "QSQLITE";
+  else if ( "sqlite2" == protocol )
+    result = "QSQLITE2";
+  else if ( "sybase" == protocol )
+    result = "QTDS";
+  else
+    result = protocol.toUpper(); // third-party or custom qt SQL drivers
+
+  return result;
+}
+
 QSqlDatabase databaseFromURL( const QString& databaseURL )
 {
   QString protocol;
@@ -61,29 +88,8 @@ QSqlDatabase databaseFromURL( const QString& databaseURL )
   QString dbName;
   QString port;
 
-
   parseDatabaseURL( databaseURL, protocol, hostName, dbName, port );
-  QSqlDatabase db;
-  if( "odbc" == protocol )
-    db = QSqlDatabase::addDatabase("QODBC");
-  else if ( "pgsql" == protocol || "psql" == protocol )
-    db = QSqlDatabase::addDatabase("QPSQL");
-  else if ( "db2" == protocol )
-    db = QSqlDatabase::addDatabase("QDB2");
-  else if ( "ibase" == protocol )
-    db = QSqlDatabase::addDatabase("QIBASE");
-  else if ( "mysql" == protocol )
-    db = QSqlDatabase::addDatabase("QMYSQL");
-  else if ( "oracle" == protocol )
-    db = QSqlDatabase::addDatabase("QOCI");
-  else if ( "sqlite" == protocol )
-    db = QSqlDatabase::addDatabase("QSQLITE");
-  else if ( "sqlite2" == protocol )
-    db = QSqlDatabase::addDatabase("QSQLITE2");
-  else if ( "sybase" == protocol )
-    db = QSqlDatabase::addDatabase("QTDS");
-  else
-    db = QSqlDatabase::addDatabase( protocol.toUpper() ); // third-party or custom qt SQL drivers
+  QSqlDatabase db = QSqlDatabase::addDatabase(normalizeProtocol(protocol));
   if ( db.isValid() )
   {
     db.setDatabaseName(dbName);
