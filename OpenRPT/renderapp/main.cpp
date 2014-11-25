@@ -267,11 +267,6 @@ int main(int argc, char *argv[])
     if (haveDatabaseURL)
     {
       db = databaseFromURL( databaseURL );
-      if (!db.isValid())
-      {
-        QMessageBox::critical(0, QObject::tr("Can not load database driver"), QObject::tr("Unable to load the database driver. Please contact your systems administrator."));
-        QApplication::exit(-1);
-      }
     }
     else
     {
@@ -289,11 +284,17 @@ int main(int argc, char *argv[])
 
     loggedIn = db.open();
 
-    if (! loggedIn && haveDatabaseURL)
+    if (! loggedIn)
     {
-      QMessageBox::critical(0, QObject::tr("Unable to connect to database"),
-                            db.lastError().databaseText());
-      QApplication::exit(-1);
+      if (close)
+      {
+        QTextStream(stderr) << db.lastError().databaseText();
+        QApplication::exit(-1);
+        return -1;
+      }
+      else
+        QMessageBox::critical(0, QObject::tr("Unable to connect to database"),
+                              db.lastError().databaseText());
     }
   }
 
