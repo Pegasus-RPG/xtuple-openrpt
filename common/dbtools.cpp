@@ -56,29 +56,22 @@ void buildDatabaseURL(QString &pTarget, const QString & pProtocol, const QString
 
 QString normalizeProtocol(QString protocol)
 {
-  QString result;
-  if( "odbc" == protocol )
-    result = "QODBC";
-  else if ( "pgsql" == protocol || "psql" == protocol )
-    result = "QPSQL";
-  else if ( "db2" == protocol )
-    result = "QDB2";
-  else if ( "ibase" == protocol )
-    result = "QIBASE";
-  else if ( "mysql" == protocol )
-    result = "QMYSQL";
-  else if ( "oracle" == protocol )
-    result = "QOCI";
-  else if ( "sqlite" == protocol )
-    result = "QSQLITE";
-  else if ( "sqlite2" == protocol )
-    result = "QSQLITE2";
-  else if ( "sybase" == protocol )
-    result = "QTDS";
-  else
-    result = protocol.toUpper(); // third-party or custom qt SQL drivers
+  static QHash<QString, QString> map;
+  if (map.isEmpty()) {
+    map["db2"]     = "QDB2";
+    map["ibase"]   = "QIBASE";
+    map["mysql"]   = "QMYSQL";
+    map["odbc"]    = "QODBC";
+    map["oracle"]  = "QOCI";
+    map["pgsql"]   = "QPSQL";
+    map["psql"]    = "QPSQL";
+    map["sqlite"]  = "QSQLITE";
+    map["sqlite2"] = "QSQLITE2";
+    map["sybase"]  = "QTDS";
+  }
 
-  return result;
+  return map.contains(protocol) ? map.value(protocol)
+                                : protocol.toUpper();
 }
 
 QSqlDatabase databaseFromURL( const QString& databaseURL )

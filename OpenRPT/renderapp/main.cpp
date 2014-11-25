@@ -40,41 +40,51 @@
 
 typedef QPair<bool, QVariant> ParamPair;
 
-void usage()
+// TODO: move db-related usage & args processing and db.open() to common dir?
+QStringList usage()
 {
   QStringList m;
-  m << "rptrender -help"
+  m << QObject::tr("rptrender [options]")
     << ""
-    << "rptrender [options]"
-    << "-databaseURL=drv://host:port/dbname"
-    << "             log in to database dbname on the given host and port"
-    << "             using the Qt driver drv"
-    << "-d dbname    log in to database dbname"
-    << "-h addr      look for the database server on host addr"
-    << "-p #         look for the database server on port #"
-    <<  "-P drv       use the Qt database driver drv"
-    <<  "-U x         log in as user x"
-    <<  "-username=x  log in as user x"
-    <<  "-passwd=w    log in with password w"
-    <<  "-noauth      try to run without a password (ignored)"
-    <<  "-numCopies=# produce # copies of the report"
-    <<  "-print"
-    <<  "-printpreview "
-    <<  "-close       close the program when finished generating the report"
-    <<  "-printerName= the name of the system printer to use"
-    <<  "-param=      pass a MetaSQL parameter"
-    <<  "             general format is name=value:type"
-    <<  "             if name starts with '-' then the parameter is inactive"
-    <<  "-pdf         generate PDF output"
-    <<  "-outpdf=     output filename for PDF output files"
-    <<  "-loadfromdb= name the report to load from the database"
-    <<  "-e           replace <? value('x') ?> with 'Missing' for unpassed parameters"
-    <<  "-autoprint   automatically open the printer dialog"
-    <<  "-fromStdin=codec read and parse arguments from the standard input instead"
-    <<  "         of the command line, using the named codec, one argument per line."
-    <<  "         Stop reading when the line starts with -launch"
+    << QObject::tr("-help        display usage information")
+    << QObject::tr("--help       display usage information")
+    << ""
+    << QObject::tr("-databaseURL=drv://host:port/dbname")
+    << QObject::tr("                log in to database dbname on the given host and port")
+    << QObject::tr("                using the Qt database driver drv")
+    << QObject::tr("-d dbname       log in to database dbname")
+    << QObject::tr("-h addr         look for the database server on host addr")
+    << QObject::tr("-p #            look for the database server on port #")
+    << QObject::tr("-P drv          use the Qt database driver drv")
+    << QObject::tr("-U x            log in as user x")
+    << QObject::tr("-username=x     log in as user x")
+    << QObject::tr("-passwd=w       log in with password w")
+    << QObject::tr("-noauth         (deprecated & ignored)")
+    << ""
+    << QObject::tr("-numCopies=#    produce # copies of the report")
+    << QObject::tr("-printpreview   preview the report with an option to print")
+    << QObject::tr("-print          print the report, prompting for the printer to use")
+    << QObject::tr("-autoprint      print to the default printer")
+    << QObject::tr("-printerName=P  send output to the system printer P")
+    << QObject::tr("-pdf            generate PDF output")
+    << QObject::tr("-outpdf=FILE    send PDF output to FILE")
+    << ""
+    << QObject::tr("-loadfromdb=RPT load the named RPT from the database")
+    << ""
+    << QObject::tr("-param='[+-]name[:type][=value]'")
+    << QObject::tr("         define/set a MetaSQL parameter with optional value and type")
+    << QObject::tr("         '-' means the parameter is defined but inactive")
+    << QObject::tr("         '+' means the parameter is active (default)")
+    << QObject::tr("-e       use the value 'Missing' for undefined parameters")
+    << ""
+    << QObject::tr("-close   quit when finished generating the report")
+    << QObject::tr("-fromStdin=codec")
+    << QObject::tr("         read and parse arguments from the standard input instead of")
+    << QObject::tr("         the command line, using the named codec, one argument per line.")
+    << QObject::tr("         Stop reading when the line starts with -launch")
+    << ""
     ;
-  qDebug() << m.join("\n");
+  return m;
 }
 
 int main(int argc, char *argv[])
@@ -122,7 +132,7 @@ int main(int argc, char *argv[])
       QFile file;
       file.open(stdin, QIODevice::ReadOnly);
       QTextStream in(&file);
-      in.setCodec( firstArgument.right( firstArgument.length() - 11 ).toLatin1() ); 
+      in.setCodec( firstArgument.right( firstArgument.length() - 11 ).toLatin1() );
       QString arg;
       while( arg.compare("-launch") !=0 ){
         arg = in.readLine();
@@ -141,8 +151,9 @@ int main(int argc, char *argv[])
 
       if (argument.startsWith("-help") || argument.startsWith("--help"))
       {
-        usage();
+        QTextStream(stdout) << usage().join("\n");
         QApplication::exit(0);
+        return 0; // QApplication::exit() quits the event loop, not main()?!
       }
       else if (argument.startsWith("-databaseURL=", Qt::CaseInsensitive)) {
         haveDatabaseURL = true;
@@ -183,7 +194,7 @@ int main(int argc, char *argv[])
       }
       else if (argument.toLower() == "-noauth")
       {
-        ; // havePasswd   = true;
+        qDebug() << QObject::tr("%1 is deprecated").arg(argument);
       }
       else if (argument.startsWith("-numCopies=", Qt::CaseInsensitive)){
         numCopies = argument.right( argument.length() - 11).toInt();
@@ -408,7 +419,7 @@ int main(int argc, char *argv[])
   // BVI::Sednacom
   // generate the PDF
   if (pdfOutput)
-    mainwin.filePrintToPDF(pdfFileName);  
+    mainwin.filePrintToPDF(pdfFileName);
   // BVI::Sednacom
 
   if(close)
