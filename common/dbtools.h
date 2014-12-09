@@ -24,6 +24,7 @@
 #include <QString>
 #include <QSqlDatabase>
 
+QString normalizeProtocol(QString protocol);
 void parseDatabaseURL(const QString & /* pDatabaseURL */,
                             QString & /* pProtocol    */,
                             QString & /* pServer      */,
