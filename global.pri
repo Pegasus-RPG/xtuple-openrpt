@@ -1,6 +1,6 @@
 #
 # OpenRPT report writer and rendering engine
-# Copyright (C) 2001-2014 by OpenMFG, LLC
+# Copyright (C) 2001-2015 by OpenMFG, LLC
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -30,10 +30,16 @@ win32 {
   CONFIG -= dll
   CONFIG += staticlib
 }
+macx {
+  CONFIG -= dll
+  CONFIG += staticlib
+}
 
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
 
 LIBEXT = $${QMAKE_EXTENSION_SHLIB}
+win32-g++:LIBEXT = a
+macx:LIBEXT      = a
 isEmpty( LIBEXT ) {
   win32:LIBEXT = a
   unix:LIBEXT  = so
