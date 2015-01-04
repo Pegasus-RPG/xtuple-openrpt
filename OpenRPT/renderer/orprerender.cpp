@@ -843,6 +843,11 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
           imgdata = QUUDecode(uudata);
         }
       }
+      else
+      {
+          // decode the provided inline data
+          imgdata = QUUDecode(uudata);
+      }
 
       QImage img;
 
