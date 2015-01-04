@@ -107,6 +107,7 @@ class ORPreRenderPrivate {
     bool _subtotContextPageFooter;
 
     bool populateData(const ORDataData &, orData &);
+
     orQuery* getQuerySource(const QString &);
 
     void createNewPage();
@@ -820,15 +821,31 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
     {
       ORImageData * im = elemThis->toImage();
       QString uudata = im->inline_data;
+      QByteArray imgdata;
+
       if(uudata == QString::null)
       {
         orData dataThis;
         populateData(im->data, dataThis);
-        uudata = dataThis.getValue();
+
+        // need to determine the type of the column specified by this image
+        // if it is coming from the file table, it will be bytea/QByteArray
+        // if it is coming from the image table, it will be text/QString encoded with UUEncode
+        if (dataThis.getType() == QMetaType::QByteArray)
+        {
+          // since it is already bytes we can just set use them directly
+          imgdata = dataThis.getByteValue();
+        }
+        else
+        {
+          // uuencoded data, get the encoded string and uudecode it into bytes
+          uudata = dataThis.getValue();
+          imgdata = QUUDecode(uudata);
+        }
       }
 
       QImage img;
-      QByteArray imgdata = QUUDecode(uudata);
+
       if(imgdata.isEmpty()) {
           // not uuencoded data, so it should be a file name
           bool ok = img.load(uudata.trimmed());

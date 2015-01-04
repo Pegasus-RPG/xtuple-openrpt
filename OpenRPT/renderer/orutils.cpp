@@ -172,5 +172,24 @@ const QVariant orData::getVariant() const
 	return v;
 }
 
+const QByteArray &orData::getByteValue()
+{
+  if (_valid)
+  {
+    qbaValue = qryThis->getQuery()->value(qstrField).toByteArray();
+  }
 
+  return qbaValue;
+}
 
+const int orData::getType()
+{
+  int type;
+  if (_valid)
+  {
+      QSqlField field = qryThis->getQuery()->record().field(qstrField);
+      type = field.type();
+  }
+
+  return type;
+}

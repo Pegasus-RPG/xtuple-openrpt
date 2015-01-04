@@ -23,7 +23,8 @@
 #include <QString>
 #include <QStringList>
 #include <QSqlDatabase>
-
+#include <QSqlRecord>
+#include <QSqlField>
 #include <xsqlquery.h>
 #include <parameter.h>
 
@@ -72,6 +73,7 @@ class orData {
     orQuery *qryThis;
     QString qstrField;
     QString qstrValue;
+    QByteArray qbaValue;
     bool    _valid;
 
   public:
@@ -84,6 +86,8 @@ class orData {
 
     const QString &getValue();
 	const QVariant getVariant() const;
+    const QByteArray &getByteValue();
+    const int getType();
 };
 
 #endif // __ORUTILS_H__
