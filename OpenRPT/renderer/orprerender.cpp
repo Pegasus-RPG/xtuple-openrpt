@@ -107,6 +107,8 @@ class ORPreRenderPrivate {
     bool _subtotContextPageFooter;
 
     bool populateData(const ORDataData &, orData &);
+    bool populateData(const ORDataData &, orData &, const QString&);
+    bool populateColorData(const ORDataData&, orData&);
 
     orQuery* getQuerySource(const QString &);
 
@@ -118,8 +120,8 @@ class ORPreRenderPrivate {
     void renderDetailSection(ORDetailSectionData &);
     qreal renderSection(const ORSectionData &);
     qreal renderTextElements(QList<ORObject*> elemList, qreal sectionHeight);
-    void addTextPrimitive(ORObject *element, QPointF pos, QSizeF size, int align, QString text, QFont font = QFont());
-    QString evaluateField(ORFieldData* f);
+    void addTextPrimitive(ORObject *element, QPointF pos, QSizeF size, int align, QString text, QFont font = QFont(), QString color = QString());
+    QString evaluateField(ORFieldData* f, QString* outColorStr);
     qreal renderSectionSize(const ORSectionData &, bool = false);
 
     // Calculate the remaining space on the page after printing the footers and applying the margins
@@ -183,17 +185,31 @@ ORPreRenderPrivate::~ORPreRenderPrivate()
 
 bool ORPreRenderPrivate::populateData(const ORDataData & dataSource, orData &dataTarget)
 {
+  return populateData(dataSource, dataTarget, dataSource.column);
+}
+
+bool ORPreRenderPrivate::populateData(const ORDataData & dataSource, orData &dataTarget, const QString& column)
+{
   for(int queryCursor = 0; queryCursor < _lstQueries.count(); queryCursor++)
   {
     if(_lstQueries.at(queryCursor)->getName() == dataSource.query)
     {
       dataTarget.setQuery(_lstQueries.at(queryCursor));
-      dataTarget.setField(dataSource.column);
+      dataTarget.setField(column);
       return true;
     }
   }
 
   return false;
+}
+
+// Allow for query-based color information
+bool ORPreRenderPrivate::populateColorData(const ORDataData& dataSource, orData& dataTarget)
+{
+  QString designator = "qtforegroundrole";
+  QString column = dataSource.column + "_" + designator;
+
+  return populateData(dataSource, dataTarget, column);
 }
 
 orQuery* ORPreRenderPrivate::getQuerySource(const QString & qstrQueryName)
@@ -754,10 +770,14 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
           if (!xqry)
             break;
 
-		  if (xqry->isValid() || (nbOfCol == 1 && nbOfLines == 1))
-			addTextPrimitive(elemThis, QPointF(x, y), size, f->align, evaluateField(elemThis->toField()), f->font);
-		  else 
-			break;
+          if (xqry->isValid() || (nbOfCol == 1 && nbOfLines == 1))
+          {
+            QString colorStr = QString::null;
+            QString text = evaluateField(elemThis->toField(), &colorStr);
+            addTextPrimitive(elemThis, QPointF(x, y), size, f->align, text, f->font, colorStr);
+          }
+          else 
+            break;
 
           if(nbOfCol > 1 || nbOfLines > 1 || triggerPageBreak) {
             hasNext = xqry->next();
@@ -1118,7 +1138,7 @@ qreal ORPreRenderPrivate::renderTextElements(QList<ORObject*> elemList, qreal se
     return sectionHeight;
 }
 
-void ORPreRenderPrivate::addTextPrimitive(ORObject *element, QPointF pos, QSizeF size, int align, QString text, QFont font)
+void ORPreRenderPrivate::addTextPrimitive(ORObject *element, QPointF pos, QSizeF size, int align, QString text, QFont font, QString colorStr)
 {
   OROTextBox * tb = new OROTextBox(element);
   tb->setPosition(pos);
@@ -1127,6 +1147,12 @@ void ORPreRenderPrivate::addTextPrimitive(ORObject *element, QPointF pos, QSizeF
   tb->setText(text);
   tb->setFlags(align);
   tb->setRotation(element->rotation());
+
+  if (colorStr.length() > 0)
+  {
+    tb->setPen(QPen(QColor(colorStr)));
+  }
+
   _page->addPrimitive(tb);
 
   if(text == "page_count") {
@@ -1135,7 +1161,7 @@ void ORPreRenderPrivate::addTextPrimitive(ORObject *element, QPointF pos, QSizeF
 }
 
 
-QString ORPreRenderPrivate::evaluateField(ORFieldData* f)
+QString ORPreRenderPrivate::evaluateField(ORFieldData* f, QString* outColorStr)
 {
     orData       dataThis;
 
@@ -1173,6 +1199,12 @@ QString ORPreRenderPrivate::evaluateField(ORFieldData* f)
             QVariant v = dataThis.getVariant();
             d_val = v.toDouble(&isFloat);
         }
+    }
+
+    // Field coloring as a result of data.
+    if (populateColorData(f->data, dataThis))
+    {
+      *outColorStr = dataThis.getValue();
     }
 
     // formatting

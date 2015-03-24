@@ -33,7 +33,7 @@ OBJECTS_DIR = tmp
 
 INCLUDEPATH += ../../common ../common ../images
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += -lwrtembed -lopenrptcommon -lrenderer $$LIBDMTX -lMetaSQL
+LIBS += -lwrtembed -lopenrptcommon -lrenderer -ldmtx -lMetaSQL
 
 win32-msvc* {
   PRE_TARGETDEPS += ../../lib/wrtembed.$${LIBEXT}       \
