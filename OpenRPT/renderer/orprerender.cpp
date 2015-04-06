@@ -853,8 +853,18 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
         // if it is coming from the image table, it will be text/QString encoded with UUEncode
         if (dataThis.getType() == QMetaType::QByteArray)
         {
-          // since it is already bytes we can just set use them directly
-          imgdata = dataThis.getByteValue();
+          QByteArray bytes = dataThis.getByteValue();
+          // its a byte array, first check that someone didn't stick uuencoded bytes in there
+          if (bytes.startsWith("begin"))
+          {
+            uudata = QString::fromLatin1(bytes.constData());
+            imgdata = QUUDecode(uudata);
+          }
+          else
+          {
+            // since it is already bytes we can just set use them directly
+            imgdata = bytes;
+          }
         }
         else
         {
@@ -865,8 +875,8 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
       }
       else
       {
-          // decode the provided inline data
-          imgdata = QUUDecode(uudata);
+        // decode the provided inline data
+        imgdata = QUUDecode(uudata);
       }
 
       QImage img;
