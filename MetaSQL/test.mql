@@ -10,9 +10,28 @@
  *                start: true
  *                ,test_0_1_0: 'test_0_1_0'
  *                ,test_0_1_2: ['test_0_1_2']
- *                ,test_0_1_3: ['test_0_1_3_1', 'test_0_1_3_2', 'test_0_1_3_3']
- *                ,test_0_1_4: 'true THEN true END AS test_0_1_4) AS test; SELECT current_user--'
+ *                ,test_0_1_3: ['test_0_1_3', 'test_0_1_3_2', 'test_0_1_3_3']
+ *                ,test_0_1_4: 'true THEN true END AS test_0_1_4) AS tests; SELECT current_user--'
  *                ,test_0_2_0: 'test_0_2_0'
+ *                ,test_0_2_2: ['test_0_2_2']
+ *                ,test_0_2_3: ['test_0_2_3','test_0_2_3_2', 'test_0_2_3_3']
+ *                ,test_0_2_4: '(SELECT usr_username FROM usr WHERE usr_username = 'admin')'
+ *                ,test_0_3_0: true
+ *                ,test_0_3_2: null
+ *                ,test_0_3_3: ''
+ *                ,test_0_3_4: 'true THEN true END AS test_0_3_4) AS test; SELECT current_user--'
+ *                ,test_0_4_0a: 'test_0_4_0'
+ *                ,test_0_4_2a: null
+ *                ,test_0_4_3a: ''
+ *                ,test_0_4_4a: 'true THEN true END AS test_0_4_4) AS test; SELECT current_user--'
+ *                ,test_0_5_0: ['test_0_5_0']
+ *                ,test_0_5_1: ['test_0_5_1','test_0_5_1_2', 'test_0_5_1_3']
+ *                ,test_0_5_2: 'test_0_5_2'
+ *                ,test_0_5_4: ['true THEN true END AS test_0_5_4) AS test; SELECT current_user--']
+ *                ,test_0_6_0: ['test_0_6_0']
+ *                ,test_0_6_1: ['test_0_6_1','test_0_6_1_2', 'test_0_6_1_3']
+ *                ,test_0_6_2: 'test_0_6_2'
+ *                ,test_0_6_4: ['true THEN true END AS test_0_6_4) AS test; SELECT current_user--']
  *                ,bar: ['T','O','D','O']
  *                ,baz: 1234
  *                ,end: true
@@ -42,6 +61,10 @@
  * - Addresses expected logic function within the above functions calls such as
  *   what the expected outcome is when certain conditions exists or parameters
  *   are passed.
+ *
+ * All tests have a column that corresponds to the test name. e.g. Test "0.1.3"
+ * has a column named "valid_0_1_3". Each column's value should be true if the
+ * tests pass. Any column with a value of false means that test failed.
  */
 SELECT
   thestart
@@ -51,6 +74,35 @@ SELECT
   ,test_0_1_3 AS valid_0_1_3
   ,test_0_1_4 AS valid_0_1_4
   ,CASE WHEN test_0_2_0 = 'test_0_2_0' THEN true ELSE false END AS valid_0_2_0
+  ,CASE WHEN test_0_2_1 = '''test_0_2_1''' THEN true ELSE false END AS valid_0_2_1
+  ,CASE WHEN test_0_2_2 = 'test_0_2_2' THEN true ELSE false END AS valid_0_2_2
+  ,CASE WHEN test_0_2_3 = 'test_0_2_3' THEN true ELSE false END AS valid_0_2_3
+  -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
+  ,CASE WHEN test_0_2_4 = 'test_0_2_4' THEN true ELSE false END AS "TODO_0_2_4"
+  ,test_0_3_0 AS valid_0_3_0
+  ,CASE WHEN test_0_3_1 THEN false ELSE true END AS valid_0_3_1
+  ,test_0_3_2 AS valid_0_3_2
+  ,test_0_3_3 AS valid_0_3_3
+  ,test_0_3_4 AS valid_0_3_4
+  ,test_0_4_0 AS valid_0_4_0
+  ,CASE WHEN test_0_4_1 = '''test_0_4_1''' THEN true ELSE false END AS valid_0_4_1
+  ,test_0_4_2 AS valid_0_4_2
+  ,test_0_4_3 AS valid_0_4_3
+  ,test_0_4_4 AS valid_0_4_4
+  ,test_0_5_0 AS valid_0_5_0
+  ,test_0_5_1 AS valid_0_5_1
+  ,test_0_5_2 AS valid_0_5_2
+  ,test_0_5_3 AS valid_0_5_3
+  ,test_0_5_4 AS valid_0_5_4
+  ,test_0_6_0 AS valid_0_6_0
+  ,CASE WHEN test_0_6_1 THEN false ELSE true END AS valid_0_6_1
+  ,CASE WHEN test_0_6_2 THEN false ELSE true END AS test_0_6_2
+  ,CASE WHEN test_0_6_3 THEN false ELSE true END AS valid_0_6_3
+  ,test_0_6_4 AS valid_0_6_4
+  ,CASE WHEN test_0_7_0 = '''test_0_7_0''' THEN true ELSE false END AS valid_0_7_0
+  ,CASE WHEN test_0_7_1 = '''test_0_7_1''' THEN true ELSE false END AS valid_0_7_1
+  ,CASE WHEN test_0_8_0 = '''test_0_8_0''' THEN true ELSE false END AS valid_0_8_0
+  ,CASE WHEN test_0_8_1 = '''test_0_8_1''' THEN true ELSE false END AS valid_0_8_1
   ,theend
 FROM (
   SELECT
@@ -71,7 +123,7 @@ FROM (
 
     -- Test 0.1.3 - value with a list of more than one item.
     -- Expected: first list item value
-    ,CASE WHEN <? value("test_0_1_3") ?> = 'test_0_1_3_1' THEN true ELSE false END AS test_0_1_3
+    ,CASE WHEN <? value("test_0_1_3") ?> = 'test_0_1_3' THEN true ELSE false END AS test_0_1_3
 
     -- Test 0.1.4 - value SQL injection is quoted.
     -- Expected: quoted value
@@ -81,93 +133,119 @@ FROM (
     -- Expected: parameter literal
     ,'test_0_2_0'::text AS <? literal("test_0_2_0") ?>
 
--- Test 0.2.1 - literal with a parameter that does not exist.
--- Expected: NULL
+    -- Test 0.2.1 - literal with a parameter that does not exist.
+    -- Expected: literal returns nothing and will not break this
+    ,quote_literal('test_0_2_1'::text || ''<? literal("not_exist") ?>) AS test_0_2_1
 
--- Test 0.2.2 - literal with a list of one item.
--- Expected: first list item literal
+    -- Test 0.2.2 - literal with a list of one item.
+    -- Expected: first list item literal
+    ,'test_0_2_2'::text AS <? literal("test_0_2_2") ?>
 
--- Test 0.2.3 - literal with a list of more than one item.
--- Expected: first list item literal
+    -- Test 0.2.3 - literal with a list of more than one item.
+    -- Expected: first list item literal
+    ,'test_0_2_3'::text AS <? literal("test_0_2_3") ?>
 
--- Test 0.2.4 - literal SQL injection.
--- Expected: fails
+    -- Test 0.2.4 - literal SQL injection.
+    -- Expected: fails
+    -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
+    ,quote_literal('test_0_2_4'::text || <? literal("test_0_2_4") ?>) AS test_0_2_4
 
--- Test 0.3.0 - exists with a parameter does exist.
--- Expected: TRUE
+    -- Test 0.3.0 - exists with a parameter does exist.
+    -- Expected: TRUE
+    ,<? exists("test_0_3_0") ?> AS test_0_3_0
 
--- Test 0.3.1 - exists with a parameter does not exist.
--- Expected: FALSE
+    -- Test 0.3.1 - exists with a parameter does not exist.
+    -- Expected: FALSE
+    ,<? exists("not_exist") ?> AS test_0_3_1
 
--- Test 0.3.2 - exists with a parameter does exist, but is NULL.
--- Expected: TRUE
+    -- Test 0.3.2 - exists with a parameter does exist, but is NULL.
+    -- Expected: TRUE
+    ,<? exists("test_0_3_2") ?> AS test_0_3_2
 
--- Test 0.3.3 - exists with a parameter does exist, but is ''.
--- Expected: TRUE
+    -- Test 0.3.3 - exists with a parameter does exist, but is ''.
+    -- Expected: TRUE
+    ,<? exists("test_0_3_3") ?> AS test_0_3_3
 
--- Test 0.3.4 - exists SQL injection.
--- Expected: fails
+    -- Test 0.3.4 - exists SQL injection.
+    -- Expected: TRUE - SQLi fails
+    ,CASE WHEN <? exists("test_0_3_4") ?> THEN true ELSE false END AS test_0_3_4
 
--- Test 0.4.0 - reExists with a pattern for a parameter does exist.
--- Expected: TRUE
+    -- Test 0.4.0 - reExists with a pattern for a parameter does exist.
+    -- Expected: TRUE
+    ,<? reExists("^test_0_4_0.*") ?> AS test_0_4_0
 
--- Test 0.4.1 - reExists with a pattern for a parameter does not exist.
--- Expected: FALSE
+    -- Test 0.4.1 - reExists with a pattern for a parameter does not exist.
+    -- Expected: reExists returns nothing and will not break this
+    ,quote_literal('test_0_4_1'::text || ''<? reExists("^not_exist.*") ?>) AS test_0_4_1
 
--- Test 0.4.2 - reExists with a pattern for a parameter does exist, but is
--- NULL.
--- Expected: TRUE
+    -- Test 0.4.2 - reExists with a pattern for a parameter does exist, but is
+    -- NULL.
+    -- Expected: TRUE
+    ,<? reExists("^test_0_4_2.*") ?> AS test_0_4_2
 
--- Test 0.4.3 - reExists with a pattern for a parameter does exist, but is ''.
--- Expected: TRUE
+    -- Test 0.4.3 - reExists with a pattern for a parameter does exist, but is ''.
+    -- Expected: TRUE
+    ,<? reExists("^test_0_4_3.*") ?> AS test_0_4_3
 
--- Test 0.4.4 - reExists SQL injection.
--- Expected: fails
+    -- Test 0.4.4 - reExists SQL injection.
+    -- Expected: TRUE - SQLi fails
+    ,CASE WHEN <? reExists("^test_0_4_4.*") ?> THEN true ELSE false END AS test_0_4_4
 
--- Test 0.5.0 - isFirst with a list.
--- Expected: TRUE
+    -- Test 0.5.0 - isFirst with a list of one item.
+    -- Expected: TRUE
+    ,<? isFirst("test_0_5_0") ?> AS test_0_5_0
 
--- Test 0.5.1 - isFirst not a list, but parameter does exist.
--- Expected: TRUE
+    -- Test 0.5.1 - isFirst with a list of more than one item.
+    -- Expected: TRUE
+    ,<? isFirst("test_0_5_1") ?> AS test_0_5_1
 
--- Test 0.5.2 - isFirst with a parameter that does not exist.
--- Expected: FALSE
+    -- Test 0.5.2 - isFirst not a list, but parameter does exist.
+    -- Expected: TRUE
+    ,<? isFirst("test_0_5_2") ?> AS test_0_5_2
 
--- Test 0.5.3 - isFirst SQL injection.
--- Expected: fails
+    -- Test 0.5.3 - isFirst with a parameter that does not exist.
+    -- Expected: TRUE - because this is outside a foreach loop
+    ,<? isFirst("not_exist") ?> AS test_0_5_3
 
--- Test 0.6.0 - isLast with a list of one item.
--- Expected: TRUE
+    -- Test 0.5.4 - isFirst list of one item SQL injection.
+    -- Expected: TRUE - SQLi fails
+    ,CASE WHEN <? isFirst("test_0_5_4") ?> THEN true ELSE false END AS test_0_5_4
 
--- Test 0.6.1 - isLast with a list of mote than one item.
--- Expected: FALSE
+    -- Test 0.6.0 - isLast with a list of one item.
+    -- Expected: TRUE
+    ,<? isLast("test_0_6_0") ?> AS test_0_6_0
 
--- Test 0.6.2 - isLast not a list, but parameter does exist.
--- Expected: TRUE
+    -- Test 0.6.1 - isLast with a list of more than one item.
+    -- Expected: FALSE
+    ,<? isLast("test_0_6_1") ?> AS test_0_6_1
 
--- Test 0.6.3 - isLast with a parameter that does not exist.
--- Expected: FALSE
+    -- Test 0.6.2 - isLast not a list, but parameter does exist.
+    -- Expected: FALSE
+    ,<? isLast("test_0_6_2") ?> AS test_0_6_2
 
--- Test 0.6.4 - isLast SQL injection.
--- Expected: fails
+    -- Test 0.6.3 - isLast with a parameter that does not exist.
+    -- Expected: FALSE
+    ,<? isLast("not_exist") ?> AS test_0_6_3
 
--- Test 0.7.0 - continue.
--- Expected: does nothing
+    -- Test 0.6.4 - isLast list of one item SQL injection.
+    -- Expected: TRUE - SQLi fails
+    ,CASE WHEN <? isLast("test_0_6_4") ?> THEN true ELSE false END AS test_0_6_4
 
--- Test 0.7.1 - continue when a number is specified.
--- Expected: does nothing
+    -- Test 0.7.0 - continue.
+    -- Expected: continue does nothing and will not break this
+    ,quote_literal('test_0_7_0'::text || ''<? continue ?>) AS test_0_7_0
 
--- Test 0.7.2 - continue SQL injection.
--- Expected: fails
+    -- Test 0.7.1 - continue when a number is specified.
+    -- Expected: continue does nothing and will not break this
+    ,quote_literal('test_0_7_1'::text || ''<? continue(2) ?>) AS test_0_7_1
 
--- Test 0.8.0 - break.
--- Expected: does nothing
+    -- Test 0.8.0 - break.
+    -- Expected: break does nothing and will not break this
+    ,quote_literal('test_0_8_0'::text || ''<? break ?>) AS test_0_8_0
 
--- Test 0.8.1 - break when a number is specified.
--- Expected: does nothing
-
--- Test 0.8.2 - break SQL injection.
--- Expected: fails
+    -- Test 0.8.1 - break when a number is specified.
+    -- Expected: break does nothing and will not break this
+    ,quote_literal('test_0_8_1'::text || ''<? break(2) ?>) AS test_0_8_1
 
 -- Test 1.1.0 - basic if.
 -- Expected: if works
