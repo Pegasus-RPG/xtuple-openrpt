@@ -11,8 +11,8 @@
  *                ,test_0_1_0: 'test_0_1_0'
  *                ,test_0_1_2: ['test_0_1_2']
  *                ,test_0_1_3: ['test_0_1_3_1', 'test_0_1_3_2', 'test_0_1_3_3']
- *                ,test_0_1_4: 'true THEN true END AS "test.0.1.5") AS test; SELECT current_user--'
- *                ,test_0_2_0: 'test020'
+ *                ,test_0_1_4: 'true THEN true END AS test_0_1_4) AS test; SELECT current_user--'
+ *                ,test_0_2_0: 'test_0_2_0'
  *                ,bar: ['T','O','D','O']
  *                ,baz: 1234
  *                ,end: true
@@ -45,37 +45,37 @@
  */
 SELECT
   thestart
-  ,"test.0.1.0" AS "valid.0.1.0"
-  ,"test.0.1.1" AS "valid.0.1.1"
-  ,"test.0.1.2" AS "valid.0.1.2"
-  ,"test.0.1.3" AS "valid.0.1.3"
-  ,"test.0.1.4" AS "valid.0.1.4"
-  ,CASE WHEN test020 = 'test_0_2_0' THEN true ELSE false END AS "valid.0.2.0"
+  ,test_0_1_0 AS valid_0_1_0
+  ,test_0_1_1 AS valid_0_1_1
+  ,test_0_1_2 AS valid_0_1_2
+  ,test_0_1_3 AS valid_0_1_3
+  ,test_0_1_4 AS valid_0_1_4
+  ,CASE WHEN test_0_2_0 = 'test_0_2_0' THEN true ELSE false END AS valid_0_2_0
   ,theend
 FROM (
   SELECT
-    -- Placeholder to all columns below can start with a comma.
+    -- Placeholder so all columns below can start with a comma.
     true AS thestart
 
     -- Test 0.1.0 - value with a parameter.
     -- Expected: parameter value
-    ,CASE WHEN <? value("test_0_1_0") ?> = 'test_0_1_0' THEN true ELSE false END AS "test.0.1.0"
+    ,CASE WHEN <? value("test_0_1_0") ?> = 'test_0_1_0' THEN true ELSE false END AS test_0_1_0
 
     -- Test 0.1.1 - value with a parameter that does not exist.
     -- Expected: NULL
-    ,CASE WHEN <? value("not_exist") ?> IS NULL THEN true ELSE false END AS "test.0.1.1"
+    ,CASE WHEN <? value("not_exist") ?> IS NULL THEN true ELSE false END AS test_0_1_1
 
     -- Test 0.1.2 - value with a list of one item.
     -- Expected: first list item value
-    ,CASE WHEN <? value("test_0_1_2") ?> = 'test_0_1_2' THEN true ELSE false END AS "test.0.1.2"
+    ,CASE WHEN <? value("test_0_1_2") ?> = 'test_0_1_2' THEN true ELSE false END AS test_0_1_2
 
     -- Test 0.1.3 - value with a list of more than one item.
     -- Expected: first list item value
-    ,CASE WHEN <? value("test_0_1_3") ?> = 'test_0_1_3_1' THEN true ELSE false END AS "test.0.1.3"
+    ,CASE WHEN <? value("test_0_1_3") ?> = 'test_0_1_3_1' THEN true ELSE false END AS test_0_1_3
 
     -- Test 0.1.4 - value SQL injection is quoted.
     -- Expected: quoted value
-    ,CASE WHEN <? value("test_0_1_4") ?> = 'true THEN true END AS "test.0.1.5") AS test; SELECT current_user--' THEN true ELSE false END AS "test.0.1.4"
+    ,CASE WHEN <? value("test_0_1_4") ?> = 'true THEN true END AS test_0_1_4) AS test; SELECT current_user--' THEN true ELSE false END AS test_0_1_4
 
     -- Test 0.2.0 - literal with a parameter.
     -- Expected: parameter literal
