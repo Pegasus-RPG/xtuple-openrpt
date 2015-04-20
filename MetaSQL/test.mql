@@ -15,7 +15,7 @@
  *                ,test_0_2_0: 'test_0_2_0'
  *                ,test_0_2_2: ['test_0_2_2']
  *                ,test_0_2_3: ['test_0_2_3','test_0_2_3_2', 'test_0_2_3_3']
- *                ,test_0_2_4: '(SELECT usr_username FROM usr WHERE usr_username = 'admin')'
+ *                ,test_0_2_4: "(SELECT usr_username FROM usr WHERE usr_username = 'admin')"
  *                ,test_0_3_0: true
  *                ,test_0_3_2: null
  *                ,test_0_3_3: ''
@@ -97,8 +97,6 @@
  *                ,test_444_0_0: ['test_444_0_0', 'test_444_0_0_2']
  *                ,test_444_0_02: ['test_444_0_02', 'test_444_0_01_2']
  *                ,test_444_0_03: ['test_444_0_03', 'test_444_0_01_3']
- *                ,bar: ['T','O','D','O']
- *                ,baz: 1234
  *                ,end: true
  *              }
  *
@@ -143,7 +141,7 @@ SELECT
   ,CASE WHEN test_0_2_2 = 'test_0_2_2' THEN true ELSE false END AS valid_0_2_2
   ,CASE WHEN test_0_2_3 = 'test_0_2_3' THEN true ELSE false END AS valid_0_2_3
   -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
-  ,CASE WHEN test_0_2_4 = 'test_0_2_4' THEN true ELSE false END AS "TODO_0_2_4"
+  ,CASE WHEN test_0_2_4 = 'test_0_2_4' THEN true ELSE false END AS todo_0_2_4
   ,test_0_3_0 AS valid_0_3_0
   ,CASE WHEN test_0_3_1 THEN false ELSE true END AS valid_0_3_1
   ,test_0_3_2 AS valid_0_3_2
@@ -373,7 +371,7 @@ FROM (
 
     -- Test 0.1.4 - value SQL injection is quoted.
     -- Expected: quoted value
-    ,CASE WHEN <? value("test_0_1_4") ?> = 'true THEN true END AS test_0_1_4) AS test; SELECT current_user--'
+    ,CASE WHEN <? value("test_0_1_4") ?> = 'true THEN true END AS test_0_1_4) AS tests; SELECT current_user--'
       THEN true
       ELSE false
     END AS test_0_1_4
