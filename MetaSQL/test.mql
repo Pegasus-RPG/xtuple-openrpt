@@ -72,6 +72,20 @@
  *                ,test_4_4_21: null
  *                ,test_4_4_3: ['test_4_4_3']
  *                ,test_4_4_31: ''
+ *                ,test_4_5_0: ['test_4_5_0']
+ *                ,test_4_5_1: ['test_4_5_1', 'test_4_5_1_2']
+ *                ,test_4_5_2: ['test_4_5_2', 'test_4_5_2_2']
+ *                ,test_4_5_3: ['test_4_5_3']
+ *                ,test_4_5_32: 'test_4_5_32'
+ *                ,test_4_5_4: ['test_4_5_4']
+ *                ,test_4_6_0: ['test_4_6_0']
+ *                ,test_4_6_1: ['test_4_6_1', 'test_4_6_1_2']
+ *                ,test_4_6_2: ['test_4_6_2', 'test_4_6_2_2']
+ *                ,test_4_6_3: ['test_4_6_3']
+ *                ,test_4_6_32: 'test_4_6_32'
+ *                ,test_4_6_4: ['test_4_6_4']
+ *                ,test_4_7_0: ['test_4_7_0', 'test_4_7_0_2', 'test_4_7_0_3']
+ *                ,test_4_8_0: ['test_4_8_0', 'test_4_8_0_2', 'test_4_8_0_3']
  *                ,bar: ['T','O','D','O']
  *                ,baz: 1234
  *                ,end: true
@@ -254,6 +268,54 @@ SELECT
     THEN true
     ELSE false
   END AS valid_4_4_3
+  ,CASE WHEN test_4_5_0
+    THEN true
+    ELSE false END
+  AS valid_4_5_0
+  ,CASE WHEN test_4_5_1
+    THEN true
+    ELSE false END
+  AS valid_4_5_1
+  ,CASE WHEN test_4_5_2
+    THEN true
+    ELSE false END
+  AS valid_4_5_2
+  ,CASE WHEN test_4_5_3
+    THEN true
+    ELSE false END
+  AS valid_4_5_3
+  ,CASE WHEN test_4_5_4
+    THEN true
+    ELSE false END
+  AS valid_4_5_4
+  ,CASE WHEN test_4_6_0
+    THEN true
+    ELSE false END
+  AS valid_4_6_0
+  ,CASE WHEN test_4_6_1
+    THEN true
+    ELSE false END
+  AS valid_4_6_1
+  ,CASE WHEN test_4_6_2
+    THEN true
+    ELSE false END
+  AS valid_4_6_2
+  ,CASE WHEN test_4_6_3
+    THEN true
+    ELSE false END
+  AS valid_4_6_3
+  ,CASE WHEN test_4_6_4
+    THEN true
+    ELSE false END
+  AS valid_4_6_4
+  ,CASE WHEN test_4_7_0::text = 'test_4_7_0test_4_7_0test_4_7_0'::text
+    THEN true
+    ELSE false
+  END AS valid_4_7_0
+  ,CASE WHEN test_4_8_0::text = 'test_4_8_0'::text
+    THEN true
+    ELSE false
+  END AS valid_4_8_0
   ,theend
 FROM (
   SELECT
@@ -635,45 +697,114 @@ FROM (
       <? reExists("^test_4_4_3.*") ?>
     <? endforeach ?> AS test_4_4_3
 
--- Test 4.5.0 - isFirst called inside a foreach block with a list of one item.
--- Expected: TRUE
+    -- Test 4.5.0 - isFirst called inside a foreach block with a list of one item.
+    -- Expected: isFirst returns TRUE, this returns TRUE
+    ,<? foreach("test_4_5_0") ?>
+      <? isFirst("test_4_5_0") ?>
+    <? endforeach ?> AS test_4_5_0
 
--- Test 4.5.1 - isFirst called inside a foreach block with a list first item.
--- Expected: TRUE
+    -- Test 4.5.1 - isFirst called inside a foreach block with a list first item.
+    -- Expected: isFirst returns TRUE, this returns TRUE
+    ,<? foreach("test_4_5_1") ?>
+      <? if isFirst("test_4_5_1") ?>
+        true
+      <? else ?>
+        false
+      <? endif ?>
+    <? endforeach ?> AS test_4_5_1
 
--- Test 4.5.2 - isFirst called inside a foreach block not a list first item.
--- Expected: FALSE
+    -- Test 4.5.2 - isFirst called inside a foreach block not a list first item.
+    -- Expected: isFirst returns FALSE, this returns TRUE
+    ,<? foreach("test_4_5_2") ?>
+      <? if isFirst("test_4_5_2") ?>
+      <? else ?>
+        true
+      <? endif ?>
+    <? endforeach ?> AS test_4_5_2
 
--- Test 4.5.3 - isFirst called inside a foreach block not a list, but parameter
--- does exist.
--- Expected: TRUE
+    -- Test 4.5.3 - isFirst called inside a foreach block not a list, but parameter
+    -- does exist.
+    -- Expected: isFirst returns TRUE, this returns TRUE
+    ,<? foreach("test_4_5_3") ?>
+      <? if isFirst("test_4_5_32") ?>
+        true
+      <? else ?>
+        false
+      <? endif ?>
+    <? endforeach ?> AS test_4_5_3
 
--- Test 4.5.4 - isFirst called inside a foreach block with a parameter that
--- does not exist.
--- Expected: FALSE
+    -- Test 4.5.4 - isFirst called inside a foreach block with a parameter that
+    -- does not exist.
+    -- Expected: isFirst returns TRUE, this returns TRUE
+    ,<? foreach("test_4_5_4") ?>
+      <? if isFirst("not_exist") ?>
+        true
+      <? else ?>
+        false
+      <? endif ?>
+    <? endforeach ?> AS test_4_5_4
 
--- Test 4.6.0 - isLast called inside a foreach block with a list of one item.
--- Expected: TRUE
+    -- Test 4.6.0 - isLast called inside a foreach block with a list of one item.
+    -- Expected: isLast returns TRUE, this returns TRUE
+    ,<? foreach("test_4_6_0") ?>
+      <? isLast("test_4_6_0") ?>
+    <? endforeach ?> AS test_4_6_0
 
--- Test 4.6.1 - isLast called inside a foreach block with a list last item.
--- Expected: TRUE
+    -- Test 4.6.1 - isLast called inside a foreach block with a list last item.
+    -- Expected: isLast returns TRUE, this returns TRUE
+    ,<? foreach("test_4_6_1") ?>
+      <? if isLast("test_4_6_1") ?>
+        true
+      <? else ?>
+      <? endif ?>
+    <? endforeach ?> AS test_4_6_1
 
--- Test 4.6.2 - isLast called inside a foreach block not a list last item.
--- Expected: FALSE
+    -- Test 4.6.2 - isLast called inside a foreach block not a list last item.
+    -- Expected: isLast returns FALSE, this returns TRUE
+    ,<? foreach("test_4_6_2") ?>
+      <? if isLast("test_4_6_2") ?>
+      <? else ?>
+        true
+      <? endif ?>
+    <? endforeach ?> AS test_4_6_2
 
--- Test 4.6.3 - isLast called inside a foreach block not a list, but parameter
--- does exist.
--- Expected: TRUE
+    -- Test 4.6.3 - isLast called inside a foreach block not a list, but parameter
+    -- does exist.
+    -- Expected: isLast returns FALSE, this returns TRUE
+    ,<? foreach("test_4_6_3") ?>
+      <? if isLast("test_4_6_32") ?>
+        false
+      <? else ?>
+        true
+      <? endif ?>
+    <? endforeach ?> AS test_4_6_3
 
--- Test 4.6.4 - isLast called inside a foreach block with a parameter that does
--- not exist.
--- Expected: FALSE
+    -- Test 4.6.4 - isLast called inside a foreach block with a parameter that does
+    -- not exist.
+    -- Expected: isLast returns FALSE, this returns TRUE
+    ,<? foreach("test_4_6_4") ?>
+      <? if isLast("not_exist") ?>
+        false
+      <? else ?>
+        true
+      <? endif ?>
+    <? endforeach ?> AS test_4_6_4
 
--- Test 4.7.0 - continue inside a foreach block.
--- Expected: loop execution continues
+    -- Test 4.7.0 - continue inside a foreach block.
+    -- Expected: loop execution continues three times and outputs 'test_4_7_0test_4_7_0test_4_7_0' and 'skipped' is skipped
+    ,<? foreach("test_4_7_0") ?>
+      'test_4_7_0'
+      <? continue ?>
+      'skipped'
+    <? endforeach ?> AS test_4_7_0
 
--- Test 4.8.0 - break inside a foreach block.
--- Expected: loop execution breaks
+    -- Test 4.8.0 - break inside a foreach block.
+    -- Expected: loop execution breaks after first loop and outputs 'test_4_8_0' and 'skipped' is skipped
+    ,<? foreach("test_4_8_0") ?>
+      'test_4_8_0'
+      <? break ?>
+      'skipped'
+    <? endforeach ?> AS test_4_8_0
 
 -- Test 44.0.0 - foreach with nested foreach.
 -- Expected: Both loops loop
