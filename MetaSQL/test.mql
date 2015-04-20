@@ -86,6 +86,17 @@
  *                ,test_4_6_4: ['test_4_6_4']
  *                ,test_4_7_0: ['test_4_7_0', 'test_4_7_0_2', 'test_4_7_0_3']
  *                ,test_4_8_0: ['test_4_8_0', 'test_4_8_0_2', 'test_4_8_0_3']
+ *                ,test_44_0_0: ['test_44_0_0', 'test_44_0_0_2']
+ *                ,test_44_0_02: ['test_44_0_02', 'test_44_0_02_2']
+ *                ,test_441_0_0: ['test_441_0_0', 'test_441_0_0_2']
+ *                ,test_441_0_02: ['test_441_0_02', 'test_441_0_02_2']
+ *                ,test_442_0_0: ['test_442_0_0', 'test_442_0_0_2']
+ *                ,test_442_0_02: ['test_442_0_02', 'test_442_0_02_2']
+ *                ,test_443_0_0: ['test_443_0_0', 'test_443_0_0_2', 'test_443_0_0_3']
+ *                ,test_443_0_02: ['test_443_0_02', 'test_443_0_02_2', 'test_443_0_02_3']
+ *                ,test_444_0_0: ['test_444_0_0', 'test_444_0_0_2']
+ *                ,test_444_0_02: ['test_444_0_02', 'test_444_0_01_2']
+ *                ,test_444_0_03: ['test_444_0_03', 'test_444_0_01_3']
  *                ,bar: ['T','O','D','O']
  *                ,baz: 1234
  *                ,end: true
@@ -308,14 +319,36 @@ SELECT
     THEN true
     ELSE false END
   AS valid_4_6_4
+  -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
   ,CASE WHEN test_4_7_0::text = 'test_4_7_0test_4_7_0test_4_7_0'::text
     THEN true
     ELSE false
   END AS valid_4_7_0
+  -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
   ,CASE WHEN test_4_8_0::text = 'test_4_8_0'::text
     THEN true
     ELSE false
   END AS valid_4_8_0
+  ,CASE WHEN test_44_0_0::text = 'test_44_0_0test_44_0_02test_44_0_02test_44_0_0test_44_0_02test_44_0_02'::text
+    THEN true
+    ELSE false END
+  AS valid_44_0_0
+  ,CASE WHEN test_441_0_0::text = 'test_441_0_0test_441_0_02test_441_0_02test_441_0_0test_441_0_02test_441_0_02'::text
+    THEN true
+    ELSE false END
+  AS valid_441_0_0
+  ,CASE WHEN test_442_0_0::text = 'isFirstisFirsttest_442_0_02test_442_0_0isFirsttest_442_0_02'::text
+    THEN true
+    ELSE false END
+  AS valid_442_0_0
+  ,CASE WHEN test_443_0_0::text = 'isFirstisFirsttest_443_0_02isLasttest_443_0_0isFirsttest_443_0_02isLastisLastisFirsttest_443_0_02isLast'::text
+    THEN true
+    ELSE false END
+  AS valid_443_0_0
+  ,CASE WHEN test_444_0_0::text = 'test_444_0_0test_444_0_02test_444_0_03test_444_0_03test_444_0_02test_444_0_03test_444_0_03test_444_0_0test_444_0_02test_444_0_03test_444_0_03test_444_0_02test_444_0_03test_444_0_03'::text
+    THEN true
+    ELSE false END
+  AS valid_444_0_0
   ,theend
 FROM (
   SELECT
@@ -792,6 +825,7 @@ FROM (
 
     -- Test 4.7.0 - continue inside a foreach block.
     -- Expected: loop execution continues three times and outputs 'test_4_7_0test_4_7_0test_4_7_0' and 'skipped' is skipped
+    -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
     ,<? foreach("test_4_7_0") ?>
       'test_4_7_0'
       <? continue ?>
@@ -800,48 +834,112 @@ FROM (
 
     -- Test 4.8.0 - break inside a foreach block.
     -- Expected: loop execution breaks after first loop and outputs 'test_4_8_0' and 'skipped' is skipped
+    -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
     ,<? foreach("test_4_8_0") ?>
       'test_4_8_0'
       <? break ?>
       'skipped'
     <? endforeach ?> AS test_4_8_0
 
--- Test 44.0.0 - foreach with nested foreach.
--- Expected: Both loops loop
+    -- Test 44.0.0 - foreach with nested foreach.
+    -- Expected: Both loops loop
+    ,<? foreach("test_44_0_0") ?>
+      'test_44_0_0'
+      <? foreach("test_44_0_02") ?>
+        'test_44_0_02'
+      <? endforeach ?>
+    <? endforeach ?> AS test_44_0_0
 
--- Test 441.0.0 - foreach with nested foreach with basic if.
--- Expected: Both loops loop and if works
+    -- Test 441.0.0 - foreach with nested foreach with basic if.
+    -- Expected: Both loops loop and if works
+    ,<? foreach("test_441_0_0") ?>
+      <? if exists("test_441_0_0") ?>
+      'test_441_0_0'
+      <? endif ?>
+      <? foreach("test_441_0_02") ?>
+        <? if exists("test_441_0_02") ?>
+        'test_441_0_02'
+        <? endif ?>
+      <? endforeach ?>
+    <? endforeach ?> AS test_441_0_0
 
--- Test 442.0.0 - foreach with nested foreach with if and else.
--- Expected: Both loops loop and if and else works
+    -- Test 442.0.0 - foreach with nested foreach with if and else.
+    -- Expected: Both loops loop and if and else works
+    ,<? foreach("test_442_0_0") ?>
+      <? if isFirst("test_442_0_0") ?>
+      'isFirst'
+      <? else ?>
+      'test_442_0_0'
+      <? endif ?>
+      <? foreach("test_442_0_02") ?>
+        <? if isFirst("test_442_0_02") ?>
+        'isFirst'
+        <? else ?>
+        'test_442_0_02'
+        <? endif ?>
+      <? endforeach ?>
+    <? endforeach ?> AS test_442_0_0
 
--- Test 443.0.0 - foreach with nested foreach with if, elseif and else.
--- Expected: Both loops loop and if, elseif and else works
+    -- Test 443.0.0 - foreach with nested foreach with if, elseif and else.
+    -- Expected: Both loops loop and if, elseif and else works
+    ,<? foreach("test_443_0_0") ?>
+      <? if isFirst("test_443_0_0") ?>
+      'isFirst'
+      <? elseif isLast("test_443_0_0") ?>
+      'isLast'
+      <? else ?>
+      'test_443_0_0'
+      <? endif ?>
+      <? foreach("test_443_0_02") ?>
+        <? if isFirst("test_443_0_02") ?>
+        'isFirst'
+        <? elseif isLast("test_443_0_02") ?>
+        'isLast'
+        <? else ?>
+        'test_443_0_02'
+        <? endif ?>
+      <? endforeach ?>
+    <? endforeach ?> AS test_443_0_0
 
--- Test 44.7.0 - continue inside a nested foreach block.
--- Expected: loop execution continues
+    -- Test 44.7.0 - continue inside a nested foreach block.
+    -- Expected: loop execution continues
+    -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
 
--- Test 44.8.0 - break inside a nested foreach block.
--- Expected: inside loop execution breaks
+    -- Test 44.8.0 - break inside a nested foreach block.
+    -- Expected: inside loop execution breaks
+    -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
 
--- Test 444.0.0 - Test foreach with double nested foreach.
--- Expected: All loops loop
+    -- Test 444.0.0 - Test foreach with double nested foreach.
+    -- Expected: All loops loop
+    ,<? foreach("test_444_0_0") ?>
+      'test_444_0_0'
+      <? foreach("test_444_0_02") ?>
+        'test_444_0_02'
+        <? foreach("test_444_0_03") ?>
+          'test_444_0_03'
+        <? endforeach ?>
+      <? endforeach ?>
+    <? endforeach ?> AS test_444_0_0
 
--- Test 444.7.0 - continue inside a double nested foreach block when a number
--- is specified.
--- Expected: loop execution continues for nested loop number
+    -- Test 444.7.0 - continue inside a double nested foreach block when a number
+    -- is specified.
+    -- Expected: loop execution continues for nested loop number
+    -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
 
--- Test 444.7.1 - continue inside a double nested foreach block when a number
--- is specified greater than the number of nested loops.
--- Expected: continues to the outermost loop execution
+    -- Test 444.7.1 - continue inside a double nested foreach block when a number
+    -- is specified greater than the number of nested loops.
+    -- Expected: continues to the outermost loop execution
+    -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
 
--- Test 444.8.0 - break inside a double nested foreach block when a number is
--- specified.
--- Expected: loop execution breaks to the nested loop number
+    -- Test 444.8.0 - break inside a double nested foreach block when a number is
+    -- specified.
+    -- Expected: loop execution breaks to the nested loop number
+    -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
 
--- Test 444.8.1 - break inside a double nested foreach block when a number is
--- specified greater than the number of nested loops.
--- Expected: breaks all loop execution
+    -- Test 444.8.1 - break inside a double nested foreach block when a number is
+    -- specified greater than the number of nested loops.
+    -- Expected: breaks all loop execution
+    -- TODO: This currently fails in the Qt MetaSQL parser and is something we should fix in the javascript parser.
 
     -- Placeholder to test if we made it to the end of all test.
     ,true AS theend
