@@ -159,7 +159,7 @@ SELECT
   ,test_0_5_4 AS valid_0_5_4
   ,test_0_6_0 AS valid_0_6_0
   ,CASE WHEN test_0_6_1 THEN false ELSE true END AS valid_0_6_1
-  ,CASE WHEN test_0_6_2 THEN false ELSE true END AS test_0_6_2
+  ,CASE WHEN test_0_6_2 THEN false ELSE true END AS valid_0_6_2
   ,CASE WHEN test_0_6_3 THEN false ELSE true END AS valid_0_6_3
   ,test_0_6_4 AS valid_0_6_4
   ,CASE WHEN test_0_7_0 = '''test_0_7_0''' THEN true ELSE false END AS valid_0_7_0
