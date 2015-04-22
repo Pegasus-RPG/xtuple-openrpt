@@ -798,8 +798,6 @@ FROM (
     ,<? foreach("test_4_5_1") ?>
       <? if isFirst("test_4_5_1") ?>
         true
-      <? else ?>
-        false
       <? endif ?>
     <? endforeach ?> AS test_4_5_1
 
