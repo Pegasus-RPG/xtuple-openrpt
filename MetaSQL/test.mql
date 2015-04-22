@@ -32,9 +32,13 @@
  *                ,test_0_6_1: ['test_0_6_1','test_0_6_1_2', 'test_0_6_1_3']
  *                ,test_0_6_2: 'test_0_6_2'
  *                ,test_0_6_4: ['true THEN true END AS test_0_6_4) AS test; SELECT current_user--']
- *                ,test_1_1_0: 'test_1_1_0'
- *                ,test_2_1_0: 'test_2_1_0'
- *                ,test_3_1_0: 'test_3_1_0'
+ *                ,test_1_3_0: 'test_1_3_0'
+ *                ,test_1_3_1: 'test_1_3_1'
+ *                ,test_1_3_1_2: 'test_1_3_1_2'
+ *                ,test_2_3_0: 'test_2_3_0'
+ *                ,test_2_3_1: 'test_2_3_1'
+ *                ,test_3_3_0: 'test_3_3_0'
+ *                ,test_3_3_1: 'test_3_3_1'
  *                ,test_4_0_0: ['test_4_0_0', 'test_4_0_0_2', 'test_4_0_0_3']
  *                ,test_4_0_1: ['true THEN true END AS test_4_0_1) AS test; SELECT current_user--']
  *                ,test_41_0_0: ['test_41_0_0', 'test_41_0_0_2', 'test_41_0_0_3']
@@ -166,12 +170,15 @@ SELECT
   ,CASE WHEN test_0_7_1 = '''test_0_7_1''' THEN true ELSE false END AS valid_0_7_1
   ,CASE WHEN test_0_8_0 = '''test_0_8_0''' THEN true ELSE false END AS valid_0_8_0
   ,CASE WHEN test_0_8_1 = '''test_0_8_1''' THEN true ELSE false END AS valid_0_8_1
-  ,test_1_1_0 AS valid_1_1_0
-  ,test_2_1_0 AS valid_2_1_0
-  ,test_2_1_0_2 AS valid_2_1_0_2
-  ,test_3_1_0 AS valid_3_1_0
-  ,test_3_1_0_2 AS valid_3_1_0_2
-  ,test_3_1_0_3 AS valid_3_1_0_3
+  ,test_1_3_0 AS valid_1_3_0
+  ,test_1_3_1 AS valid_1_3_1
+  ,test_2_3_0 AS valid_2_3_0
+  ,test_2_3_1 AS valid_2_3_1
+  ,test_2_3_0_2 AS valid_2_3_0_2
+  ,test_3_3_0 AS valid_3_3_0
+  ,test_3_3_0_2 AS valid_3_3_0_2
+  ,test_3_3_0_3 AS valid_3_3_0_3
+  ,test_3_3_1 AS valid_3_3_1
   ,CASE WHEN test_4_0_0::text = 'test_4_0_0test_4_0_0test_4_0_0'::text
     THEN true
     ELSE false
@@ -494,50 +501,86 @@ FROM (
     -- Expected: break does nothing and will not break this
     ,quote_literal('test_0_8_1'::text || ''<? break(2) ?>) AS test_0_8_1
 
-    -- Test 1.1.0 - basic if.
+    -- Test 1.3.0 - basic if.
     -- Expected: if works
-    <? if exists("test_1_1_0") ?>
-    ,true AS test_1_1_0
+    <? if exists("test_1_3_0") ?>
+    ,true AS test_1_3_0
     <? endif ?>
 
-    -- Test 2.1.0 - if and else.
+    -- Test 1.3.1 - nested if.
+    -- Expected: if works
+    <? if exists("test_1_3_1") ?>
+      <? if exists("test_1_3_1_2") ?>
+      ,true AS test_1_3_1
+      <? endif ?>
+    <? endif ?>
+
+    -- Test 2.3.0 - if and else.
     -- Expected: if and else works
-    <? if exists("test_2_1_0") ?> -- test_2_1_0 does exists, if returns true.
-    ,true AS test_2_1_0
+    <? if exists("test_2_3_0") ?> -- test_2_3_0 does exists, if returns true.
+    ,true AS test_2_3_0
     <? else ?>
-    ,false AS test_2_1_0
+    ,false AS test_2_3_0
     <? endif ?>
 
     <? if exists("not_exist") ?> -- does not exists, else returns true.
-    ,false AS test_2_1_0_2
+    ,false AS test_2_3_0_2
     <? else ?>
-    ,true AS test_2_1_0_2
+    ,true AS test_2_3_0_2
     <? endif ?>
 
-    -- Test 3.1.0 - if, elseif and else.
-    -- Expected: if, elseif and else works
-    <? if exists("test_3_1_0") ?> -- test_3_1_0 does exists, if returns true.
-    ,true AS test_3_1_0
-    <? elseif exists("not_exist") ?>
-    ,false AS test_3_1_0
+    -- Test 2.3.1 - nested if and else.
+    -- Expected: if and else works
+    <? if exists("test_2_3_1") ?> -- test_2_3_1 does exists, if returns true.
+      <? if exists("not_exist") ?> -- does not exists, else returns true.
+      ,false AS test_2_3_1
+      <? else ?>
+      ,true AS test_2_3_1
+      <? endif ?>
     <? else ?>
-    ,false AS test_3_1_0
+    ,false AS test_2_3_1
+    <? endif ?>
+
+    -- Test 3.3.0 - if, elseif and else.
+    -- Expected: if, elseif and else works
+    <? if exists("test_3_3_0") ?> -- test_3_3_0 does exists, if returns true.
+    ,true AS test_3_3_0
+    <? elseif exists("not_exist") ?>
+    ,false AS test_3_3_0
+    <? else ?>
+    ,false AS test_3_3_0
     <? endif ?>
 
     <? if exists("not_exist") ?> -- does not exists, elseif returns true.
-    ,false AS test_3_1_0_2
-    <? elseif exists("test_3_1_0") ?>
-    ,true AS test_3_1_0_2
+    ,false AS test_3_3_0_2
+    <? elseif exists("test_3_3_0") ?>
+    ,true AS test_3_3_0_2
     <? else ?>
-    ,false AS test_3_1_0_2
+    ,false AS test_3_3_0_2
     <? endif ?>
 
     <? if exists("not_exist") ?> -- does not exists, else returns true.
-    ,false AS test_3_1_0_3
+    ,false AS test_3_3_0_3
     <? elseif exists("not_exist") ?>
-    ,false AS test_3_1_0_3
+    ,false AS test_3_3_0_3
     <? else ?>
-    ,true AS test_3_1_0_3
+    ,true AS test_3_3_0_3
+    <? endif ?>
+
+    -- Test 3.3.1 - nested if, elseif and else.
+    -- Expected: if, elseif and else works
+    <? if exists("not_exist") ?> -- does not exists, elseif returns true.
+    ,false AS test_3_3_1
+    <? elseif exists("test_3_3_1") ?>
+      <? if exists("not_exist") ?> -- does not exists, elseif returns true.
+      ,false AS test_3_3_1
+      <? elseif exists("test_3_3_1") ?>
+      ,true AS test_3_3_1
+      <? else ?>
+      ,false AS test_3_3_1
+      <? endif ?>
+    <? else ?>
+    ,false AS test_3_3_1
     <? endif ?>
 
     -- Test 4.0.0 - basic foreach.
