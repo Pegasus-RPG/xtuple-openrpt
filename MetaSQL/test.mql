@@ -39,6 +39,7 @@
  *                ,test_2_3_1: 'test_2_3_1'
  *                ,test_3_3_0: 'test_3_3_0'
  *                ,test_3_3_1: 'test_3_3_1'
+ *                ,test_3_3_2: 'test_3_3_2'
  *                ,test_4_0_0: ['test_4_0_0', 'test_4_0_0_2', 'test_4_0_0_3']
  *                ,test_4_0_1: ['true THEN true END AS test_4_0_1) AS test; SELECT current_user--']
  *                ,test_41_0_0: ['test_41_0_0', 'test_41_0_0_2', 'test_41_0_0_3']
@@ -179,6 +180,7 @@ SELECT
   ,test_3_3_0_2 AS valid_3_3_0_2
   ,test_3_3_0_3 AS valid_3_3_0_3
   ,test_3_3_1 AS valid_3_3_1
+  ,test_3_3_2 AS valid_3_3_2
   ,CASE WHEN test_4_0_0::text = 'test_4_0_0test_4_0_0test_4_0_0'::text
     THEN true
     ELSE false
@@ -567,20 +569,34 @@ FROM (
     ,true AS test_3_3_0_3
     <? endif ?>
 
-    -- Test 3.3.1 - nested if, elseif and else.
+    -- Test 3.3.1 - if, multiple elseif and else.
     -- Expected: if, elseif and else works
-    <? if exists("not_exist") ?> -- does not exists, elseif returns true.
+    <? if exists("not_exist") ?> -- does not exists, last elseif returns true.
+    ,false AS test_3_3_1
+    <? elseif exists("not_exist") ?>
+    ,false AS test_3_3_1
+    <? elseif exists("not_exist") ?>
     ,false AS test_3_3_1
     <? elseif exists("test_3_3_1") ?>
-      <? if exists("not_exist") ?> -- does not exists, elseif returns true.
-      ,false AS test_3_3_1
-      <? elseif exists("test_3_3_1") ?>
-      ,true AS test_3_3_1
-      <? else ?>
-      ,false AS test_3_3_1
-      <? endif ?>
+    ,true AS test_3_3_1
     <? else ?>
     ,false AS test_3_3_1
+    <? endif ?>
+
+    -- Test 3.3.2 - nested if, elseif and else.
+    -- Expected: if, elseif and else works
+    <? if exists("not_exist") ?> -- does not exists, elseif returns true.
+    ,false AS test_3_3_2
+    <? elseif exists("test_3_3_2") ?>
+      <? if exists("not_exist") ?> -- does not exists, elseif returns true.
+      ,false AS test_3_3_2
+      <? elseif exists("test_3_3_2") ?>
+      ,true AS test_3_3_2
+      <? else ?>
+      ,false AS test_3_3_2
+      <? endif ?>
+    <? else ?>
+    ,false AS test_3_3_2
     <? endif ?>
 
     -- Test 4.0.0 - basic foreach.
