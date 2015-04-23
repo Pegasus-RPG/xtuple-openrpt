@@ -54,6 +54,8 @@
  *                ,test_4_1_52: ['test_4_1_52']
  *                ,test_4_1_6: ['test_4_1_6', 'test_4_1_6_2', 'test_4_1_6_3']
  *                ,test_4_1_62: ['test_4_1_62', 'test_4_1_62_2', 'test_4_1_62_3']
+ *                ,test_4_1_7: [1, 2, 3]
+ *                ,test_4_1_8: [true]
  *                ,test_4_2_0: 'test_4_2_0'
  *                ,test_4_2_2: ['test_4_2_2']
  *                ,test_4_2_3: ['test_4_2_3', 'test_4_2_3_2', 'test_4_2_3_3']
@@ -228,6 +230,14 @@ SELECT
     THEN true
     ELSE false
   END AS valid_4_1_6
+  ,CASE WHEN test_4_1_7 = 123
+    THEN true
+    ELSE false
+  END AS valid_4_1_7
+  ,CASE WHEN test_4_1_8
+    THEN true
+    ELSE false
+  END AS valid_4_1_8
   ,CASE WHEN test_4_2_0::text = ''::text
     THEN true
     ELSE false
@@ -703,6 +713,18 @@ FROM (
     ,<? foreach("test_4_1_6") ?>
       <? value("test_4_1_62") ?>
     <? endforeach ?> AS test_4_1_6
+
+    -- Test 4.1.7 - value called inside a foreach block looping on this parameter
+    -- with a list of integers.
+    -- Expected: first list item value once
+    ,<? foreach("test_4_1_7") ?><? value("test_4_1_7") ?><? endforeach ?> AS test_4_1_7
+
+    -- Test 4.1.8 - value called inside a foreach block looping on this parameter
+    -- with a list of one boolean.
+    -- Expected: first list item value once
+    ,<? foreach("test_4_1_8") ?>
+      <? value("test_4_1_8") ?>
+    <? endforeach ?> AS test_4_1_8
 
     -- Test 4.2.0 - literal called inside a foreach block looping on this parameter
     -- with a parameter.
