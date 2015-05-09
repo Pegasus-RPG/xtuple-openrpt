@@ -49,7 +49,7 @@ make %{?_smp_mflags}
 # make install doesn't do anything for this qmake project so we do
 # the installs manually
 #make INSTALL_ROOT=%{buildroot} install
-rm -f %{buildroot}%{_libdir}/lib*.a
+#rm -f %{buildroot}%{_libdir}/lib*.a
 mv bin/graph bin/openrpt-graph
 mkdir -p %{buildroot}%{_bindir}
 install bin/* %{buildroot}%{_bindir}
@@ -60,11 +60,7 @@ find . -name '*.h' -exec install -m 0644 -D {} %{buildroot}%{_includedir}/openrp
 mkdir -p %{buildroot}%{_datadir}/openrpt/OpenRPT/images
 cp -r OpenRPT/images/* %{buildroot}%{_datadir}/openrpt/OpenRPT/images
 
-%post
-
 %post libs -p /sbin/ldconfig
-
-%postun
 
 %postun libs -p /sbin/ldconfig
 
