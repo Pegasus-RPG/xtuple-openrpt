@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=OpenRPT Report Writer
+Icon=/usr/share/openrpt/OpenRPT/images/OpenReportsIcon.xpm
+Exec=openrpt
+Terminal=false
+Categories=Office;
