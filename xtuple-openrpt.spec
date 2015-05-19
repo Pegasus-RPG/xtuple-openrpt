@@ -5,6 +5,7 @@ Summary: xTuple reporting utility and libraries
 License: CPAL
 Url: http://www.xtuple.com/openrpt/
 Source: https://github.com/xtuple/openrpt/archive/v%version.tar.gz
+BuildRequires: desktop-file-utils
 BuildRequires: qt-devel
 BuildRequires: libdmtx-devel
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
@@ -73,7 +74,7 @@ find . -name '*.h' -exec install -m 0644 -D {} %{buildroot}%{_includedir}/openrp
 mkdir -p %{buildroot}%{_datadir}/openrpt/OpenRPT/images
 cp -r OpenRPT/images/* %{buildroot}%{_datadir}/openrpt/OpenRPT/images
 mkdir -p %{buildroot}%{_datadir}/applications
-install -m 0644 *.desktop %{buildroot}%{_datadir}/applications
+desktop-file-install --dir=%{buildroot}%{_datadir}/applications *.desktop
 
 %post libs -p /sbin/ldconfig
 
