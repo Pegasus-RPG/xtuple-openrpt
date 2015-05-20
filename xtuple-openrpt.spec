@@ -1,7 +1,7 @@
 Name: xtuple-openrpt
-Version: 3.3.8
+Version: 3.3.9
 Release: 1%{?dist}
-Summary: xTuple reporting utility and libraries
+Summary: xTuple / PostBooks reporting utility and libraries
 License: CPAL
 Url: http://www.xtuple.com/openrpt/
 Source: https://github.com/xtuple/openrpt/archive/v%version.tar.gz
@@ -73,6 +73,8 @@ mkdir -p %{buildroot}%{_includedir}/openrpt
 find . -name '*.h' -exec install -m 0644 -D {} %{buildroot}%{_includedir}/openrpt/{} \;
 mkdir -p %{buildroot}%{_datadir}/openrpt/OpenRPT/images
 cp -r OpenRPT/images/* %{buildroot}%{_datadir}/openrpt/OpenRPT/images
+rm %{buildroot}%{_datadir}/openrpt/OpenRPT/images/icons_24x24/Thumbs.db
+rm %{buildroot}%{_datadir}/openrpt/OpenRPT/images/openrpt_qembed.h
 mkdir -p %{buildroot}%{_datadir}/applications
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications *.desktop
 
@@ -85,10 +87,10 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications *.desktop
 %{_datadir}/applications/*.desktop
 
 %files libs
-%license COPYING
 %{_libdir}/lib*.so.*
 
 %files images
+%license COPYING
 %dir %{_datadir}/openrpt
 %dir %{_datadir}/openrpt/OpenRPT
 %dir %{_datadir}/openrpt/OpenRPT/images
@@ -97,7 +99,7 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications *.desktop
 %dir %{_datadir}/openrpt/OpenRPT/images/icons_32x32
 %dir %{_datadir}/openrpt/OpenRPT/images/icons_64x64
 %dir %{_datadir}/openrpt/OpenRPT/images/icons_16x16
-%{_datadir}/openrpt/OpenRPT/images/*
+%{_datadir}/openrpt/OpenRPT/images/*.*
 %{_datadir}/openrpt/OpenRPT/images/icons_*/*
 
 %files devel
@@ -109,6 +111,6 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications *.desktop
 %{_libdir}/libwrtembed.so
 
 %changelog
-* Wed Feb 25 2015 Daniel Pocock <daniel@pocock.pro> - 3.3.7-1
+* Wed Feb 25 2015 Daniel Pocock <daniel@pocock.pro> - 3.3.9-1
 - Initial RPM packaging.
 
