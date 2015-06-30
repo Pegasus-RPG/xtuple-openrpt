@@ -579,8 +579,8 @@ bool MQLEdit::databaseSave()
 
   XSqlQuery saveq;
   saveq.prepare("SELECT saveMetasql(:group, :name,"
-                "                   CASE :nonotes WHEN true THEN NULL ELSE E:notes END,"
-                "                   E:query, false, :schema, :grade) AS result;");
+                "                   CASE :nonotes WHEN true THEN NULL ELSE :notes END,"
+                "                   :query, false, :schema, :grade) AS result;");
   if (_mqlGrade >= 0)
     saveq.bindValue(":grade", _mqlGrade);
   saveq.bindValue(":group",   group.isEmpty() ? _mqlGroup : group);
