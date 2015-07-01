@@ -1061,6 +1061,7 @@ bool DocumentScene::save(QIODevice * iod, QWidget * parent)
     // now write it to the file
     QTextStream ts(iod);
     ts.setCodec("UTF-8");
+    ts.setGenerateByteOrderMark(true);
     ts << document().toString();
     iod->close();
     lastSaveToDb = false;

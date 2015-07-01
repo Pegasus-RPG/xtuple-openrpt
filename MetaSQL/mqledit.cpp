@@ -333,6 +333,8 @@ bool MQLEdit::save()
   if (file.open(QIODevice::WriteOnly))
   {
     QTextStream stream(&file);
+    stream.setCodec("UTF-8");
+    stream.setGenerateByteOrderMark(true);
     stream << _text->toPlainText();
   }
   else
