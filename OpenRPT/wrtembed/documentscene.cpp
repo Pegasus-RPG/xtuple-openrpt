@@ -1061,7 +1061,10 @@ bool DocumentScene::save(QIODevice * iod, QWidget * parent)
     // now write it to the file
     QTextStream ts(iod);
     ts.setCodec("UTF-8");
+#ifdef Q_OS_WIN
+    // bug #15457 Saving UTF files on windows does not write BOM
     ts.setGenerateByteOrderMark(true);
+#endif
     ts << document().toString();
     iod->close();
     lastSaveToDb = false;
