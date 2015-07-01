@@ -333,6 +333,11 @@ bool MQLEdit::save()
   if (file.open(QIODevice::WriteOnly))
   {
     QTextStream stream(&file);
+    stream.setCodec("UTF-8");
+#ifdef Q_OS_WIN
+    // bug #15457 Saving UTF files on windows does not write BOM
+    stream.setGenerateByteOrderMark(true);
+#endif
     stream << _text->toPlainText();
   }
   else
