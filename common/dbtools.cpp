@@ -20,6 +20,7 @@
 
 #include "dbtools.h"
 
+#include <QHash>
 #include <QUrl>
 
 void parseDatabaseURL(const QString &pDatabaseURL, QString & pProtocol, QString &pServer, QString &pDatabase, QString &pPort)
