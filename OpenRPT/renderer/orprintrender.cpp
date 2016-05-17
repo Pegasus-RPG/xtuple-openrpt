@@ -477,6 +477,8 @@ void ORPrintRender::renderPage(ORODocument * pDocument, int pageNb, QPainter *pa
       QImage img = im->image();
       if(im->scaled())
         img = img.scaled(rc.size().toSize(), (Qt::AspectRatioMode)im->aspectRatioMode(), (Qt::TransformationMode)im->transformationMode());
+      else
+        img = img.scaled(QSize(img.width()*(int)xDpi/150, img.height()*(int)yDpi/150), Qt::KeepAspectRatio);
 
       QRectF sr = QRectF(QPointF(0.0, 0.0), rc.size().boundedTo(img.size()));
       painter->drawImage(rc.topLeft(), img, sr);
