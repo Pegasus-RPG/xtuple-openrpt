@@ -47,6 +47,8 @@
 
 #define DEBUG false
 
+static QString lastSaveDir = QString();
+
 MQLEdit::MQLEdit(QWidget* parent, Qt::WindowFlags fl)
     : QWidget(parent, fl)
 {
@@ -125,6 +127,9 @@ MQLEdit::MQLEdit(QWidget* parent, Qt::WindowFlags fl)
 
   _highlighter = new MetaSQLHighlighter(_document);
 
+  QSettings settings("xTuple.com", "mqlEditor");
+  lastSaveDir = settings.value("LastDirectory").toString();
+
   clear();
 
   setDestType(MQLUnknown);
@@ -132,6 +137,8 @@ MQLEdit::MQLEdit(QWidget* parent, Qt::WindowFlags fl)
 
 MQLEdit::~MQLEdit()
 {
+  QSettings settings("xTuple.com", "mqlEditor");
+  settings.setValue("LastDirectory",lastSaveDir);
   // no need to delete child widgets, Qt does it all for us
 }
 
@@ -150,7 +157,8 @@ void MQLEdit::fileOpen()
 {
   if(askSaveIfModified())
   {
-    QString fileName = QFileDialog::getOpenFileName(this);
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                  lastSaveDir, tr("MetaSQL (*.mql)"));
     if(!fileName.isEmpty())
     {
       QFile file(fileName);
@@ -169,6 +177,9 @@ void MQLEdit::fileOpen()
         setDestType(MQLFile);
       }
     }
+
+    QFileInfo fi(filename);
+    lastSaveDir = fi.absolutePath();
   }
 }
 
@@ -329,6 +340,7 @@ bool MQLEdit::save()
     return false;
   }
 
+  QFileInfo fi(_filename);
   QFile file(_fileName);
   if (file.open(QIODevice::WriteOnly))
   {
@@ -347,6 +359,7 @@ bool MQLEdit::save()
     return false;
   }
   _text->document()->setModified(false);
+  lastSaveDir = fi.absolutePath();
   return true;
 }
 
@@ -363,7 +376,10 @@ bool MQLEdit::saveAs()
     tmpfilename = _mqlGroup + "-" + _mqlName + ".mql";
 
   tmpfilename = QFileDialog::getSaveFileName(this, tr("Save MetaSQL File"),
-                                             tmpfilename,
+                                             lastSaveDir +
+                                             QDir::separator() +
+                                             tmpfilename->text().trimmed() +
+                                             "*.mql",
                                              tr("MetaSQL Files (*.mql);;"
                                                 "Text Files (*.txt)"));
   if(tmpfilename.isEmpty())
