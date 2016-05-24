@@ -32,6 +32,7 @@
 #include <QSqlRecord>
 #include <QTextDocument>
 #include <QTextStream>
+#include <QSettings>
 
 #include <parameter.h>
 #include <xsqlquery.h>
@@ -176,10 +177,9 @@ void MQLEdit::fileOpen()
         setWindowTitle(getTitleString(MQLFile));
         setDestType(MQLFile);
       }
+      QFileInfo fi(file);
+      lastSaveDir = fi.absolutePath();
     }
-
-    QFileInfo fi(filename);
-    lastSaveDir = fi.absolutePath();
   }
 }
 
@@ -340,8 +340,8 @@ bool MQLEdit::save()
     return false;
   }
 
-  QFileInfo fi(_filename);
   QFile file(_fileName);
+  QFileInfo fi(file);
   if (file.open(QIODevice::WriteOnly))
   {
     QTextStream stream(&file);
@@ -378,8 +378,7 @@ bool MQLEdit::saveAs()
   tmpfilename = QFileDialog::getSaveFileName(this, tr("Save MetaSQL File"),
                                              lastSaveDir +
                                              QDir::separator() +
-                                             tmpfilename->text().trimmed() +
-                                             "*.mql",
+                                             tmpfilename,
                                              tr("MetaSQL Files (*.mql);;"
                                                 "Text Files (*.txt)"));
   if(tmpfilename.isEmpty())
