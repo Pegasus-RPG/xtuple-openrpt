@@ -73,30 +73,34 @@ void LabelEditor::rbAlign_changed()
     if(rbVAlignTop->isChecked()) f |= Qt::AlignTop;
     if(rbVAlignMiddle->isChecked()) f |= Qt::AlignVCenter;
     if(rbVAlignBottom->isChecked()) f |= Qt::AlignBottom;
-    labelPreview->setAlignment(f);
+    _alignment = f;
+    labelPreview->setAlignment(_alignment);
 }
 
 void LabelEditor::btnFont_clicked()
 {
     // pop up a font dialog
     bool ok;
-    QFont font = QFontDialog::getFont(&ok, labelPreview->font(), this);
+    QFont font = QFontDialog::getFont(&ok, _font, this);
     if(ok) {
-        labelPreview->setFont(font);
+        _font = font;
+        labelPreview->setFont(_font);
     }
 }
 
 void LabelEditor::tbText_textChanged( const QString & Str )
 {
+    _text = Str;
     // ok update the preview
-    labelPreview->setText(Str);
+    labelPreview->setText(_text);
 }
 
 void LabelEditor::setLabelFlags( int f )
 {
     // set the label flags
     //qDebug("LabelEditor::setLabelFlags( 0x%X )",f);
-    labelPreview->setAlignment((Qt::Alignment)f);
+    _alignment = (Qt::Alignment)f;
+    labelPreview->setAlignment(_alignment);
     if((f & Qt::AlignLeft) == Qt::AlignLeft) {
         //qDebug("HAlignLeft 0x%X", AlignLeft);
         rbHAlignLeft->setChecked(true);
@@ -131,3 +135,15 @@ void LabelEditor::rbHAlignNone_clicked()
 
 }
 
+void LabelEditor::updatePreview()
+{
+    labelPreview->setAlignment(_alignment);
+    labelPreview->setText(_text);
+    labelPreview->setFont(_font);
+}
+
+void LabelEditor::showEvent(QShowEvent * e)
+{
+    QDialog::showEvent(e);
+    updatePreview();
+}

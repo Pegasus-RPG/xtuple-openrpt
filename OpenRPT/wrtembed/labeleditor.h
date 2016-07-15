@@ -32,6 +32,9 @@ class LabelEditor : public QDialog, public Ui::LabelEditor
 public:
     LabelEditor(QWidget* parent = 0, Qt::WindowFlags fl = 0);
     ~LabelEditor();
+    inline virtual Qt::Alignment alignment()  { return _alignment; };
+    inline virtual QString text()  { return _text; };
+    inline virtual QFont font() { return _font; };
 
 public slots:
     virtual void rbAlign_changed();
@@ -39,9 +42,21 @@ public slots:
     virtual void tbText_textChanged(const QString & Str);
     virtual void setLabelFlags(int f);
     virtual void rbHAlignNone_clicked();
+    inline virtual void setAlignment(const Qt::Alignment& p)  { _alignment = p; };
+    inline virtual void setText(const QString& p)  { _text = p; };
+    inline virtual void setFont(const QFont& p)  { _font = p; };
+    virtual void updatePreview();
+
+protected:
+    virtual void showEvent(QShowEvent*);
 
 protected slots:
     virtual void languageChange();
+
+private:
+    Qt::Alignment _alignment;
+    QString _text;
+    QFont _font;
 
 };
 

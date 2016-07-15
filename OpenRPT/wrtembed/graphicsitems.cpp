@@ -1105,7 +1105,7 @@ void ORGraphicsLabelItem::paint(QPainter * painter, const QStyleOptionGraphicsIt
 void ORGraphicsLabelItem::properties(QWidget * parent)
 {
   LabelEditor * le = new LabelEditor(parent);
-  le->labelPreview->setFont(font());
+  le->setFont(font());
   le->tbText->setText(text());
   le->setLabelFlags(textFlags());
   double dx = pos().x() / 100.0;
@@ -1117,9 +1117,9 @@ void ORGraphicsLabelItem::properties(QWidget * parent)
   double dh = rect().height() / 100.0;
   le->leHeight->setText(QString::number(dh,'g',3));
   if(le->exec() == QDialog::Accepted) {
-      setFont(le->labelPreview->font());
-      setText(le->labelPreview->text());
-      setTextFlags(le->labelPreview->alignment());
+      setFont(le->font());
+      setText(le->text());
+      setTextFlags(le->alignment());
 
       double dt;
       bool ok;
